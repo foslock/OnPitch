@@ -10,4 +10,6 @@
 
 @interface OPViewController : UIViewController
 
+@property (weak) IBOutlet UILabel* titleLabel;
+
 @end
