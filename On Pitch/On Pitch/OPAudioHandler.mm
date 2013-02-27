@@ -15,6 +15,8 @@
 #include "OPAudioHandler.h"
 #include "OPFFT.h"
 
+#define FFT_LIST_LENGTH_SHRINK_FACTOR (1)
+
 inline float linearInterp(float valA, float valB, float fract) {
 	return valA + ((valB - valA) * fract);
 }
@@ -153,8 +155,8 @@ void propListener(	void *                  inClientData,
                     size = sizeof(maxFPS);
                     XThrowIfError(AudioUnitGetProperty(THIS->rioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maxFPS, &size), "couldn't get the remote I/O unit's max frames per slice");
                     
-                    THIS->fftBufferManager = new FFTBufferManager(maxFPS);
-                    THIS->l_fftData = new int32_t[maxFPS/2];
+                    THIS->fftBufferManager = new FFTBufferManager(maxFPS/FFT_LIST_LENGTH_SHRINK_FACTOR);
+                    THIS->l_fftData = new int32_t[maxFPS/(FFT_LIST_LENGTH_SHRINK_FACTOR*2)];
                     
                 }
                 
@@ -226,11 +228,13 @@ AudioHandler::AudioHandler() {
 		UInt32 maxFPS;
 		size = sizeof(maxFPS);
 		XThrowIfError(AudioUnitGetProperty(rioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maxFPS, &size), "couldn't get the remote I/O unit's max frames per slice");
-        
+                
         dcFilters = new DCRejectionFilter[thruFormat.NumberChannels()];
 		
-        fftBufferManager = new FFTBufferManager(maxFPS);
-		l_fftData = new int32_t[maxFPS/2];
+        fftBufferManager = new FFTBufferManager(maxFPS/FFT_LIST_LENGTH_SHRINK_FACTOR);
+        
+        // This should be half as long as the FFT buffer
+		l_fftData = new int32_t[maxFPS/(FFT_LIST_LENGTH_SHRINK_FACTOR*2)];
         fftData = NULL;
         fftLength = 0;
         
@@ -280,13 +284,16 @@ float AudioHandler::AmplitudeOfFrequency(float freq) {
     }
     
     float index_m = this->IndexFromFrequency(freq);
-    float index_l = (int)index_m;
-    float fract = (index_m - index_l);
+    // float index_l = (int)index_m;
+    // float fract = (index_m - index_l);
     
     // Find where the REAL index lies between the two on either side
     
-    CGFloat yFract = (CGFloat)index_l / (CGFloat)(fftLength - 1);
+    CGFloat yFract = (CGFloat)index_m / (CGFloat)(fftLength - 1);
     CGFloat fftIdx = yFract * ((CGFloat)fftLength);
+    
+    double fftIdx_i, fftIdx_f;
+    fftIdx_f = modf(fftIdx, &fftIdx_i);
     
     SInt8 fft_l, fft_r;
     CGFloat fft_l_fl, fft_r_fl;
@@ -296,7 +303,8 @@ float AudioHandler::AmplitudeOfFrequency(float freq) {
     fft_r = (fftData[(int)fftIdx + 1] & 0xFF000000) >> 24;
     fft_l_fl = (CGFloat)(fft_l + 100);
     fft_r_fl = (CGFloat)(fft_r + 100);
-    interpVal = linearInterp(fft_l_fl, fft_r_fl, fract);
+    interpVal = fft_l_fl * (1. - fftIdx_f) + fft_r_fl * fftIdx_f;
+    // interpVal = linearInterp(fft_l_fl, fft_r_fl, fract);
     return interpVal;
 }
 

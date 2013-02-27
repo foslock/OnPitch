@@ -64,9 +64,9 @@ NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES] = {
 
 + (OPNote*)noteFromStaffIndex:(NSInteger)index {
     OPNote* note = [[OPNote alloc] init];
-    note.noteIndex = index;
-    note.nameIndex = index % NUMBER_OF_NOTES;
-    note.octaveIndex = index / NUMBER_OF_OCTAVES;
+    note.noteIndex = CLAMP(index, 0, MAX_NOTE_INDEX);
+    note.nameIndex = CLAMP(note.noteIndex % NUMBER_OF_NOTES, 0, NUMBER_OF_NOTES);
+    note.octaveIndex = CLAMP(note.noteIndex / NUMBER_OF_NOTES, 0, NUMBER_OF_OCTAVES);
     return note;
 }
 
@@ -76,11 +76,19 @@ NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES] = {
 }
 
 - (NSString*)staffNameForNote {
+    if (self.nameIndex == kNoteNameNone ||
+        self.octaveIndex == kNoteOctaveNone) {
+        return @"N/A";
+    }
     NSString* name = [NSString stringWithFormat:@"%@%@", kNoteNames[self.nameIndex], kNoteOctaveSuffixes[self.octaveIndex]];
     return name;
 }
 
 - (NSString*)alternateStaffNameForNote {
+    if (self.nameIndex == kNoteNameNone ||
+        self.octaveIndex == kNoteOctaveNone) {
+        return @"N/A";
+    }
     NSString* name = [NSString stringWithFormat:@"%@%@", kNoteAlternateNames[self.nameIndex], kNoteOctaveSuffixes[self.octaveIndex]];
     return name;
 }

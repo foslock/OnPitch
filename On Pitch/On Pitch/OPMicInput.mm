@@ -12,7 +12,7 @@
 
 #define FREQUENCY_LOWER_RANGE 40.0f
 #define FREQUENCY_UPPER_RANGE 8000.0f
-#define FREQUENCY_GRANULARITY 5.0f
+#define FREQUENCY_GRANULARITY 0.5f
 
 #define TIMER_INTERVAL_PING 0.05f
 
@@ -23,9 +23,9 @@
 @property (assign) float currentHeardPitch;
 @property (assign) float currentMaxAmplitude;
 
-@property (strong) NSTimer* queryTimer;
+@property (strong) NSOperationQueue* operationQueue;
 
-- (void)queryTimerPinged:(NSTimer*)timer;
+- (void)queryTimerPinged;
 
 @end
 
@@ -45,10 +45,10 @@
     self = [super init];
     if (self) {
         self.audioHandler = new AudioHandler();
-        self.queryTimer = nil;
         self.muted = YES;
         self.currentHeardPitch = 0.0f;
         self.currentMaxAmplitude = 0.0f;
+        self.operationQueue = [[NSOperationQueue alloc] init];
     }
     return self;
 }
@@ -68,16 +68,22 @@
     return self.audioHandler->mute;
 }
 
-- (void)queryTimerPinged:(NSTimer*)timer {
-    self.audioHandler->RefreshFFTData();
-    float currentAmp = FLT_MIN;
-    for (int f = FREQUENCY_LOWER_RANGE; f < FREQUENCY_UPPER_RANGE; f += FREQUENCY_GRANULARITY) {
-        float thisAmp = self.audioHandler->AmplitudeOfFrequency(f);
-        if (thisAmp > currentAmp) {
-            currentAmp = thisAmp;
-            self.currentHeardPitch = f;
-            self.currentMaxAmplitude = thisAmp;
+- (void)queryTimerPinged {
+    @synchronized(self) {
+        self.audioHandler->RefreshFFTData();
+        float currentAmp = FLT_MIN;
+        for (float f = FREQUENCY_LOWER_RANGE; f < FREQUENCY_UPPER_RANGE; f += FREQUENCY_GRANULARITY) {
+            float thisAmp = self.audioHandler->AmplitudeOfFrequency(f);
+            if (thisAmp > currentAmp) {
+                currentAmp = thisAmp;
+                self.currentHeardPitch = f;
+                self.currentMaxAmplitude = thisAmp;
+            }
         }
+        // Add this operation back on the queue to reanalyze the pitch
+        [self.operationQueue addOperationWithBlock:^{
+            [self queryTimerPinged];
+        }];
     }
 }
 
@@ -85,12 +91,9 @@
     if (!self.isCurrentlyListeningToMicInput) {
         self.isCurrentlyListeningToMicInput = YES;
         // Start FFT'ing!
-        self.queryTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL_PING
-                                                           target:self
-                                                         selector:@selector(queryTimerPinged:)
-                                                         userInfo:nil
-                                                          repeats:YES];
-        
+        [self.operationQueue addOperationWithBlock:^{
+            [self queryTimerPinged];
+        }];
     }
 }
 
@@ -98,8 +101,7 @@
     if (self.isCurrentlyListeningToMicInput) {
         self.isCurrentlyListeningToMicInput = NO;
         // Stop it all!
-        [self.queryTimer invalidate];
-        self.queryTimer = nil;
+        [self.operationQueue cancelAllOperations];
         self.currentHeardPitch = 0.0f;
         self.currentMaxAmplitude = 0.0f;
     }

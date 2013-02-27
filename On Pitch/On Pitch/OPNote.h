@@ -11,6 +11,7 @@
 
 #define NUMBER_OF_NOTES 12
 #define NUMBER_OF_OCTAVES 8
+#define MAX_NOTE_INDEX ((NUMBER_OF_NOTES * NUMBER_OF_OCTAVES) - 1)
 
 // The 's' denotes a sharp
 enum kNoteNameIndex {

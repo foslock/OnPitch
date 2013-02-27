@@ -25,7 +25,6 @@
 
 - (float)currentLoudestPitchMicHears; // in Hz
 
-
 // STILL IMPLEMENTING, RETURNS A RELATIVE VOLUME NOW WITHOUT A REFERENCE SCALE
 - (float)currentVolumeMicHears;
 // Eventually will be on 0.0 to 1.0 scale

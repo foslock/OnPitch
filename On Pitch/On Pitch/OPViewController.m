@@ -32,12 +32,15 @@
 - (void)testTimer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
     NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
-    NSLog(@"f: %f p:%d", pitch, index);
     OPNote* note = [OPNote noteFromStaffIndex:index];
-    if ([[OPMicInput sharedInput] currentVolumeMicHears] > 20.0f) {
-        self.numberLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
+    float targetPitch = [note exactFrequencyFromNote];
+    if ([[OPMicInput sharedInput] currentVolumeMicHears] > 25.0f) {
+        self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
+        self.freqLabel.hidden = NO;
+        self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];
     } else {
-        self.numberLabel.text = [NSString stringWithFormat:@"Tone Too Quiet"];
+        self.noteLabel.text = [NSString stringWithFormat:@"Tone Too Quiet"];
+        self.freqLabel.hidden = YES;
     }
     
 }

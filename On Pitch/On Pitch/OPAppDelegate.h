@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define CLAMP(X, A, B) (MIN(B, MAX(A, X)))
+
 @interface OPAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

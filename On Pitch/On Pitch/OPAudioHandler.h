@@ -49,7 +49,8 @@ public:
     
     // Use this ptr to access the FFT data present
 	SInt32*						fftData;
-	
+	unsigned					fftLength;
+    
 	AudioUnit					rioUnit;
 	
 	BOOL						unitHasBeenCreated;
@@ -61,8 +62,6 @@ public:
 	
     // Don't access these directly
 	int32_t*					l_fftData;
-    unsigned					fftLength;
-    
 };
 
 class DCRejectionFilter
