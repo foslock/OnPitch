@@ -18,44 +18,58 @@
 #include <assert.h>
 #include "OPFFT.h"
 
-struct _FFT_Object {
-    FFTSetup setup;
-    int currentLog2n;
-    COMPLEX_SPLIT middleManArray;
-};
-
-FFT_Object* initializeWithMaxFFTSize(int log2n) {
-    FFT_Object* object = (FFT_Object*)malloc(sizeof(*object));
-    object->setup = vDSP_create_fftsetup(log2n, FFT_RADIX2);
-    object->currentLog2n = log2n;
-    int size = 1 << log2n;
-    object->middleManArray.realp = (float*)malloc(size/2 * sizeof(float));
-    object->middleManArray.imagp = (float*)malloc(size/2 * sizeof(float));
-    assert(object->setup);
-    return object;
+FFTObject::FFTObject(uint32_t maxFrames) {
+    uint32_t log2n = log2f(maxFrames);
+    this->setup = vDSP_create_fftsetup(log2n, FFT_RADIX2);
+    this->currentMaxFrames = maxFrames;
+    this->currentLog2n = log2n;
+    this->middleManArray.realp = (float*)malloc(maxFrames/2 * sizeof(float));
+    this->middleManArray.imagp = (float*)malloc(maxFrames/2 * sizeof(float));
+    this->finalMagnitudes = (float*)malloc(maxFrames/2 * sizeof(float));
+    bzero(this->finalMagnitudes, maxFrames * sizeof(float));
+    assert(this->setup);
 }
 
-void destroyFTTObject(FFT_Object* fft) {
-    if (fft) {
-        vDSP_destroy_fftsetup(fft->setup);
-        free(fft->middleManArray.realp);
-        free(fft->middleManArray.imagp);
-        free(fft);
+FFTObject::~FFTObject() {
+    vDSP_destroy_fftsetup(this->setup);
+    free(this->middleManArray.realp);
+    free(this->middleManArray.imagp);
+    free(this->finalMagnitudes);
+    free(this);
+}
+
+void FFTObject::performForwardFFT(int32_t* audioBuffer, COMPLEX* output) {
+    int log2n = this->currentLog2n;
+    int nOver2 = this->currentMaxFrames / 2;
+    
+    vDSP_ctoz((COMPLEX*)audioBuffer, 2, &this->middleManArray, 1, nOver2);
+    vDSP_fft_zrip(this->setup, &this->middleManArray, 1, log2n, FFT_FORWARD);
+    vDSP_zvmags(&this->middleManArray, 1, this->finalMagnitudes, 1, this->currentMaxFrames);
+    
+    float fftMax = 0.0;
+    vDSP_maxmgv(this->finalMagnitudes, 1, &fftMax, this->currentMaxFrames);
+    
+    // printf("Max: %f\n", fftMax);
+    
+    /*
+    static int counter = 0;
+    if (counter <= 0) {
+        printf("Frames: %d, \n", this->currentMaxFrames);
+        for (uint32_t i = 0; i < nOver2; i++) {
+            printf("i: %d mag: %f\n", i, this->finalMagnitudes[i]);
+        }
+        counter = 100;
+    } else {
+        counter--;
     }
+    */
+    // vDSP_ztoc(&this->middleManArray, 1, output, 2, nOver2);
 }
 
-void performForwardFFT(FFT_Object* fft, COMPLEX* input, COMPLEX* output, int log2n) {
-    assert(log2n <= fft->currentLog2n);
-    int nOver2 = 1 << (log2n - 1);
-    vDSP_ctoz(input, 2, &fft->middleManArray, 1, nOver2);
-    vDSP_fft_zrip(fft->setup, &fft->middleManArray, 1, log2n, FFT_FORWARD);
-    vDSP_ztoc(&fft->middleManArray, 1, output, 2, nOver2);
+float FFTObject::frequencyFromIndex(int index) {
+    return (float) index * (SAMPLES_PER_SECOND / (float)(1 << this->currentLog2n) / 2.0f);
 }
 
-float frequencyFromIndex(FFT_Object* fft, int index) {
-    return (float) index * (SAMPLES_PER_SECOND / (float)(1 << fft->currentLog2n) / 2.0f);
-}
-
-int indexFromFrequency(FFT_Object* fft, float freq) {
-    return (int) (freq / (SAMPLES_PER_SECOND / (float)(1 << fft->currentLog2n) / 2.0f));
+int FFTObject::indexFromFrequency(float freq) {
+    return (int) (freq / (SAMPLES_PER_SECOND / (float)(1 << this->currentLog2n) / 2.0f));
 }

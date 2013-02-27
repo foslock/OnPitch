@@ -34,7 +34,7 @@
     NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
     OPNote* note = [OPNote noteFromStaffIndex:index];
     float targetPitch = [note exactFrequencyFromNote];
-    if ([[OPMicInput sharedInput] currentVolumeMicHears] > 25.0f) {
+    if ([[OPMicInput sharedInput] currentVolumeMicHears] > 30.0f) {
         self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
         self.freqLabel.hidden = NO;
         self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];

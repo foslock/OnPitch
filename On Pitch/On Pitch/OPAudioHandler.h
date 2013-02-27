@@ -39,11 +39,12 @@ public:
     float IndexFromFrequency(float freq);
     
     // Sets the private data member from the buffer manager
-    void SetFFTDataWithLength(int32_t* fft_data, NSUInteger length);
+    void SetFFTDataWithLength(int32_t* FFTDATA, NSUInteger LENGTH);
     
     BOOL						mute;
     BOOL						unitIsRunning;
     BOOL						hasNewFFTData;
+    BOOL                        hasLoadedFirstFFT;
     FFTBufferManager*			fftBufferManager;
     DCRejectionFilter*          dcFilters;
     
@@ -69,18 +70,14 @@ class DCRejectionFilter
 public:
 	DCRejectionFilter(Float32 poleDist = DCRejectionFilter::kDefaultPoleDist);
     
-	void InplaceFilter(SInt32* ioData, UInt32 numFrames, UInt32 strides);
+	void InplaceFilter(Float32* ioData, UInt32 numFrames);
 	void Reset();
     
 protected:
 	
-	// Coefficients
-	SInt16 mA1;
-	SInt16 mGain;
-    
 	// State variables
-	SInt32 mY1;
-	SInt32 mX1;
+	Float32 mY1;
+	Float32 mX1;
 	
 	static const Float32 kDefaultPoleDist;
 };

@@ -15,24 +15,27 @@
 // implementation.
 //
 
-#ifndef On_Pitch_OPFFT_h
-#define On_Pitch_OPFFT_h
-
 #define SAMPLES_PER_SECOND 44100.0f
 
+#include <CoreAudio/CoreAudioTypes.h>
 #include <Accelerate/Accelerate.h>
 
-typedef struct _FFT_Object FFT_Object;
-
-// Must be called before any FFT functions
-FFT_Object* initializeWithMaxFFTSize(int log2n);
-void destroyFTTObject(FFT_Object* fft);
-
-// Input must be of size 'size' and output must be size*2
-// It must also be in even-odd format before it's passed in
-void performForwardFFT(FFT_Object* fft, COMPLEX* input, COMPLEX* output, int log2n);
-
-float frequencyFromIndex(FFT_Object* fft, int index);
-int indexFromFrequency(FFT_Object* fft, float freq);
-
-#endif
+class FFTObject {
+public:
+    FFTObject(uint32_t maxFrames);
+    ~FFTObject();
+    
+    // Input must be of size 'size' and output must be size*2
+    // It must also be in even-odd format before it's passed in
+    void performForwardFFT(int32_t* audioBuffer, COMPLEX* output);
+    
+    float frequencyFromIndex(int index);
+    int indexFromFrequency(float freq);
+    
+private:
+    FFTSetup setup;
+    uint32_t currentMaxFrames;
+    uint32_t currentLog2n;
+    COMPLEX_SPLIT middleManArray;
+    float* finalMagnitudes;
+};

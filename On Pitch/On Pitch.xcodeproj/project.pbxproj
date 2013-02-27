@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */; };
+		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
+		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
 		6F63EFCB16CC7BB20017F72E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCA16CC7BB20017F72E /* UIKit.framework */; };
 		6F63EFCD16CC7BB20017F72E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCC16CC7BB20017F72E /* Foundation.framework */; };
 		6F63EFCF16CC7BB20017F72E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCE16CC7BB20017F72E /* CoreGraphics.framework */; };
@@ -26,17 +29,20 @@
 		6FFE9D7F16DD92300025D71E /* OPFFT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7E16DD92300025D71E /* OPFFT.cpp */; };
 		6FFE9D9216DDB02C0025D71E /* OPAudioHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */; };
 		6FFE9D9516DDB1350025D71E /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9316DDB1350025D71E /* CADebugPrintf.cpp */; };
-		6FFE9D9D16DDB3050025D71E /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9716DDB3040025D71E /* CADebugMacros.cpp */; };
-		6FFE9D9E16DDB3050025D71E /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9916DDB3040025D71E /* CAXException.cpp */; };
-		6FFE9D9F16DDB3050025D71E /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9C16DDB3050025D71E /* CAStreamBasicDescription.cpp */; };
 		6FFE9DA316DDB5A30025D71E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */; };
 		6FFE9DA516DDB5B40025D71E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */; };
 		6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */; };
-		6FFE9DAD16DDC2F40025D71E /* rad2fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DAA16DDC2F40025D71E /* rad2fft.c */; };
-		6FFE9DAE16DDC2F40025D71E /* SpectrumAnalysis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F19BBE816DEBACA000BD656 /* CABitOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CABitOperations.h; sourceTree = "<group>"; };
+		6F19BBE916DEBACA000BD656 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
+		6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugMacros.cpp; sourceTree = "<group>"; };
+		6F19BBEB16DEBACA000BD656 /* CAXException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAXException.h; sourceTree = "<group>"; };
+		6F19BBEC16DEBACA000BD656 /* CAXException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAXException.cpp; sourceTree = "<group>"; };
+		6F19BBED16DEBACA000BD656 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
+		6F19BBEE16DEBACA000BD656 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
 		6F63EFC716CC7BB20017F72E /* On Pitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On Pitch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F63EFCA16CC7BB20017F72E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6F63EFCC16CC7BB20017F72E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -67,21 +73,10 @@
 		6FFE9D9116DDB02C0025D71E /* OPAudioHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPAudioHandler.h; sourceTree = "<group>"; };
 		6FFE9D9316DDB1350025D71E /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugPrintf.cpp; sourceTree = "<group>"; };
 		6FFE9D9416DDB1350025D71E /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugPrintf.h; sourceTree = "<group>"; };
-		6FFE9D9616DDB3040025D71E /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
-		6FFE9D9716DDB3040025D71E /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugMacros.cpp; sourceTree = "<group>"; };
-		6FFE9D9816DDB3040025D71E /* CAXException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAXException.h; sourceTree = "<group>"; };
-		6FFE9D9916DDB3040025D71E /* CAXException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAXException.cpp; sourceTree = "<group>"; };
-		6FFE9D9A16DDB3040025D71E /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
-		6FFE9D9B16DDB3040025D71E /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
-		6FFE9D9C16DDB3050025D71E /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
 		6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6FFE9DA616DDC23E0025D71E /* FFTBufferManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTBufferManager.h; sourceTree = "<group>"; };
 		6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFTBufferManager.cpp; sourceTree = "<group>"; };
-		6FFE9DA916DDC2F40025D71E /* rad2fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rad2fft.h; sourceTree = "<group>"; };
-		6FFE9DAA16DDC2F40025D71E /* rad2fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rad2fft.c; sourceTree = "<group>"; };
-		6FFE9DAB16DDC2F40025D71E /* SpectrumAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumAnalysis.h; sourceTree = "<group>"; };
-		6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpectrumAnalysis.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,8 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				6FFE9D8516DDADD30025D71E /* Audio Helpers */,
-				6FFE9D8016DD92390025D71E /* OPFFT.h */,
-				6FFE9D7E16DD92300025D71E /* OPFFT.cpp */,
 				6F63EFD216CC7BB20017F72E /* On Pitch-Info.plist */,
 				6F63EFD316CC7BB20017F72E /* InfoPlist.strings */,
 				6F63EFD616CC7BB20017F72E /* main.m */,
@@ -175,15 +168,16 @@
 			isa = PBXGroup;
 			children = (
 				6FFE9DAF16DDC2FA0025D71E /* FFT */,
-				6FFE9D9616DDB3040025D71E /* CADebugMacros.h */,
-				6FFE9D9716DDB3040025D71E /* CADebugMacros.cpp */,
-				6FFE9D9816DDB3040025D71E /* CAXException.h */,
-				6FFE9D9916DDB3040025D71E /* CAXException.cpp */,
-				6FFE9D9A16DDB3040025D71E /* CAMath.h */,
-				6FFE9D9B16DDB3040025D71E /* CAStreamBasicDescription.h */,
-				6FFE9D9C16DDB3050025D71E /* CAStreamBasicDescription.cpp */,
 				6FFE9D9416DDB1350025D71E /* CADebugPrintf.h */,
 				6FFE9D9316DDB1350025D71E /* CADebugPrintf.cpp */,
+				6F19BBE816DEBACA000BD656 /* CABitOperations.h */,
+				6F19BBE916DEBACA000BD656 /* CADebugMacros.h */,
+				6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */,
+				6F19BBEB16DEBACA000BD656 /* CAXException.h */,
+				6F19BBEC16DEBACA000BD656 /* CAXException.cpp */,
+				6F19BBED16DEBACA000BD656 /* CAMath.h */,
+				6F19BBEE16DEBACA000BD656 /* CAStreamBasicDescription.h */,
+				6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */,
 			);
 			name = "Audio Helpers";
 			sourceTree = "<group>";
@@ -193,10 +187,8 @@
 			children = (
 				6FFE9DA616DDC23E0025D71E /* FFTBufferManager.h */,
 				6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */,
-				6FFE9DA916DDC2F40025D71E /* rad2fft.h */,
-				6FFE9DAA16DDC2F40025D71E /* rad2fft.c */,
-				6FFE9DAB16DDC2F40025D71E /* SpectrumAnalysis.h */,
-				6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */,
+				6FFE9D8016DD92390025D71E /* OPFFT.h */,
+				6FFE9D7E16DD92300025D71E /* OPFFT.cpp */,
 			);
 			name = FFT;
 			sourceTree = "<group>";
@@ -275,14 +267,12 @@
 				6FFE9D7F16DD92300025D71E /* OPFFT.cpp in Sources */,
 				6FFE9D9216DDB02C0025D71E /* OPAudioHandler.mm in Sources */,
 				6FFE9D9516DDB1350025D71E /* CADebugPrintf.cpp in Sources */,
-				6FFE9D9D16DDB3050025D71E /* CADebugMacros.cpp in Sources */,
-				6FFE9D9E16DDB3050025D71E /* CAXException.cpp in Sources */,
-				6FFE9D9F16DDB3050025D71E /* CAStreamBasicDescription.cpp in Sources */,
 				6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */,
-				6FFE9DAD16DDC2F40025D71E /* rad2fft.c in Sources */,
-				6FFE9DAE16DDC2F40025D71E /* SpectrumAnalysis.cpp in Sources */,
 				6F85174816DDE2B2001915CC /* OPNote.m in Sources */,
 				6F85174B16DDE6C5001915CC /* OPNoteTranslator.m in Sources */,
+				6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */,
+				6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */,
+				6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

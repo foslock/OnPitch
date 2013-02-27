@@ -45,10 +45,11 @@
     self = [super init];
     if (self) {
         self.audioHandler = new AudioHandler();
-        self.muted = YES;
         self.currentHeardPitch = 0.0f;
         self.currentMaxAmplitude = 0.0f;
         self.operationQueue = [[NSOperationQueue alloc] init];
+        
+        self.muted = YES;
     }
     return self;
 }
@@ -69,22 +70,21 @@
 }
 
 - (void)queryTimerPinged {
-    @synchronized(self) {
-        self.audioHandler->RefreshFFTData();
-        float currentAmp = FLT_MIN;
-        for (float f = FREQUENCY_LOWER_RANGE; f < FREQUENCY_UPPER_RANGE; f += FREQUENCY_GRANULARITY) {
-            float thisAmp = self.audioHandler->AmplitudeOfFrequency(f);
-            if (thisAmp > currentAmp) {
-                currentAmp = thisAmp;
-                self.currentHeardPitch = f;
-                self.currentMaxAmplitude = thisAmp;
-            }
+    self.audioHandler->RefreshFFTData();
+    float currentAmp = FLT_MIN;
+    for (float f = FREQUENCY_LOWER_RANGE; f < FREQUENCY_UPPER_RANGE; f += FREQUENCY_GRANULARITY) {
+        float thisAmp = self.audioHandler->AmplitudeOfFrequency(f);
+        if (thisAmp > currentAmp) {
+            currentAmp = thisAmp;
+            self.currentHeardPitch = f;
+            self.currentMaxAmplitude = thisAmp;
+            // NSLog(@"f: %.2f a: %.2f", f, thisAmp);
         }
-        // Add this operation back on the queue to reanalyze the pitch
-        [self.operationQueue addOperationWithBlock:^{
-            [self queryTimerPinged];
-        }];
     }
+    // Add this operation back on the queue to reanalyze the pitch
+    [self.operationQueue addOperationWithBlock:^{
+        [self queryTimerPinged];
+    }];
 }
 
 - (void)startAnalyzingMicInput {
