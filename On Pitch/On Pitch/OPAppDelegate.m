@@ -8,6 +8,8 @@
 
 #import "OPAppDelegate.h"
 #import "OPMicInput.h"
+#import "OPNoteTranslator.h"
+#import "OPNote.h"
 
 @implementation OPAppDelegate
 
@@ -15,7 +17,6 @@
 {
     // Override point for customization after application launch.
     [application setIdleTimerDisabled:YES];
-    [[OPMicInput sharedInput] startAnalyzingMicInput];
     return YES;
 }
 							

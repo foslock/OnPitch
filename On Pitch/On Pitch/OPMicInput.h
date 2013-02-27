@@ -6,6 +6,11 @@
 //  Copyright (c) 2013 Tufts Dev Team. All rights reserved.
 //
 
+//
+// This class is fairly self explanatory, it is user friendly
+// and uses the uglier C++ class to do its dirty work.
+//
+
 #import <Foundation/Foundation.h>
 
 @interface OPMicInput : NSObject
@@ -19,6 +24,10 @@
 - (void)stopAnalyzingMicInput;
 
 - (float)currentLoudestPitchMicHears; // in Hz
-- (float)currentVolumeMicHears; // From 0.0 to 1.0, general average of all freqs
+
+
+// STILL IMPLEMENTING, RETURNS A RELATIVE VOLUME NOW WITHOUT A REFERENCE SCALE
+- (float)currentVolumeMicHears;
+// Eventually will be on 0.0 to 1.0 scale
 
 @end

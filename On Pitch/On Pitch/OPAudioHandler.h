@@ -6,7 +6,12 @@
 //  Copyright (c) 2013 Tufts Dev Team. All rights reserved.
 //
 
-
+// This is a C++ clas that handles most of the dirty work
+// involving the microphone. I tried to get keep all the memory
+// dirty code (C++) away from the prettier Objective-C, so that's
+// mostly why this class exists. It handles connecting the AudioUnit,
+// the render callback of the output, and the processing of the FFT.
+//
 
 #ifndef __On_Pitch__OPAudioHandler__
 #define __On_Pitch__OPAudioHandler__

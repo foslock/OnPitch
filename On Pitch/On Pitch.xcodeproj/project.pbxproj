@@ -20,6 +20,8 @@
 		6F63EFE716CC7BB20017F72E /* OPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F63EFE616CC7BB20017F72E /* OPViewController.m */; };
 		6F63EFF016CC7C050017F72E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFEF16CC7C050017F72E /* AVFoundation.framework */; };
 		6F63EFF216CC7C120017F72E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFF116CC7C120017F72E /* Accelerate.framework */; };
+		6F85174816DDE2B2001915CC /* OPNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174716DDE2B2001915CC /* OPNote.m */; };
+		6F85174B16DDE6C5001915CC /* OPNoteTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */; };
 		6FFE9D7D16DD90BE0025D71E /* OPMicInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */; };
 		6FFE9D7F16DD92300025D71E /* OPFFT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7E16DD92300025D71E /* OPFFT.cpp */; };
 		6FFE9D9216DDB02C0025D71E /* OPAudioHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */; };
@@ -32,7 +34,6 @@
 		6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */; };
 		6FFE9DAD16DDC2F40025D71E /* rad2fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DAA16DDC2F40025D71E /* rad2fft.c */; };
 		6FFE9DAE16DDC2F40025D71E /* SpectrumAnalysis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */; };
-		6FFE9DB216DDE0240025D71E /* OPNoteTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DB116DDE0240025D71E /* OPNoteTranslator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,10 @@
 		6F63EFE616CC7BB20017F72E /* OPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPViewController.m; sourceTree = "<group>"; };
 		6F63EFEF16CC7C050017F72E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		6F63EFF116CC7C120017F72E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		6F85174616DDE2B2001915CC /* OPNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNote.h; sourceTree = "<group>"; };
+		6F85174716DDE2B2001915CC /* OPNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNote.m; sourceTree = "<group>"; };
+		6F85174916DDE6C5001915CC /* OPNoteTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNoteTranslator.h; sourceTree = "<group>"; };
+		6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNoteTranslator.m; sourceTree = "<group>"; };
 		6FFE9D7B16DD90BE0025D71E /* OPMicInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPMicInput.h; sourceTree = "<group>"; };
 		6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OPMicInput.mm; sourceTree = "<group>"; };
 		6FFE9D7E16DD92300025D71E /* OPFFT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OPFFT.cpp; sourceTree = "<group>"; };
@@ -77,8 +82,6 @@
 		6FFE9DAA16DDC2F40025D71E /* rad2fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rad2fft.c; sourceTree = "<group>"; };
 		6FFE9DAB16DDC2F40025D71E /* SpectrumAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumAnalysis.h; sourceTree = "<group>"; };
 		6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpectrumAnalysis.cpp; sourceTree = "<group>"; };
-		6FFE9DB016DDE0240025D71E /* OPNoteTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNoteTranslator.h; sourceTree = "<group>"; };
-		6FFE9DB116DDE0240025D71E /* OPNoteTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNoteTranslator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +145,10 @@
 				6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */,
 				6FFE9D9116DDB02C0025D71E /* OPAudioHandler.h */,
 				6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */,
-				6FFE9D8016DD92390025D71E /* OPFFT.h */,
-				6FFE9D7E16DD92300025D71E /* OPFFT.cpp */,
-				6FFE9DB016DDE0240025D71E /* OPNoteTranslator.h */,
-				6FFE9DB116DDE0240025D71E /* OPNoteTranslator.m */,
+				6F85174616DDE2B2001915CC /* OPNote.h */,
+				6F85174716DDE2B2001915CC /* OPNote.m */,
+				6F85174916DDE6C5001915CC /* OPNoteTranslator.h */,
+				6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */,
 				6F63EFD116CC7BB20017F72E /* Supporting Files */,
 			);
 			path = "On Pitch";
@@ -155,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				6FFE9D8516DDADD30025D71E /* Audio Helpers */,
+				6FFE9D8016DD92390025D71E /* OPFFT.h */,
+				6FFE9D7E16DD92300025D71E /* OPFFT.cpp */,
 				6F63EFD216CC7BB20017F72E /* On Pitch-Info.plist */,
 				6F63EFD316CC7BB20017F72E /* InfoPlist.strings */,
 				6F63EFD616CC7BB20017F72E /* main.m */,
@@ -276,7 +281,8 @@
 				6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */,
 				6FFE9DAD16DDC2F40025D71E /* rad2fft.c in Sources */,
 				6FFE9DAE16DDC2F40025D71E /* SpectrumAnalysis.cpp in Sources */,
-				6FFE9DB216DDE0240025D71E /* OPNoteTranslator.m in Sources */,
+				6F85174816DDE2B2001915CC /* OPNote.m in Sources */,
+				6F85174B16DDE6C5001915CC /* OPNoteTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

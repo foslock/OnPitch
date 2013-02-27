@@ -14,7 +14,7 @@
 #define FREQUENCY_UPPER_RANGE 8000.0f
 #define FREQUENCY_GRANULARITY 5.0f
 
-#define TIMER_INTERVAL_PING 0.1f
+#define TIMER_INTERVAL_PING 0.05f
 
 @interface OPMicInput ()
 

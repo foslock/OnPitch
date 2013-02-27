@@ -95,7 +95,7 @@ static OSStatus	PerformThru(
     
     if (THIS->mute == YES) { SilenceData(ioData); }
     
-    return err;
+    return 0;
 }
 
 #pragma mark - Audio Session Interruption Listener
@@ -231,6 +231,8 @@ AudioHandler::AudioHandler() {
 		
         fftBufferManager = new FFTBufferManager(maxFPS);
 		l_fftData = new int32_t[maxFPS/2];
+        fftData = NULL;
+        fftLength = 0;
         
 		XThrowIfError(AudioOutputUnitStart(rioUnit), "couldn't start remote i/o unit");
         
@@ -273,10 +275,13 @@ void AudioHandler::RefreshFFTData() {
 }
 
 float AudioHandler::AmplitudeOfFrequency(float freq) {
+    if (!fftData) {
+        return 0.0f;
+    }
+    
     float index_m = this->IndexFromFrequency(freq);
     float index_l = (int)index_m;
     float fract = (index_m - index_l);
-    
     
     // Find where the REAL index lies between the two on either side
     
@@ -307,7 +312,13 @@ void AudioHandler::SetFFTDataWithLength(int32_t* fft_data, NSUInteger length) {
     if (length != fftLength)
 	{
 		fftLength = length;
-		fftData = (SInt32 *)(realloc(fftData, length * sizeof(SInt32)));
+        
+        if (fftData) {
+            free(fftData);
+        }
+        fftData = (SInt32 *)malloc(length * sizeof(SInt32));
+         
+        // fftData = (SInt32 *)(realloc(fftData, length * sizeof(SInt32)));
 	}
 	memmove(fftData, fft_data, fftLength * sizeof(Float32));
 	hasNewFFTData = YES;
