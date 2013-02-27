@@ -11,5 +11,8 @@
 @interface OPViewController : UIViewController
 
 @property (weak) IBOutlet UILabel* titleLabel;
+@property (weak) IBOutlet UILabel* numberLabel;
+
+- (IBAction)muteButtonPressed:(id)sender;
 
 @end

@@ -7,12 +7,15 @@
 //
 
 #import "OPAppDelegate.h"
+#import "OPMicInput.h"
 
 @implementation OPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [application setIdleTimerDisabled:YES];
+    [[OPMicInput sharedInput] startAnalyzingMicInput];
     return YES;
 }
 							

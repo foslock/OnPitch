@@ -18,9 +18,21 @@
 		6F63EFE116CC7BB20017F72E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F63EFE016CC7BB20017F72E /* Default-568h@2x.png */; };
 		6F63EFE416CC7BB20017F72E /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F63EFE216CC7BB20017F72E /* MainStoryboard.storyboard */; };
 		6F63EFE716CC7BB20017F72E /* OPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F63EFE616CC7BB20017F72E /* OPViewController.m */; };
-		6F63EFEE16CC7BFB0017F72E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFED16CC7BFB0017F72E /* CoreAudio.framework */; };
 		6F63EFF016CC7C050017F72E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFEF16CC7C050017F72E /* AVFoundation.framework */; };
 		6F63EFF216CC7C120017F72E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFF116CC7C120017F72E /* Accelerate.framework */; };
+		6FFE9D7D16DD90BE0025D71E /* OPMicInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */; };
+		6FFE9D7F16DD92300025D71E /* OPFFT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7E16DD92300025D71E /* OPFFT.cpp */; };
+		6FFE9D9216DDB02C0025D71E /* OPAudioHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */; };
+		6FFE9D9516DDB1350025D71E /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9316DDB1350025D71E /* CADebugPrintf.cpp */; };
+		6FFE9D9D16DDB3050025D71E /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9716DDB3040025D71E /* CADebugMacros.cpp */; };
+		6FFE9D9E16DDB3050025D71E /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9916DDB3040025D71E /* CAXException.cpp */; };
+		6FFE9D9F16DDB3050025D71E /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9C16DDB3050025D71E /* CAStreamBasicDescription.cpp */; };
+		6FFE9DA316DDB5A30025D71E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */; };
+		6FFE9DA516DDB5B40025D71E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */; };
+		6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */; };
+		6FFE9DAD16DDC2F40025D71E /* rad2fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DAA16DDC2F40025D71E /* rad2fft.c */; };
+		6FFE9DAE16DDC2F40025D71E /* SpectrumAnalysis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */; };
+		6FFE9DB216DDE0240025D71E /* OPNoteTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DB116DDE0240025D71E /* OPNoteTranslator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,9 +52,33 @@
 		6F63EFE316CC7BB20017F72E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		6F63EFE516CC7BB20017F72E /* OPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPViewController.h; sourceTree = "<group>"; };
 		6F63EFE616CC7BB20017F72E /* OPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPViewController.m; sourceTree = "<group>"; };
-		6F63EFED16CC7BFB0017F72E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		6F63EFEF16CC7C050017F72E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		6F63EFF116CC7C120017F72E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		6FFE9D7B16DD90BE0025D71E /* OPMicInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPMicInput.h; sourceTree = "<group>"; };
+		6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OPMicInput.mm; sourceTree = "<group>"; };
+		6FFE9D7E16DD92300025D71E /* OPFFT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OPFFT.cpp; sourceTree = "<group>"; };
+		6FFE9D8016DD92390025D71E /* OPFFT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPFFT.h; sourceTree = "<group>"; };
+		6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OPAudioHandler.mm; sourceTree = "<group>"; };
+		6FFE9D9116DDB02C0025D71E /* OPAudioHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPAudioHandler.h; sourceTree = "<group>"; };
+		6FFE9D9316DDB1350025D71E /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugPrintf.cpp; sourceTree = "<group>"; };
+		6FFE9D9416DDB1350025D71E /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugPrintf.h; sourceTree = "<group>"; };
+		6FFE9D9616DDB3040025D71E /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
+		6FFE9D9716DDB3040025D71E /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugMacros.cpp; sourceTree = "<group>"; };
+		6FFE9D9816DDB3040025D71E /* CAXException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAXException.h; sourceTree = "<group>"; };
+		6FFE9D9916DDB3040025D71E /* CAXException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAXException.cpp; sourceTree = "<group>"; };
+		6FFE9D9A16DDB3040025D71E /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
+		6FFE9D9B16DDB3040025D71E /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		6FFE9D9C16DDB3050025D71E /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6FFE9DA616DDC23E0025D71E /* FFTBufferManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTBufferManager.h; sourceTree = "<group>"; };
+		6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFTBufferManager.cpp; sourceTree = "<group>"; };
+		6FFE9DA916DDC2F40025D71E /* rad2fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rad2fft.h; sourceTree = "<group>"; };
+		6FFE9DAA16DDC2F40025D71E /* rad2fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rad2fft.c; sourceTree = "<group>"; };
+		6FFE9DAB16DDC2F40025D71E /* SpectrumAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumAnalysis.h; sourceTree = "<group>"; };
+		6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpectrumAnalysis.cpp; sourceTree = "<group>"; };
+		6FFE9DB016DDE0240025D71E /* OPNoteTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNoteTranslator.h; sourceTree = "<group>"; };
+		6FFE9DB116DDE0240025D71E /* OPNoteTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNoteTranslator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,9 +86,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FFE9DA516DDB5B40025D71E /* QuartzCore.framework in Frameworks */,
+				6FFE9DA316DDB5A30025D71E /* AudioToolbox.framework in Frameworks */,
 				6F63EFF216CC7C120017F72E /* Accelerate.framework in Frameworks */,
 				6F63EFF016CC7C050017F72E /* AVFoundation.framework in Frameworks */,
-				6F63EFEE16CC7BFB0017F72E /* CoreAudio.framework in Frameworks */,
 				6F63EFCB16CC7BB20017F72E /* UIKit.framework in Frameworks */,
 				6F63EFCD16CC7BB20017F72E /* Foundation.framework in Frameworks */,
 				6F63EFCF16CC7BB20017F72E /* CoreGraphics.framework in Frameworks */,
@@ -82,9 +119,10 @@
 		6F63EFC916CC7BB20017F72E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */,
+				6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */,
 				6F63EFF116CC7C120017F72E /* Accelerate.framework */,
 				6F63EFEF16CC7C050017F72E /* AVFoundation.framework */,
-				6F63EFED16CC7BFB0017F72E /* CoreAudio.framework */,
 				6F63EFCA16CC7BB20017F72E /* UIKit.framework */,
 				6F63EFCC16CC7BB20017F72E /* Foundation.framework */,
 				6F63EFCE16CC7BB20017F72E /* CoreGraphics.framework */,
@@ -100,6 +138,14 @@
 				6F63EFE216CC7BB20017F72E /* MainStoryboard.storyboard */,
 				6F63EFE516CC7BB20017F72E /* OPViewController.h */,
 				6F63EFE616CC7BB20017F72E /* OPViewController.m */,
+				6FFE9D7B16DD90BE0025D71E /* OPMicInput.h */,
+				6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */,
+				6FFE9D9116DDB02C0025D71E /* OPAudioHandler.h */,
+				6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */,
+				6FFE9D8016DD92390025D71E /* OPFFT.h */,
+				6FFE9D7E16DD92300025D71E /* OPFFT.cpp */,
+				6FFE9DB016DDE0240025D71E /* OPNoteTranslator.h */,
+				6FFE9DB116DDE0240025D71E /* OPNoteTranslator.m */,
 				6F63EFD116CC7BB20017F72E /* Supporting Files */,
 			);
 			path = "On Pitch";
@@ -108,6 +154,7 @@
 		6F63EFD116CC7BB20017F72E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6FFE9D8516DDADD30025D71E /* Audio Helpers */,
 				6F63EFD216CC7BB20017F72E /* On Pitch-Info.plist */,
 				6F63EFD316CC7BB20017F72E /* InfoPlist.strings */,
 				6F63EFD616CC7BB20017F72E /* main.m */,
@@ -117,6 +164,36 @@
 				6F63EFE016CC7BB20017F72E /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6FFE9D8516DDADD30025D71E /* Audio Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6FFE9DAF16DDC2FA0025D71E /* FFT */,
+				6FFE9D9616DDB3040025D71E /* CADebugMacros.h */,
+				6FFE9D9716DDB3040025D71E /* CADebugMacros.cpp */,
+				6FFE9D9816DDB3040025D71E /* CAXException.h */,
+				6FFE9D9916DDB3040025D71E /* CAXException.cpp */,
+				6FFE9D9A16DDB3040025D71E /* CAMath.h */,
+				6FFE9D9B16DDB3040025D71E /* CAStreamBasicDescription.h */,
+				6FFE9D9C16DDB3050025D71E /* CAStreamBasicDescription.cpp */,
+				6FFE9D9416DDB1350025D71E /* CADebugPrintf.h */,
+				6FFE9D9316DDB1350025D71E /* CADebugPrintf.cpp */,
+			);
+			name = "Audio Helpers";
+			sourceTree = "<group>";
+		};
+		6FFE9DAF16DDC2FA0025D71E /* FFT */ = {
+			isa = PBXGroup;
+			children = (
+				6FFE9DA616DDC23E0025D71E /* FFTBufferManager.h */,
+				6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */,
+				6FFE9DA916DDC2F40025D71E /* rad2fft.h */,
+				6FFE9DAA16DDC2F40025D71E /* rad2fft.c */,
+				6FFE9DAB16DDC2F40025D71E /* SpectrumAnalysis.h */,
+				6FFE9DAC16DDC2F40025D71E /* SpectrumAnalysis.cpp */,
+			);
+			name = FFT;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +266,17 @@
 				6F63EFD716CC7BB20017F72E /* main.m in Sources */,
 				6F63EFDB16CC7BB20017F72E /* OPAppDelegate.m in Sources */,
 				6F63EFE716CC7BB20017F72E /* OPViewController.m in Sources */,
+				6FFE9D7D16DD90BE0025D71E /* OPMicInput.mm in Sources */,
+				6FFE9D7F16DD92300025D71E /* OPFFT.cpp in Sources */,
+				6FFE9D9216DDB02C0025D71E /* OPAudioHandler.mm in Sources */,
+				6FFE9D9516DDB1350025D71E /* CADebugPrintf.cpp in Sources */,
+				6FFE9D9D16DDB3050025D71E /* CADebugMacros.cpp in Sources */,
+				6FFE9D9E16DDB3050025D71E /* CAXException.cpp in Sources */,
+				6FFE9D9F16DDB3050025D71E /* CAStreamBasicDescription.cpp in Sources */,
+				6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */,
+				6FFE9DAD16DDC2F40025D71E /* rad2fft.c in Sources */,
+				6FFE9DAE16DDC2F40025D71E /* SpectrumAnalysis.cpp in Sources */,
+				6FFE9DB216DDE0240025D71E /* OPNoteTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +327,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -264,7 +352,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -277,7 +365,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "On Pitch/On Pitch-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "On Pitch/On Pitch-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -288,7 +379,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "On Pitch/On Pitch-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				INFOPLIST_FILE = "On Pitch/On Pitch-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
