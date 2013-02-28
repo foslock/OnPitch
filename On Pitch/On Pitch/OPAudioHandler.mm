@@ -236,6 +236,7 @@ AudioHandler::AudioHandler() {
 		fftBufferManager = new FFTBufferManager(maxFPS);
 		l_fftData = new int32_t[maxFPS/2];
         fftData = (SInt32 *)(malloc(maxFPS * sizeof(SInt32)));
+        fftLength = maxFPS;
         
 		XThrowIfError(AudioOutputUnitStart(rioUnit), "couldn't start remote i/o unit");
         
@@ -291,7 +292,7 @@ float AudioHandler::AmplitudeOfFrequency(float freq) {
     // Find where the REAL index lies between the two on either side
     
     CGFloat yFract = (CGFloat)index_m / (CGFloat)(fftLength - 1);
-    CGFloat fftIdx = yFract * ((CGFloat)fftLength);
+    CGFloat fftIdx = CLAMP(yFract * ((CGFloat)fftLength) - 1.0f, 0, fftLength);
     
     double fftIdx_i, fftIdx_f;
     fftIdx_f = modf(fftIdx, &fftIdx_i);
