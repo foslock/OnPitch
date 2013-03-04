@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface OPSong : NSObject
+{
+    NSArray *song;
+}
+
+-(id) initWithMIDIFile:(NSData *)midiData;
 
 @end

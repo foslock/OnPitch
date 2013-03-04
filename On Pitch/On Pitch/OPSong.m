@@ -10,4 +10,14 @@
 
 @implementation OPSong
 
+-(id) initWithMIDIFile:(NSData *)midiData
+{
+    self = [super init];
+    if (self)
+    {
+        // Parse the MIDI file into an array of OPNotes
+    }
+    return self;
+}
+
 @end
