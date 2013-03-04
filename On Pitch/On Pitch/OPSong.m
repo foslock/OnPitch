@@ -7,15 +7,18 @@
 //
 
 #import "OPSong.h"
+#import "OPMIDIParser.h"
 
 @implementation OPSong
 
--(id) initWithMIDIFile:(NSData *)midiData
+-(id) initWithMIDIFile:(NSString *)pathToFile
 {
     self = [super init];
     if (self)
     {
         // Parse the MIDI file into an array of OPNotes
+        OPMIDIParser *p = [OPMIDIParser parser];
+        self.song = [p parseFileWithPath:pathToFile];
     }
     return self;
 }

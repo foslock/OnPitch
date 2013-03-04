@@ -7,46 +7,44 @@
 //
 
 #import "OPMIDIParser.h"
-
-@interface OPMIDIParser ()
-
-@property (assign) NSString *filename;
-
-@end
+#import "OPNote.h"
 
 @implementation OPMIDIParser
+
++ (OPMIDIParser *)parser
+{
+    static OPMIDIParser* _p = nil;
+    @synchronized(self) {
+        if (_p == nil) {
+            _p = [[OPMIDIParser alloc] init];
+        }
+    }
+    return _p;
+}
 
 - (id)init;
 {
     self = [super init];
-    if (self)
-    {
-        self.filename = @"";
-    }
-    
     return self;
 }
-
 
 // Parsing code adapted from SO and Apple
 // http://stackoverflow.com/questions/4666935/midi-file-parsing
 // http://developer.apple.com/library/mac/#samplecode/PlaySequence/Introduction/Intro.html#//apple_ref/doc/uid/DTS40008652
 
-- (void)parseFileWithPath:(NSString *)path
-{
-    self.filename = [path lastPathComponent];
-    NSLog(@"Parsing %@", self.filename);
-    
+- (NSMutableArray *)parseFileWithPath:(NSString *)path
+{    
     MusicSequence sequence;
     NewMusicSequence(&sequence);
     
-    NSLog(@"%@",[NSURL fileURLWithPath:path]);
     CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
     MusicSequenceFileLoad(sequence, url, 0, 0);
     
     MusicTrack track = NULL;
     UInt32 tracks;
     MusicSequenceGetTrackCount(sequence, &tracks);
+    
+    NSMutableArray *notes = [[NSMutableArray alloc] init];
     
     for (NSInteger i=0; i<tracks; i++)
     {
@@ -83,11 +81,15 @@
                 
             }
             
-            NSLog(@"Note: %i, Duration: %f", midiNoteMessage->note, midiNoteMessage->duration);
+            OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)midiNoteMessage->note];
+            n.length = midiNoteMessage->duration;
+            [notes addObject:n];
             
             MusicEventIteratorNextEvent(iterator);
         }
     }
+    
+    return notes;
 }
 
 @end

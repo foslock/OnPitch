@@ -14,6 +14,8 @@
 
 @interface OPMIDIParser : NSObject
 
-- (void)parseFileWithPath:(NSString *)file;
++ (OPMIDIParser *)parser;
+
+- (NSMutableArray *)parseFileWithPath:(NSString *)path;
 
 @end
