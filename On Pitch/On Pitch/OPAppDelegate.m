@@ -7,12 +7,16 @@
 //
 
 #import "OPAppDelegate.h"
+#import "OPMicInput.h"
+#import "OPNoteTranslator.h"
+#import "OPNote.h"
 
 @implementation OPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [application setIdleTimerDisabled:YES];
     return YES;
 }
 							
