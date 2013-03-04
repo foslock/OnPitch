@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37B26E9216E4FE69003A5CA3 /* santa.mid in Resources */ = {isa = PBXBuildFile; fileRef = 37B26E9116E4FE69003A5CA3 /* santa.mid */; };
+		37B26E9516E4FECA003A5CA3 /* OPSong.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B26E8E16E4FCFA003A5CA3 /* OPSong.m */; };
+		37B26E9616E4FED0003A5CA3 /* OPMIDIParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */; };
 		6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */; };
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
@@ -35,6 +38,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		37B26E8D16E4FCFA003A5CA3 /* OPSong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPSong.h; sourceTree = "<group>"; };
+		37B26E8E16E4FCFA003A5CA3 /* OPSong.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPSong.m; sourceTree = "<group>"; };
+		37B26E8F16E4FD13003A5CA3 /* OPMIDIParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPMIDIParser.h; sourceTree = "<group>"; };
+		37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPMIDIParser.m; sourceTree = "<group>"; };
+		37B26E9116E4FE69003A5CA3 /* santa.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = santa.mid; sourceTree = "<group>"; };
 		6F19BBE816DEBACA000BD656 /* CABitOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CABitOperations.h; sourceTree = "<group>"; };
 		6F19BBE916DEBACA000BD656 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
 		6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugMacros.cpp; sourceTree = "<group>"; };
@@ -97,6 +105,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37B26E9316E4FE6D003A5CA3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				37B26E9416E4FE74003A5CA3 /* MIDI Files */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		37B26E9416E4FE74003A5CA3 /* MIDI Files */ = {
+			isa = PBXGroup;
+			children = (
+				37B26E9116E4FE69003A5CA3 /* santa.mid */,
+			);
+			name = "MIDI Files";
+			sourceTree = "<group>";
+		};
 		6F63EFBE16CC7BB20017F72E = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +168,11 @@
 				6F85174716DDE2B2001915CC /* OPNote.m */,
 				6F85174916DDE6C5001915CC /* OPNoteTranslator.h */,
 				6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */,
+				37B26E8D16E4FCFA003A5CA3 /* OPSong.h */,
+				37B26E8E16E4FCFA003A5CA3 /* OPSong.m */,
+				37B26E8F16E4FD13003A5CA3 /* OPMIDIParser.h */,
+				37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */,
+				37B26E9316E4FE6D003A5CA3 /* Resources */,
 				6F63EFD116CC7BB20017F72E /* Supporting Files */,
 			);
 			path = "On Pitch";
@@ -250,6 +279,7 @@
 				6F63EFDF16CC7BB20017F72E /* Default@2x.png in Resources */,
 				6F63EFE116CC7BB20017F72E /* Default-568h@2x.png in Resources */,
 				6F63EFE416CC7BB20017F72E /* MainStoryboard.storyboard in Resources */,
+				37B26E9216E4FE69003A5CA3 /* santa.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +290,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37B26E9616E4FED0003A5CA3 /* OPMIDIParser.m in Sources */,
+				37B26E9516E4FECA003A5CA3 /* OPSong.m in Sources */,
 				6F63EFD716CC7BB20017F72E /* main.m in Sources */,
 				6F63EFDB16CC7BB20017F72E /* OPAppDelegate.m in Sources */,
 				6F63EFE716CC7BB20017F72E /* OPViewController.m in Sources */,

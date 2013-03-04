@@ -10,6 +10,8 @@
 #import "OPMicInput.h"
 #import "OPNoteTranslator.h"
 #import "OPNote.h"
+#import "OPSong.h"
+#import "OPMIDIParser.h"
 
 @interface OPViewController ()
 
@@ -50,6 +52,11 @@
     [super viewDidLoad];
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
+    
+    // BAD: Hard-coding a test file for now
+    NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
+    OPMIDIParser *p = [[OPMIDIParser alloc] init];
+    [p parseFileWithPath:testPath];
 }
 
 - (void)didReceiveMemoryWarning
