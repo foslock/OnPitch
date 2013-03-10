@@ -14,7 +14,7 @@
 #define FREQUENCY_UPPER_RANGE 8000.0f
 #define FREQUENCY_GRANULARITY 0.5f
 
-#define TIMER_INTERVAL_PING 0.05f
+#define TIMER_INTERVAL_PING 0.05f // Seconds
 
 @interface OPMicInput ()
 
@@ -48,7 +48,6 @@
         self.currentHeardPitch = 0.0f;
         self.currentMaxAmplitude = 0.0f;
         self.operationQueue = [[NSOperationQueue alloc] init];
-        
         self.muted = YES;
     }
     return self;

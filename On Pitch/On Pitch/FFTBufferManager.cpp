@@ -111,7 +111,7 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
         //Zero out the nyquist value
         mDspSplitComplex.imagp[0] = 0.0;
         
-        //Convert the fft data to dB
+        // Convert the fft data to dB
         Float32 tmpData[mFFTLength];
         vDSP_zvmags(&mDspSplitComplex, 1, tmpData, 1, mFFTLength);
         

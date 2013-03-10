@@ -48,13 +48,11 @@ int SetupRemoteIO(AudioUnit& inRemoteIOUnit, AURenderCallbackStruct inRenderProc
 		XThrowIfError(AudioUnitSetProperty(inRemoteIOUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &outFormat, sizeof(outFormat)), "couldn't set the remote I/O unit's input client format");
         
 		XThrowIfError(AudioUnitInitialize(inRemoteIOUnit), "couldn't initialize the remote I/O unit");
-	}
-	catch (CAXException &e) {
+	} catch (CAXException &e) {
 		char buf[256];
 		fprintf(stderr, "Error: %s (%s)\n", e.mOperation, e.FormatError(buf));
 		return 1;
-	}
-	catch (...) {
+	} catch (...) {
 		fprintf(stderr, "An unknown error occurred\n");
 		return 1;
 	}
@@ -269,6 +267,9 @@ AudioHandler::~AudioHandler() {
     if (fftData) {
         free(fftData);
     }
+    if (l_fftData) {
+        free(l_fftData);
+    }
 }
 
 void AudioHandler::RefreshFFTData() {
@@ -292,7 +293,7 @@ float AudioHandler::AmplitudeOfFrequency(float freq) {
     // Find where the REAL index lies between the two on either side
     
     CGFloat yFract = (CGFloat)index_m / (CGFloat)(fftLength - 1);
-    CGFloat fftIdx = CLAMP(yFract * ((CGFloat)fftLength) - 1.0f, 0, fftLength);
+    CGFloat fftIdx = CLAMP(yFract * ((CGFloat)fftLength), 0, fftLength);
     
     double fftIdx_i, fftIdx_f;
     fftIdx_f = modf(fftIdx, &fftIdx_i);
