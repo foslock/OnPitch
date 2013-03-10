@@ -10,9 +10,9 @@
 #import "OPMicInput.h"
 #import "OPNoteTranslator.h"
 #import "OPNote.h"
-#import "OPTimer.h"
+#import "OPMetronome.h"
 
-@interface OPAppDelegate () <OPTimerDelegate>
+@interface OPAppDelegate ()
 
 @end
 
@@ -25,8 +25,7 @@
 {
     // Override point for customization after application launch.
     [application setIdleTimerDisabled:YES];
-    
-    
+    [[OPMetronome sharedMetronome] startMetronome];
     
     return YES;
 }

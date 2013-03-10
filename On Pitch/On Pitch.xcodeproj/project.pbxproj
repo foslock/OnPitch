@@ -29,6 +29,8 @@
 		6F63EFF216CC7C120017F72E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFF116CC7C120017F72E /* Accelerate.framework */; };
 		6F85174816DDE2B2001915CC /* OPNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174716DDE2B2001915CC /* OPNote.m */; };
 		6F85174B16DDE6C5001915CC /* OPNoteTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */; };
+		6FFD084616ED33BB0011439E /* OPMetronome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD084516ED33BB0011439E /* OPMetronome.m */; };
+		6FFD084816ED34080011439E /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FFD084716ED34080011439E /* click.wav */; };
 		6FFE9D7D16DD90BE0025D71E /* OPMicInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */; };
 		6FFE9D7F16DD92300025D71E /* OPFFT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D7E16DD92300025D71E /* OPFFT.cpp */; };
 		6FFE9D9216DDB02C0025D71E /* OPAudioHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9D9016DDB02C0025D71E /* OPAudioHandler.mm */; };
@@ -76,6 +78,9 @@
 		6F85174716DDE2B2001915CC /* OPNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNote.m; sourceTree = "<group>"; };
 		6F85174916DDE6C5001915CC /* OPNoteTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNoteTranslator.h; sourceTree = "<group>"; };
 		6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNoteTranslator.m; sourceTree = "<group>"; };
+		6FFD084416ED33BB0011439E /* OPMetronome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPMetronome.h; sourceTree = "<group>"; };
+		6FFD084516ED33BB0011439E /* OPMetronome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPMetronome.m; sourceTree = "<group>"; };
+		6FFD084716ED34080011439E /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		6FFE9D7B16DD90BE0025D71E /* OPMicInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPMicInput.h; sourceTree = "<group>"; };
 		6FFE9D7C16DD90BE0025D71E /* OPMicInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OPMicInput.mm; sourceTree = "<group>"; };
 		6FFE9D7E16DD92300025D71E /* OPFFT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OPFFT.cpp; sourceTree = "<group>"; };
@@ -111,6 +116,7 @@
 		37B26E9316E4FE6D003A5CA3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6FFD084716ED34080011439E /* click.wav */,
 				37B26E9416E4FE74003A5CA3 /* MIDI Files */,
 			);
 			name = Resources;
@@ -177,6 +183,8 @@
 				37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */,
 				6F41B1AE16ED15EE004067CD /* OPTimer.h */,
 				6F41B1AF16ED15EE004067CD /* OPTimer.m */,
+				6FFD084416ED33BB0011439E /* OPMetronome.h */,
+				6FFD084516ED33BB0011439E /* OPMetronome.m */,
 				37B26E9316E4FE6D003A5CA3 /* Resources */,
 				6F63EFD116CC7BB20017F72E /* Supporting Files */,
 			);
@@ -285,6 +293,7 @@
 				6F63EFE116CC7BB20017F72E /* Default-568h@2x.png in Resources */,
 				6F63EFE416CC7BB20017F72E /* MainStoryboard.storyboard in Resources */,
 				37B26E9216E4FE69003A5CA3 /* santa.mid in Resources */,
+				6FFD084816ED34080011439E /* click.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +320,7 @@
 				6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */,
 				6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */,
 				6F41B1B016ED15EE004067CD /* OPTimer.m in Sources */,
+				6FFD084616ED33BB0011439E /* OPMetronome.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

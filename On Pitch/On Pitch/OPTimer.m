@@ -13,7 +13,6 @@
 
 @property (assign) mach_timebase_info_data_t timeInfo;
 @property (strong) NSThread* backgroundThread;
-@property (assign) BOOL shouldExit;
 
 - (void)loopMethod;
 

@@ -53,6 +53,7 @@
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
     
+    /*
     // BAD: Hard-coding a test file for now
     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
@@ -61,7 +62,7 @@
         OPNote *n = [s.song objectAtIndex:i];
         NSLog(@"Note: %i, Duration: %f", n.noteIndex, n.length);
     }
-    
+    */
 }
 
 - (void)didReceiveMemoryWarning
