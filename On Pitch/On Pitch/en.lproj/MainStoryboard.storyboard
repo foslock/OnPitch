@@ -99,6 +99,39 @@
             <point key="canvasLocation" x="-198" y="-438"/>
         </scene>
     </scenes>
+<<<<<<< HEAD
+=======
+    <classes>
+        <class className="OPFeedbackView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OPFeedbackView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="parentScrollView" candidateClass="OPMainScrollView"/>
+            </relationships>
+        </class>
+        <class className="OPMainScrollView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OPMainScrollView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="feedbackView" candidateClass="OPFeedbackView"/>
+            </relationships>
+        </class>
+        <class className="OPSongView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OPSongView.h"/>
+        </class>
+        <class className="OPViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OPViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="metronomeButtonTapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="metronomeTempoChanged:" candidateClass="UISlider"/>
+                <relationship kind="action" name="muteButtonPressed:"/>
+                <relationship kind="outlet" name="feedbackView" candidateClass="OPFeedbackView"/>
+                <relationship kind="outlet" name="freqLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="noteLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tempoLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
+>>>>>>> 97e25d89187d37249e248eed138de082b361ce06
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
