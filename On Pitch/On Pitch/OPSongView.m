@@ -8,6 +8,7 @@
 
 #import "OPSongView.h"
 #import "OPNote.h"
+#import "OPFeedbackView.h"
 
 // Change these 'til it looks purty
 #define NOTE_HEIGHT 10.0f
@@ -20,6 +21,10 @@
 @interface OPSongView ()
 
 @property (strong) OPSong *song;
+@property (strong) UIPanGestureRecognizer* panGesture;
+@property (assign) CGFloat panStartOffset;
+
+- (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 
 @end
 
@@ -34,8 +39,37 @@
     return self;
 }
 
-#pragma mark - Drawing
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        // INIT IF LOADED FROM NIB
+    }
+    return self;
+}
 
+#pragma mark - Pan Gesture Callback
+
+- (void)viewDidPan:(UIPanGestureRecognizer*)pan {
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        self.panStartOffset = self.drawingOffset;
+        _isPanning = YES;
+    }
+    if (pan.state == UIGestureRecognizerStateChanged) {
+        CGPoint offset = [pan translationInView:self];
+        float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
+        self.drawingOffset = CLAMP(self.panStartOffset - offset.x, 0.0f, max);
+        _isPanning = YES;
+    }
+    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
+        self.panStartOffset = 0.0f;
+        _isPanning = NO;
+    }
+    
+    [self setNeedsDisplay];
+}
+
+#pragma mark - Drawing
+/*
 - (void)drawRect:(CGRect)rect {
     // Gets the context of this view
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -81,5 +115,6 @@
     UIColor *color = [UIColor colorWithRed:(CGFloat)i green:(CGFloat)i blue:(CGFloat)i alpha:(CGFloat)i];
     return color.CGColor;
 }
+*/
 
 @end

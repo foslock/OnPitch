@@ -7,6 +7,7 @@
 //
 
 #import "OPFeedbackView.h"
+#import "OPSongView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DISTANCE_PER_SAMPLE 8.0f
@@ -19,12 +20,8 @@
 @interface OPFeedbackView ()
 
 @property (strong) NSMutableArray* queueArray;
-@property (strong) UIPanGestureRecognizer* panGesture;
-@property (assign) CGFloat panStartOffset;
-@property (assign) BOOL panning;
 
 - (void)initMe;
-- (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 
 CGPoint midPoint(CGPoint p1, CGPoint p2);
 
@@ -57,18 +54,16 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
     self.upperValueLimit = 1.0f;
     self.drawingOffset = 0.0f;
     self.contentWidth = self.bounds.size.width;
-    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
-    [self addGestureRecognizer:self.panGesture];
     self.backgroundColor = [UIColor clearColor];
     [self setOpaque:YES];
 }
 
 - (void)pushSampleValue:(FeedbackSample *)sample {
     [self.queueArray addObject:sample];
-    self.contentWidth += 8.0f;
-    if (!self.panning) {
+    self.contentWidth += DISTANCE_PER_SAMPLE;
+    if (!self.parentSongView.isPanning) {
         if ([self.queueArray count] > ((self.bounds.size.width / 2) / DISTANCE_PER_SAMPLE)) {
-            self.drawingOffset += DISTANCE_PER_SAMPLE;
+            self.parentSongView.drawingOffset += DISTANCE_PER_SAMPLE;
         }
     }
     [self setNeedsDisplay];
@@ -76,26 +71,12 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 
 - (void)clearFeedbackView {
     [self.queueArray removeAllObjects];
-    [self setNeedsDisplayInRect:self.bounds];
+    [self setNeedsDisplay];
 }
 
-- (void)viewDidPan:(UIPanGestureRecognizer*)pan {
-    if (pan.state == UIGestureRecognizerStateBegan) {
-        self.panStartOffset = self.drawingOffset;
-        self.panning = YES;
-    }
-    if (pan.state == UIGestureRecognizerStateChanged) {
-        CGPoint offset = [pan translationInView:self];
-        float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
-        self.drawingOffset = CLAMP(self.panStartOffset - offset.x, 0.0f, max);
-        self.panning = YES;
-    }
-    if (pan.state == UIGestureRecognizerStateEnded) {
-        self.panStartOffset = 0.0f;
-        self.panning = NO;
-    }
-    
-    [self setNeedsDisplay];
+- (void)setDrawingOffset:(CGFloat)drawingOffset {
+    float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
+    _drawingOffset = CLAMP(drawingOffset, 0.0f, max);
 }
 
 #pragma mark - Drawing!

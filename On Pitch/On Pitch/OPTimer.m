@@ -47,7 +47,7 @@
     uint64_t nextTime = 0;
     uint64_t currentTime = 0;
     while (self.intervalInNanoSeconds > 0) {
-        if ([self.backgroundThread isCancelled] || !self.backgroundThread) {
+        if (!self.backgroundThread || [self.backgroundThread isCancelled]) {
             [NSThread exit];
             return;
         }

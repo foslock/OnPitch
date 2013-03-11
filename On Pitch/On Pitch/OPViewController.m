@@ -78,6 +78,7 @@
     
     self.feedbackView.lowerValueLimit = 100;
     self.feedbackView.upperValueLimit = 2000;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];

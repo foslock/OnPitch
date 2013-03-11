@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <AudioToolbox/AudioToolbox.h>
 
 #define NUMBER_OF_NOTES 12
 #define NUMBER_OF_OCTAVES 8
