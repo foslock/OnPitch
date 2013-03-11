@@ -9,8 +9,8 @@
 #import "OPFeedbackView.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define DISTANCE_PER_SAMPLE 4.0f
-#define MAX_LINE_WIDTH 4.0f
+#define DISTANCE_PER_SAMPLE 8.0f
+#define MAX_LINE_WIDTH 6.0f
 
 @implementation FeedbackSample
 
@@ -19,13 +19,11 @@
 @interface OPFeedbackView ()
 
 @property (strong) NSMutableArray* queueArray;
-@property (strong) FeedbackSample* prevSample2;
-@property (strong) FeedbackSample* prevSample1;
-@property (strong) FeedbackSample* currentSample;
-
-@property (assign) BOOL needsToClear;
+@property (strong) UIPanGestureRecognizer* panGesture;
+@property (assign) CGFloat panStartOffset;
 
 - (void)initMe;
+- (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 
 CGPoint midPoint(CGPoint p1, CGPoint p2);
 
@@ -54,65 +52,44 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 - (void)initMe {
     self.queueArray = [NSMutableArray array];
     self.sampleRate = 60.0f;
-    self.lowerValueLimit = -2.0f;
-    self.upperValueLimit = 2.0f;
+    self.lowerValueLimit = 0.0f;
+    self.upperValueLimit = 1.0f;
+    self.drawingOffset = 0.0f;
+    self.contentWidth = self.bounds.size.width;
+    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
+    [self addGestureRecognizer:self.panGesture];
     self.backgroundColor = [UIColor clearColor];
-    [self setOpaque:NO];
+    [self setOpaque:YES];
 }
 
 - (void)pushSampleValue:(FeedbackSample *)sample {
     [self.queueArray addObject:sample];
-    self.prevSample2 = self.prevSample1;
-    self.prevSample1 = self.currentSample;
-    self.currentSample = sample;
-    
-    // Just adjusting for the first couple samples
-    if (!self.prevSample2) { self.prevSample2 = self.currentSample; }
-    if (!self.prevSample1) { self.prevSample1 = self.currentSample; }
-    
-    // Update canvas!
-    CGPoint mid1 = midPoint([self pointForSample:self.prevSample1],
-                            [self pointForSample:self.prevSample2]);
-    CGPoint mid2 = midPoint([self pointForSample:self.currentSample],
-                            [self pointForSample:self.prevSample1]);
-    
-    // Make a virtual path of the current points
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathMoveToPoint(path, NULL, mid1.x, mid1.y);
-    CGPathAddQuadCurveToPoint(path, NULL, [self pointForSample:self.prevSample1].x,
-                              [self pointForSample:self.prevSample1].y,
-                              mid2.x, mid2.y);
-    CGRect bounds = CGPathGetBoundingBox(path);
-    CGPathRelease(path);
-    
-    CGRect drawBox = bounds;
-    
-    //Pad our values so the bounding box respects our line width
-    drawBox.origin.x        -= MAX_LINE_WIDTH * 2;
-    drawBox.origin.y        -= MAX_LINE_WIDTH * 2;
-    drawBox.size.width      += MAX_LINE_WIDTH * 4;
-    drawBox.size.height     += MAX_LINE_WIDTH * 4;
-    
-    // Saves whats already been drawn into a UIImage
-    UIGraphicsBeginImageContext(drawBox.size);
-	[self.layer renderInContext:UIGraphicsGetCurrentContext()];
-	UIGraphicsEndImageContext();
-    
-    [self setNeedsDisplayInRect:drawBox];
+    self.contentWidth += 8.0f;
+    if ([self.queueArray count] > ((self.bounds.size.width / 2) / DISTANCE_PER_SAMPLE)) {
+        self.drawingOffset += DISTANCE_PER_SAMPLE;
+    }
+    [self setNeedsDisplay];
 }
 
 - (void)clearFeedbackView {
     [self.queueArray removeAllObjects];
-    self.currentSample = nil;
-    self.prevSample2 = nil;
-    self.prevSample1 = nil;
-    self.needsToClear = YES;
     [self setNeedsDisplayInRect:self.bounds];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-    [self clearFeedbackView];
+- (void)viewDidPan:(UIPanGestureRecognizer*)pan {
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        self.panStartOffset = self.drawingOffset;
+    }
+    if (pan.state == UIGestureRecognizerStateChanged) {
+        CGPoint offset = [pan translationInView:self];
+        float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
+        self.drawingOffset = CLAMP(self.panStartOffset - offset.x, 0.0f, max);
+    }
+    if (pan.state == UIGestureRecognizerStateEnded) {
+        self.panStartOffset = 0.0f;
+    }
+    
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Drawing!
@@ -126,40 +103,46 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     float drawableRange = self.upperValueLimit - self.lowerValueLimit;
     float drawableHeight = self.bounds.size.height;
     float y_value = ((sample.sampleValue - self.lowerValueLimit) / drawableRange) * drawableHeight;
-    return CGPointMake((float)index * DISTANCE_PER_SAMPLE, drawableHeight - y_value);
+    float x_value = (float)index * DISTANCE_PER_SAMPLE - self.drawingOffset;
+    return CGPointMake(x_value, drawableHeight - y_value);
 }
 
 - (void)drawRect:(CGRect)rect {
     // Gets the context of this view
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    if (self.needsToClear) {
-        self.needsToClear = NO;
-        CGContextClearRect(context, rect);
-    }
+    // Set some state vars for lines
+    CGContextSetLineCap(context, kCGLineCapRound);
+    CGContextSetLineJoin(context, kCGLineJoinRound);
     
-    // Renders this view's layer
-    [self.layer renderInContext:context];
+    // Clear the space
+    CGContextClearRect(context, rect);
     
-    // Draw current line
-    if (self.prevSample2 && self.prevSample1 && self.currentSample) {
-        CGPoint mid1 = midPoint([self pointForSample:self.prevSample1],
-                                [self pointForSample:self.prevSample2]);
-        CGPoint mid2 = midPoint([self pointForSample:self.currentSample],
-                                [self pointForSample:self.prevSample1]);
-        CGContextMoveToPoint(context, mid1.x, mid1.y);
-        CGContextAddQuadCurveToPoint(context,
-                                     [self pointForSample:self.prevSample1].x,
-                                     [self pointForSample:self.prevSample1].y,
-                                     mid2.x, mid2.y);
-        CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineJoin(context, kCGLineJoinRound);
-        float width = CLAMP(MAX_LINE_WIDTH * self.currentSample.sampleStrength, 0.0f, MAX_LINE_WIDTH);
-        CGContextSetLineWidth(context, width);
-        CGContextSetAlpha(context, CLAMP(self.currentSample.sampleStrength, 0.1f, 1.0f));
-        // CGContextSetBlendMode(context, kCGBlendModeDarken);
-        CGContextSetStrokeColorWithColor(context, self.currentSample.sampleColor.CGColor);
-        CGContextStrokePath(context);
+    int startingIndex = self.drawingOffset / DISTANCE_PER_SAMPLE;
+    int maxIndex = MIN(startingIndex + (self.bounds.size.width / DISTANCE_PER_SAMPLE) + 1, self.queueArray.count);
+    // Draw anything within the current offset
+    for (int i = startingIndex; i < maxIndex; i++) {
+        FeedbackSample* currentSample = [self.queueArray objectAtIndex:i];
+        FeedbackSample* prevSample1 = currentSample;
+        if (i > 0) { prevSample1 = [self.queueArray objectAtIndex:i-1]; }
+        FeedbackSample* prevSample2 = prevSample1;
+        if (i > 1) { prevSample2 = [self.queueArray objectAtIndex:i-2]; }
+        
+        if (currentSample) {
+            CGPoint mid1 = midPoint([self pointForSample:prevSample1],
+                                    [self pointForSample:prevSample2]);
+            CGPoint mid2 = midPoint([self pointForSample:currentSample],
+                                    [self pointForSample:prevSample1]);
+            CGContextMoveToPoint(context, mid1.x, mid1.y);
+            CGContextAddQuadCurveToPoint(context,
+                                         [self pointForSample:prevSample1].x,
+                                         [self pointForSample:prevSample1].y,
+                                         mid2.x, mid2.y);
+            float width = CLAMP(MAX_LINE_WIDTH * currentSample.sampleStrength, 0.0f, MAX_LINE_WIDTH);
+            CGContextSetLineWidth(context, width);
+            CGContextSetStrokeColorWithColor(context, currentSample.sampleColor.CGColor);
+            CGContextStrokePath(context);
+        }
     }
 }
 

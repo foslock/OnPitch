@@ -33,7 +33,7 @@
 // http://developer.apple.com/library/mac/#samplecode/PlaySequence/Introduction/Intro.html#//apple_ref/doc/uid/DTS40008652
 
 - (NSMutableArray *)parseFileWithPath:(NSString *)path
-{    
+{
     MusicSequence sequence;
     NewMusicSequence(&sequence);
     
@@ -75,15 +75,13 @@
             MusicEventIteratorGetEventInfo(iterator, &timestamp, &eventType, &eventData, &eventDataSize);
             
             // Process Midi Note messages
-            if(eventType==kMusicEventType_MIDINoteMessage) {
+            if(eventType == kMusicEventType_MIDINoteMessage) {
                 // Cast the midi event data as a midi note message
                 midiNoteMessage = (MIDINoteMessage*) eventData;
-                
+                OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)(midiNoteMessage->note)];
+                n.length = midiNoteMessage->duration;
+                [notes addObject:n];
             }
-            
-            OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)midiNoteMessage->note];
-            n.length = midiNoteMessage->duration;
-            [notes addObject:n];
             
             MusicEventIteratorNextEvent(iterator);
         }

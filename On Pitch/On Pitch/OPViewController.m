@@ -50,8 +50,8 @@
     
     FeedbackSample* sample = [[FeedbackSample alloc] init];
     sample.sampleValue = pitch;
-    sample.sampleStrength = magnitude / 50.0f;
-    sample.sampleColor = [UIColor blackColor];
+    sample.sampleStrength = magnitude / 80.0f;
+    sample.sampleColor = [UIColor colorWithWhite:(1.0f - sample.sampleStrength) alpha:1.0f];
     
     [self.feedbackView pushSampleValue:sample];
     
