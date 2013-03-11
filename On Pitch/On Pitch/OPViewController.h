@@ -17,6 +17,7 @@
 @property (weak) IBOutlet UILabel* freqLabel;
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
 @property (weak) IBOutlet UILabel* tempoLabel;
+@property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
 - (IBAction)muteButtonPressed:(id)sender;
 - (IBAction)metronomeTempoChanged:(UISlider*)sender;
