@@ -11,13 +11,13 @@
 #import "OPFeedbackView.h"
 
 // Change these 'til it looks purty
-#define NOTE_HEIGHT 2.0f
-#define NOTE_SPACING 10.0f
-#define NOTE_LENGTH_SCALE_FACTOR 100.0f
+#define NOTE_HEIGHT 10.0f
+#define NOTE_SPACING 5.0f
+#define NOTE_LENGTH_SCALE_FACTOR 60.0f
 #define REST_HEIGHT 20.0f
 #define STAFF_LINEWIDTH 3.0f
 #define NUMBER_OF_STAFF_LINES 5
-#define LINE_SPACING 70.0f
+#define STAFF_LINE_SPACING 70.0f
 #define STAFF_OFFSET 20.0f
 
 @interface OPSongView ()
@@ -45,7 +45,7 @@
     [self addGestureRecognizer:self.panGesture];
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
     [self addGestureRecognizer:self.pinchGesture];
-    NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
+    NSString *testPath = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
     self.song = s;
 }
@@ -128,9 +128,9 @@
     CGContextSetLineWidth(context, STAFF_LINEWIDTH);
     CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
     for (NSInteger i=0; i<NUMBER_OF_STAFF_LINES; i++) {
-        CGContextMoveToPoint(context, 0.0f, self.bounds.size.height/2.0f+(i-2)*LINE_SPACING);
+        CGContextMoveToPoint(context, 0.0f, self.bounds.size.height/2.0f+(i-2)*STAFF_LINE_SPACING);
         CGContextAddLineToPoint(context, self.bounds.size.width,
-                                self.bounds.size.height/2.0f+(i-2)*LINE_SPACING);
+                                self.bounds.size.height/2.0f+(i-2)*STAFF_LINE_SPACING);
         CGContextStrokePath(context);
     }
     
@@ -140,14 +140,16 @@
     {
         OPNote *n = [self.song.notes objectAtIndex:i];
         CGFloat width = (CGFloat)n.length * NOTE_LENGTH_SCALE_FACTOR;
-        CGFloat x = (CGFloat)n.timestamp;
+        CGFloat x = (CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR;
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
             y = n.noteIndex * NOTE_SPACING;
         }
         
+        NSLog(@"width: %f, x: %f, y: %f", width, x, y);
+
         // Maybe change the color depending on the note?
-        CGContextSetFillColorWithColor(context, [UIColor blueColor].CGColor);
+        CGContextSetFillColorWithColor(context, [self colorForNote:n]);
         CGRect noteRect = CGRectMake(x, y, width, NOTE_HEIGHT);
         CGContextFillRect(context, noteRect);
         CGContextStrokePath(context);
@@ -157,9 +159,10 @@
 
 - (CGColorRef)colorForNote:(OPNote *)note
 {
-    NSInteger i = note.noteIndex;
-    UIColor *color = [UIColor colorWithRed:(CGFloat)i green:(CGFloat)i blue:(CGFloat)i alpha:(CGFloat)i];
-    return color.CGColor;
+    CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
+    UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
+    //UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
+    return color1.CGColor;
 }
 
 
