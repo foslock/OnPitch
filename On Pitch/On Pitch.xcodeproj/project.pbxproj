@@ -40,6 +40,7 @@
 		6FFE9DA316DDB5A30025D71E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */; };
 		6FFE9DA516DDB5B40025D71E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */; };
 		6FFE9DA816DDC23E0025D71E /* FFTBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */; };
+		B54E23CD16EE749400335F2F /* MASTER_BACKGROUND.png in Resources */ = {isa = PBXBuildFile; fileRef = B54E23CC16EE749400335F2F /* MASTER_BACKGROUND.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6FFE9DA616DDC23E0025D71E /* FFTBufferManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTBufferManager.h; sourceTree = "<group>"; };
 		6FFE9DA716DDC23E0025D71E /* FFTBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFTBufferManager.cpp; sourceTree = "<group>"; };
+		B54E23CC16EE749400335F2F /* MASTER_BACKGROUND.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MASTER_BACKGROUND.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 		37B26E9316E4FE6D003A5CA3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B54E23CB16EE748800335F2F /* Images */,
 				6FFD084716ED34080011439E /* click.wav */,
 				37B26E9416E4FE74003A5CA3 /* MIDI Files */,
 			);
@@ -269,6 +272,14 @@
 			name = FFT;
 			sourceTree = "<group>";
 		};
+		B54E23CB16EE748800335F2F /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				B54E23CC16EE749400335F2F /* MASTER_BACKGROUND.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -328,6 +339,7 @@
 				6F63EFE416CC7BB20017F72E /* MainStoryboard.storyboard in Resources */,
 				37B26E9216E4FE69003A5CA3 /* santa.mid in Resources */,
 				6FFD084816ED34080011439E /* click.wav in Resources */,
+				B54E23CD16EE749400335F2F /* MASTER_BACKGROUND.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
