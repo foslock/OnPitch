@@ -32,6 +32,8 @@
 @implementation OPSongView
 
 - (void)initMe {
+    [self setOpaque:NO];
+    self.backgroundColor = [UIColor clearColor];
     self.contentWidth = self.bounds.size.width;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
     [self addGestureRecognizer:self.panGesture];
@@ -66,7 +68,6 @@
         CGPoint offset = [pan translationInView:self];
         float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
         self.drawingOffset = CLAMP(self.panStartOffset - offset.x, 0.0f, max);
-        NSLog(@"%f", self.drawingOffset);
         _isPanning = YES;
     }
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {

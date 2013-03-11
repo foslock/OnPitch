@@ -53,7 +53,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
     self.lowerValueLimit = 0.0f;
     self.upperValueLimit = 1.0f;
     self.backgroundColor = [UIColor clearColor];
-    [self setOpaque:YES];
+    [self setOpaque:NO];
 }
 
 - (void)pushSampleValue:(FeedbackSample *)sample {
