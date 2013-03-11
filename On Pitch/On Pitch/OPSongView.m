@@ -97,9 +97,9 @@
     }
     if (pinch.state == UIGestureRecognizerStateChanged) {
         CGFloat scale = pinch.scale;
-        CGFloat newScale = self.pinchStartScale * (scale / 1.1f); // Scale down the scale factor (ITS SO META!)
+        CGFloat newScale = self.pinchStartScale * (scale / 1.2f); // Scale down the scale factor (ITS SO META!)
         _contentScale = CLAMP(newScale, MIN_HORIZONTAL_SCALE, MAX_HORIZONTAL_SCALE);
-        NSLog(@"%f", self.contentScale);
+        // self.drawingOffset *= self.contentScale;
         _isPinching = YES;
     }
     if (pinch.state == UIGestureRecognizerStateEnded || pinch.state == UIGestureRecognizerStateCancelled) {
@@ -141,7 +141,6 @@
         OPNote *n = [self.song.notes objectAtIndex:i];
         CGFloat width = (CGFloat)n.length * NOTE_LENGTH_SCALE_FACTOR;
         CGFloat x = (CGFloat)n.timestamp;
-        NSLog(@"%f", x);
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
             y = n.noteIndex * NOTE_SPACING;
