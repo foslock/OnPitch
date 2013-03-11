@@ -79,7 +79,7 @@
 }
 
 #pragma mark - Drawing
-/*
+
 - (void)drawRect:(CGRect)rect {
     // Gets the context of this view
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -125,6 +125,6 @@
     UIColor *color = [UIColor colorWithRed:(CGFloat)i green:(CGFloat)i blue:(CGFloat)i alpha:(CGFloat)i];
     return color.CGColor;
 }
-*/
+
 
 @end
