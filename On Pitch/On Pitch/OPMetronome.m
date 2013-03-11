@@ -68,7 +68,7 @@
 
 - (void)timerHasFired:(OPTimer *)timer {
     if (self.clickPlayer) {
-        NSLog(@"Click!");
+        [self.clickPlayer setCurrentTime:0.0f];
         [self.clickPlayer play];
     }
 }

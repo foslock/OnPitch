@@ -12,6 +12,8 @@
 #import "OPNote.h"
 #import "OPSong.h"
 #import "OPMIDIParser.h"
+#import "OPMetronome.h"
+#import "OPFeedbackView.h"
 
 @interface OPViewController ()
 
@@ -33,10 +35,11 @@
 
 - (void)testTimer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
+    float magnitude = [[OPMicInput sharedInput] currentVolumeMicHears];
     NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
     OPNote* note = [OPNote noteFromStaffIndex:index];
     float targetPitch = [note exactFrequencyFromNote];
-    if ([[OPMicInput sharedInput] currentVolumeMicHears] > 30.0f) {
+    if (magnitude > 30.0f) {
         self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
         self.freqLabel.hidden = NO;
         self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];
@@ -45,24 +48,40 @@
         self.freqLabel.hidden = YES;
     }
     
+    FeedbackSample* sample = [[FeedbackSample alloc] init];
+    sample.sampleValue = pitch;
+    sample.sampleStrength = magnitude / 50.0f;
+    sample.sampleColor = [UIColor blackColor];
+    
+    [self.feedbackView pushSampleValue:sample];
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[OPMicInput sharedInput] startAnalyzingMicInput];
-	[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
     
+    self.feedbackView.lowerValueLimit = 100;
+    self.feedbackView.upperValueLimit = 2000;
+    
+    [[OPMicInput sharedInput] startAnalyzingMicInput];
+	[NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
+    
+    // [[OPMetronome sharedMetronome] setBeatsPerMinute:120];
+    // [[OPMetronome sharedMetronome] startMetronome];
+    
+
     /*
-    // BAD: Hard-coding a test file for now
-    NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
-    OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
-    for (NSInteger i=0; i < [s.song count]; i++)
-    {
-        OPNote *n = [s.song objectAtIndex:i];
-        NSLog(@"Note: %i, Duration: %f", n.noteIndex, n.length);
-    }
-    */
+     // BAD: Hard-coding a test file for now
+     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
+     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
+     for (NSInteger i=0; i < [s.song count]; i++)
+     {
+     OPNote *n = [s.song objectAtIndex:i];
+     NSLog(@"Note: %i, Duration: %f", n.noteIndex, n.length);
+     }
+     */
+    
 }
 
 - (void)didReceiveMemoryWarning

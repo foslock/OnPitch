@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class OPFeedbackView;
+
 @interface OPViewController : UIViewController
 
 @property (weak) IBOutlet UILabel* titleLabel;
 @property (weak) IBOutlet UILabel* noteLabel;
 @property (weak) IBOutlet UILabel* freqLabel;
+@property (weak) IBOutlet OPFeedbackView* feedbackView;
 
 - (IBAction)muteButtonPressed:(id)sender;
 

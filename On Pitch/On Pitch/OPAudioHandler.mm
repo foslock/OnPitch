@@ -206,7 +206,7 @@ AudioHandler::AudioHandler() {
     this->inputProc.inputProc = PerformThru;
 	this->inputProc.inputProcRefCon = this;
     
-	try {		
+	try {
 		// Initialize and configure the audio session
 		XThrowIfError(AudioSessionInitialize(NULL, NULL, rioInterruptionListener, this), "couldn't initialize audio session");
         
@@ -254,7 +254,7 @@ AudioHandler::AudioHandler() {
 		unitIsRunning = 0;
 		if (dcFilters) delete[] dcFilters;
 	}
-
+    
 }
 
 AudioHandler::~AudioHandler() {
@@ -273,11 +273,13 @@ AudioHandler::~AudioHandler() {
 }
 
 void AudioHandler::RefreshFFTData() {
-    if (fftBufferManager->ComputeFFT(l_fftData)) {
-        int length = fftBufferManager->GetNumberFrames() / 2;
-        this->SetFFTDataWithLength(l_fftData, length);
-    } else {
-        hasNewFFTData = NO;
+    if (fftBufferManager) {
+        if (fftBufferManager->ComputeFFT(l_fftData)) {
+            int length = fftBufferManager->GetNumberFrames() / 2;
+            this->SetFFTDataWithLength(l_fftData, length);
+        } else {
+            hasNewFFTData = NO;
+        }
     }
 }
 

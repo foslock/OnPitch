@@ -10,7 +10,7 @@
 #import "OPMicInput.h"
 #import "OPNoteTranslator.h"
 #import "OPNote.h"
-#import "OPMetronome.h"
+
 
 @interface OPAppDelegate ()
 
@@ -25,7 +25,11 @@
 {
     // Override point for customization after application launch.
     [application setIdleTimerDisabled:YES];
-    [[OPMetronome sharedMetronome] startMetronome];
+    
+    // This initializes the audio handler/input before anything else in the App can touch it.
+    [OPMicInput sharedInput];
+    
+    /* Do anything else we need here */
     
     return YES;
 }
