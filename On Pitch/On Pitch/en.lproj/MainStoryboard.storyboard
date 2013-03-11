@@ -99,8 +99,6 @@
             <point key="canvasLocation" x="-198" y="-438"/>
         </scene>
     </scenes>
-<<<<<<< HEAD
-=======
     <classes>
         <class className="OPFeedbackView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OPFeedbackView.h"/>
@@ -131,7 +129,6 @@
             </relationships>
         </class>
     </classes>
->>>>>>> 97e25d89187d37249e248eed138de082b361ce06
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
