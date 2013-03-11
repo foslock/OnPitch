@@ -11,41 +11,27 @@
 
 @implementation OPMIDIParser
 
-+ (OPMIDIParser *)parser
-{
-    static OPMIDIParser* _p = nil;
-    @synchronized(self) {
-        if (_p == nil) {
-            _p = [[OPMIDIParser alloc] init];
-        }
-    }
-    return _p;
-}
-
-- (id)init;
-{
-    self = [super init];
-    return self;
-}
-
 // Parsing code adapted from SO and Apple
 // http://stackoverflow.com/questions/4666935/midi-file-parsing
 // http://developer.apple.com/library/mac/#samplecode/PlaySequence/Introduction/Intro.html#//apple_ref/doc/uid/DTS40008652
 
-- (NSMutableArray *)parseFileWithPath:(NSString *)path
++ (NSDictionary *)parseFileWithPath:(NSString *)path
 {    
     MusicSequence sequence;
     NewMusicSequence(&sequence);
     
     CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
     MusicSequenceFileLoad(sequence, url, 0, 0);
-    
+        
     MusicTrack track = NULL;
     UInt32 tracks;
     MusicSequenceGetTrackCount(sequence, &tracks);
     
+    NSDictionary *info = (__bridge NSDictionary *)(MusicSequenceGetInfoDictionary(sequence));
+    NSString *tempo = (NSString *)[info objectForKey:@"tempo"];
+    NSString *timeSig = (NSString *)[info objectForKey:@"time signature"];
+        
     NSMutableArray *notes = [[NSMutableArray alloc] init];
-    
     for (NSInteger i=0; i<tracks; i++)
     {
         MusicSequenceGetIndTrack(sequence, i, &track);
@@ -89,7 +75,12 @@
         }
     }
     
-    return notes;
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:notes, @"notes",
+                                                                 tempo, @"tempo",
+                                                                 timeSig, @"timeSig",
+                                                                 nil];
+    
+    return d;
 }
 
 @end
