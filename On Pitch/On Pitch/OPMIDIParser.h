@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Tufts Dev Team. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
@@ -14,8 +15,6 @@
 
 @interface OPMIDIParser : NSObject
 
-+ (OPMIDIParser *)parser;
-
-- (NSMutableArray *)parseFileWithPath:(NSString *)path;
++ (NSDictionary *)parseFileWithPath:(NSString *)path;
 
 @end
