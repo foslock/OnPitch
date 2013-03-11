@@ -57,18 +57,23 @@
 }
 
 - (void)startMetronome {
-    [self.timer startFiring];
+    if (!self.isRunning) {
+        _isRunning = YES;
+        [self.timer startFiring];
+    }
 }
 
 - (void)stopMetronome {
-    [self.timer stopFiring];
+    if (self.isRunning) {
+        _isRunning = NO;
+        [self.timer stopFiring];
+    }
 }
 
 #pragma mark - OPTimer
 
 - (void)timerHasFired:(OPTimer *)timer {
     if (self.clickPlayer) {
-        [self.clickPlayer setCurrentTime:0.0f];
         [self.clickPlayer play];
     }
 }

@@ -33,6 +33,21 @@
     }
 }
 
+- (IBAction)metronomeTempoChanged:(UISlider*)sender {
+    [[OPMetronome sharedMetronome] setBeatsPerMinute:sender.value];
+    [self.tempoLabel setText:[NSString stringWithFormat:@"%.0f bpm", sender.value]];
+}
+
+- (IBAction)metronomeButtonTapped:(UIButton*)sender {
+    if (![[OPMetronome sharedMetronome] isRunning]) {
+        [sender setTitle:@"Stop" forState:UIControlStateNormal];
+        [[OPMetronome sharedMetronome] startMetronome];
+    } else {
+        [sender setTitle:@"Start" forState:UIControlStateNormal];
+        [[OPMetronome sharedMetronome] stopMetronome];
+    }
+}
+
 - (void)testTimer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
     float magnitude = [[OPMicInput sharedInput] currentVolumeMicHears];
@@ -70,7 +85,7 @@
     // [[OPMetronome sharedMetronome] setBeatsPerMinute:120];
     // [[OPMetronome sharedMetronome] startMetronome];
     
-
+    
     /*
      // BAD: Hard-coding a test file for now
      NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];

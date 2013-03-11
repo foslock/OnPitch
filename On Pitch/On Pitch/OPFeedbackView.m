@@ -21,6 +21,7 @@
 @property (strong) NSMutableArray* queueArray;
 @property (strong) UIPanGestureRecognizer* panGesture;
 @property (assign) CGFloat panStartOffset;
+@property (assign) BOOL panning;
 
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
@@ -65,8 +66,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 - (void)pushSampleValue:(FeedbackSample *)sample {
     [self.queueArray addObject:sample];
     self.contentWidth += 8.0f;
-    if ([self.queueArray count] > ((self.bounds.size.width / 2) / DISTANCE_PER_SAMPLE)) {
-        self.drawingOffset += DISTANCE_PER_SAMPLE;
+    if (!self.panning) {
+        if ([self.queueArray count] > ((self.bounds.size.width / 2) / DISTANCE_PER_SAMPLE)) {
+            self.drawingOffset += DISTANCE_PER_SAMPLE;
+        }
     }
     [self setNeedsDisplay];
 }
@@ -79,14 +82,17 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan {
     if (pan.state == UIGestureRecognizerStateBegan) {
         self.panStartOffset = self.drawingOffset;
+        self.panning = YES;
     }
     if (pan.state == UIGestureRecognizerStateChanged) {
         CGPoint offset = [pan translationInView:self];
         float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
         self.drawingOffset = CLAMP(self.panStartOffset - offset.x, 0.0f, max);
+        self.panning = YES;
     }
     if (pan.state == UIGestureRecognizerStateEnded) {
         self.panStartOffset = 0.0f;
+        self.panning = NO;
     }
     
     [self setNeedsDisplay];
@@ -98,8 +104,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
 }
 
-- (CGPoint)pointForSample:(FeedbackSample*)sample {
-    int index = [self.queueArray indexOfObject:sample];
+- (CGPoint)pointForSample:(FeedbackSample*)sample withIndex:(NSInteger)index {
+    // int index = [self.queueArray indexOfObject:sample];
     float drawableRange = self.upperValueLimit - self.lowerValueLimit;
     float drawableHeight = self.bounds.size.height;
     float y_value = ((sample.sampleValue - self.lowerValueLimit) / drawableRange) * drawableHeight;
@@ -129,14 +135,14 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
         if (i > 1) { prevSample2 = [self.queueArray objectAtIndex:i-2]; }
         
         if (currentSample) {
-            CGPoint mid1 = midPoint([self pointForSample:prevSample1],
-                                    [self pointForSample:prevSample2]);
-            CGPoint mid2 = midPoint([self pointForSample:currentSample],
-                                    [self pointForSample:prevSample1]);
+            CGPoint mid1 = midPoint([self pointForSample:prevSample1 withIndex:i-1],
+                                    [self pointForSample:prevSample2 withIndex:i-2]);
+            CGPoint mid2 = midPoint([self pointForSample:currentSample withIndex:i],
+                                    [self pointForSample:prevSample1 withIndex:i-1]);
             CGContextMoveToPoint(context, mid1.x, mid1.y);
             CGContextAddQuadCurveToPoint(context,
-                                         [self pointForSample:prevSample1].x,
-                                         [self pointForSample:prevSample1].y,
+                                         [self pointForSample:prevSample1 withIndex:i-1].x,
+                                         [self pointForSample:prevSample1 withIndex:i-1].y,
                                          mid2.x, mid2.y);
             float width = CLAMP(MAX_LINE_WIDTH * currentSample.sampleStrength, 0.0f, MAX_LINE_WIDTH);
             CGContextSetLineWidth(context, width);

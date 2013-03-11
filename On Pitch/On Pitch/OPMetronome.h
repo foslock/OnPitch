@@ -12,6 +12,7 @@
 
 @property (assign, nonatomic) float beatsPerMinute;
 @property (assign, nonatomic) float metronomeVolume;
+@property (readonly) BOOL isRunning;
 
 + (OPMetronome*)sharedMetronome;
 
