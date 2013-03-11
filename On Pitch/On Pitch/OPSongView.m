@@ -22,10 +22,13 @@
 
 @property (strong) OPSong *song;
 @property (strong) UIPanGestureRecognizer* panGesture;
+@property (strong) UIPinchGestureRecognizer* pinchGesture;
 @property (assign) CGFloat panStartOffset;
+@property (assign) CGFloat pinchStartScale;
 
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
+- (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch;
 
 @end
 
@@ -35,8 +38,11 @@
     [self setOpaque:NO];
     self.backgroundColor = [UIColor clearColor];
     self.contentWidth = self.bounds.size.width;
+    _contentScale = 1.0f;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
     [self addGestureRecognizer:self.panGesture];
+    self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
+    [self addGestureRecognizer:self.pinchGesture];
 }
 
 - (id)initWithSong:(OPSong *)s
@@ -73,6 +79,27 @@
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
         self.panStartOffset = 0.0f;
         _isPanning = NO;
+    }
+    
+    [self setNeedsDisplay];
+    [self.feedbackView setNeedsDisplay];
+}
+
+- (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch {
+    if (pinch.state == UIGestureRecognizerStateBegan) {
+        self.pinchStartScale = self.contentScale;
+        _isPinching = YES;
+    }
+    if (pinch.state == UIGestureRecognizerStateChanged) {
+        CGFloat scale = pinch.scale;
+        CGFloat newScale = self.pinchStartScale * (scale / 1.1f); // Scale down the scale factor (ITS SO META!)
+        _contentScale = CLAMP(newScale, MIN_HORIZONTAL_SCALE, MAX_HORIZONTAL_SCALE);
+        NSLog(@"%f", self.contentScale);
+        _isPinching = YES;
+    }
+    if (pinch.state == UIGestureRecognizerStateEnded || pinch.state == UIGestureRecognizerStateCancelled) {
+        self.pinchStartScale = 1.0f;
+        _isPinching = NO;
     }
     
     [self setNeedsDisplay];
