@@ -10,7 +10,7 @@
 
 @interface OPSong : NSObject
 
-@property (strong) NSArray *song;
+@property (strong) NSArray *notes;
 @property NSUInteger tempo;
 @property (strong) NSString *timeSig;
 

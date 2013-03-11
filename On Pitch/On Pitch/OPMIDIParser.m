@@ -66,6 +66,7 @@
                 midiNoteMessage = (MIDINoteMessage*) eventData;
                 OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)(midiNoteMessage->note)];
                 n.length = midiNoteMessage->duration;
+                n.timestamp = timestamp;
                 [notes addObject:n];
             }
             

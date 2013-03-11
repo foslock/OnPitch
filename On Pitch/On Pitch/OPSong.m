@@ -18,7 +18,7 @@
     {
         // Parse the MIDI file into an array of OPNotes
         NSDictionary *d = [OPMIDIParser parseFileWithPath:pathToFile];
-        self.song = [d objectForKey:@"notes"];
+        self.notes = [d objectForKey:@"notes"];
         self.tempo = (NSUInteger)[(NSString *)[d objectForKey:@"tempo"] intValue];
         self.timeSig = [d objectForKey:@"timeSig"];
     }

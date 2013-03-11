@@ -53,6 +53,7 @@ extern NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES];
 @property (assign) enum kNoteOctaveIndex octaveIndex;
 
 @property (assign) NSTimeInterval length;
+@property (assign) MusicTimeStamp timestamp;
 
 + (OPNote*)noteFromStaffIndex:(NSInteger)index;
 

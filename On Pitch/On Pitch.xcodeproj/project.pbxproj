@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3722503616EE64B70033D294 /* OPSongView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3722503516EE64B70033D294 /* OPSongView.m */; };
 		37B26E9216E4FE69003A5CA3 /* santa.mid in Resources */ = {isa = PBXBuildFile; fileRef = 37B26E9116E4FE69003A5CA3 /* santa.mid */; };
 		37B26E9516E4FECA003A5CA3 /* OPSong.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B26E8E16E4FCFA003A5CA3 /* OPSong.m */; };
 		37B26E9616E4FED0003A5CA3 /* OPMIDIParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */; };
@@ -42,6 +43,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3722503416EE64B70033D294 /* OPSongView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPSongView.h; sourceTree = "<group>"; };
+		3722503516EE64B70033D294 /* OPSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPSongView.m; sourceTree = "<group>"; };
 		37B26E8D16E4FCFA003A5CA3 /* OPSong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPSong.h; sourceTree = "<group>"; };
 		37B26E8E16E4FCFA003A5CA3 /* OPSong.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPSong.m; sourceTree = "<group>"; };
 		37B26E8F16E4FD13003A5CA3 /* OPMIDIParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPMIDIParser.h; sourceTree = "<group>"; };
@@ -174,6 +177,8 @@
 				6F63EFE616CC7BB20017F72E /* OPViewController.m */,
 				6FFD084C16ED73B20011439E /* OPFeedbackView.h */,
 				6FFD084D16ED73B20011439E /* OPFeedbackView.m */,
+				3722503416EE64B70033D294 /* OPSongView.h */,
+				3722503516EE64B70033D294 /* OPSongView.m */,
 				6FFD084A16ED72D70011439E /* Input Handling */,
 				6FFD084916ED72C70011439E /* Song Structure */,
 				6FFD084B16ED72E80011439E /* Metronome */,
@@ -351,6 +356,7 @@
 				6F41B1B016ED15EE004067CD /* OPTimer.m in Sources */,
 				6FFD084616ED33BB0011439E /* OPMetronome.m in Sources */,
 				6FFD084E16ED73B20011439E /* OPFeedbackView.m in Sources */,
+				3722503616EE64B70033D294 /* OPSongView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
