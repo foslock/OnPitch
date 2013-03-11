@@ -16,6 +16,7 @@
 @property (assign, nonatomic) CGFloat drawingOffset;
 @property (assign, nonatomic) CGFloat contentWidth;
 @property (readonly) BOOL isPanning;
+
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
 
 - (id)initWithSong:(OPSong *)s;

@@ -52,15 +52,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
     self.sampleRate = 60.0f;
     self.lowerValueLimit = 0.0f;
     self.upperValueLimit = 1.0f;
-    self.drawingOffset = 0.0f;
-    self.contentWidth = self.bounds.size.width;
     self.backgroundColor = [UIColor clearColor];
     [self setOpaque:YES];
 }
 
 - (void)pushSampleValue:(FeedbackSample *)sample {
     [self.queueArray addObject:sample];
-    self.contentWidth += DISTANCE_PER_SAMPLE;
+    self.parentSongView.contentWidth += DISTANCE_PER_SAMPLE;
     if (!self.parentSongView.isPanning) {
         if ([self.queueArray count] > ((self.bounds.size.width / 2) / DISTANCE_PER_SAMPLE)) {
             self.parentSongView.drawingOffset += DISTANCE_PER_SAMPLE;
@@ -74,11 +72,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
     [self setNeedsDisplay];
 }
 
-- (void)setDrawingOffset:(CGFloat)drawingOffset {
-    float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
-    _drawingOffset = CLAMP(drawingOffset, 0.0f, max);
-}
-
 #pragma mark - Drawing!
 
 CGPoint midPoint(CGPoint p1, CGPoint p2) {
@@ -90,7 +83,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     float drawableRange = self.upperValueLimit - self.lowerValueLimit;
     float drawableHeight = self.bounds.size.height;
     float y_value = ((sample.sampleValue - self.lowerValueLimit) / drawableRange) * drawableHeight;
-    float x_value = (float)index * DISTANCE_PER_SAMPLE - self.drawingOffset;
+    float x_value = (float)index * DISTANCE_PER_SAMPLE - self.parentSongView.drawingOffset;
     return CGPointMake(x_value, drawableHeight - y_value);
 }
 
@@ -105,7 +98,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     // Clear the space
     CGContextClearRect(context, rect);
     
-    int startingIndex = self.drawingOffset / DISTANCE_PER_SAMPLE;
+    int startingIndex = self.parentSongView.drawingOffset / DISTANCE_PER_SAMPLE;
     int maxIndex = MIN(startingIndex + (self.bounds.size.width / DISTANCE_PER_SAMPLE) + 1, self.queueArray.count);
     // Draw anything within the current offset
     for (int i = startingIndex; i < maxIndex; i++) {

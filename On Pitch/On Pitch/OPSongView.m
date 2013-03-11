@@ -21,17 +21,25 @@
 @property (strong) UIPanGestureRecognizer* panGesture;
 @property (assign) CGFloat panStartOffset;
 
+- (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 
 @end
 
 @implementation OPSongView
 
+- (void)initMe {
+    self.contentWidth = self.bounds.size.width;
+    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
+    [self addGestureRecognizer:self.panGesture];
+}
+
 - (id)initWithSong:(OPSong *)s
 {
     self = [super init];
     if (self) {
         self.song = s;
+        [self initMe];
     }
     return self;
 }
@@ -39,7 +47,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        // INIT IF LOADED FROM NIB
+        [self initMe];
     }
     return self;
 }
@@ -55,6 +63,7 @@
         CGPoint offset = [pan translationInView:self];
         float max = MAX(self.contentWidth - self.bounds.size.width, 0.0f);
         self.drawingOffset = CLAMP(self.panStartOffset - offset.x, 0.0f, max);
+        NSLog(@"%f", self.drawingOffset);
         _isPanning = YES;
     }
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
@@ -63,6 +72,7 @@
     }
     
     [self setNeedsDisplay];
+    [self.feedbackView setNeedsDisplay];
 }
 
 #pragma mark - Drawing
