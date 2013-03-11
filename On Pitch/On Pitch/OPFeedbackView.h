@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class OPSongView;
+
 @interface FeedbackSample : NSObject
 
 @property (assign, nonatomic) CGFloat sampleValue; // The actual value to be plotted
@@ -21,8 +23,10 @@
 @property (assign) CGFloat upperValueLimit; // The upper limit of the values being sampled and drawn
 @property (assign) CGFloat lowerValueLimit; // The lower limit...
 @property (assign) CGFloat sampleRate; // samples per second, also the target draw rate
-@property (assign) CGFloat drawingOffset; // How much to offset the contents horizontally (used for scrolling)
+@property (assign, nonatomic) CGFloat drawingOffset; // How much to offset the contents horizontally (used for scrolling)
 @property (assign) CGFloat contentWidth; // How far can the view be panned
+
+@property (weak) IBOutlet OPSongView* parentSongView;
 
 // 'sample' can be any value, but will only be drawn if between the lower and upper limits
 - (void)pushSampleValue:(FeedbackSample*)sample;
