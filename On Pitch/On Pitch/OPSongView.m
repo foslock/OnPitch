@@ -43,14 +43,9 @@
     _contentScale = 1.0f;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
     [self addGestureRecognizer:self.panGesture];
-<<<<<<< HEAD
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
     [self addGestureRecognizer:self.pinchGesture];
-    NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
-=======
-    
     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
->>>>>>> Coloring notes
     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
     self.song = s;
 }
