@@ -45,6 +45,7 @@
     [self addGestureRecognizer:self.panGesture];
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
     [self addGestureRecognizer:self.pinchGesture];
+    
     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
     self.song = s;
@@ -86,8 +87,8 @@
         _isPanning = NO;
     }
     
-    [self setNeedsDisplay];
     [self.feedbackView setNeedsDisplay];
+    [self setNeedsDisplay];
 }
 
 - (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch {
@@ -107,8 +108,8 @@
         _isPinching = NO;
     }
     
-    [self setNeedsDisplay];
     [self.feedbackView setNeedsDisplay];
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Drawing
@@ -140,13 +141,13 @@
     {
         OPNote *n = [self.song.notes objectAtIndex:i];
         CGFloat width = (CGFloat)n.length * NOTE_LENGTH_SCALE_FACTOR;
-        CGFloat x = (CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR;
+        CGFloat x = ((CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR) - self.drawingOffset;
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
             y = n.noteIndex * NOTE_SPACING;
         }
         
-        NSLog(@"width: %f, x: %f, y: %f", width, x, y);
+        // NSLog(@"width: %f, x: %f, y: %f", width, x, y);
 
         // Maybe change the color depending on the note?
         CGContextSetFillColorWithColor(context, [self colorForNote:n]);

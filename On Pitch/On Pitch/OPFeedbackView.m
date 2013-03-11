@@ -62,6 +62,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
     if (!self.parentSongView.isPanning) {
         if ([self.queueArray count] > ((self.bounds.size.width / 2) / [self distancePerSample])) {
             self.parentSongView.drawingOffset += [self distancePerSample];
+            [self.parentSongView setNeedsDisplay];
         }
     }
     [self setNeedsDisplay];
