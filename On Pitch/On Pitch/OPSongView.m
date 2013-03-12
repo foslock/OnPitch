@@ -151,7 +151,9 @@
         // NSLog(@"width: %f, x: %f, y: %f", width, x, y);
 
         // Maybe change the color depending on the note?
-        CGContextSetFillColorWithColor(context, [self colorForNote:n]);
+        
+        UIColor* color = [self colorForNote:n];
+        CGContextSetFillColorWithColor(context, color.CGColor);
         CGRect noteRect = CGRectMake(x, y, width, NOTE_HEIGHT);
         CGContextFillRect(context, noteRect);
         CGContextStrokePath(context);
@@ -159,12 +161,12 @@
     
 }
 
-- (CGColorRef)colorForNote:(OPNote *)note
+- (UIColor*)colorForNote:(OPNote *)note
 {
     CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
     UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
     //UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
-    return color1.CGColor;
+    return color1;
 }
 
 - (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex
