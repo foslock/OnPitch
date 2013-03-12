@@ -11,14 +11,14 @@
 #import "OPFeedbackView.h"
 
 // Change these 'til it looks purty
-#define NOTE_HEIGHT 10.0f
-#define NOTE_SPACING 5.0f
+#define NOTE_HEIGHT 20.0f
 #define NOTE_LENGTH_SCALE_FACTOR 60.0f
 #define REST_HEIGHT 20.0f
 #define STAFF_LINEWIDTH 3.0f
 #define NUMBER_OF_STAFF_LINES 5
 #define STAFF_LINE_SPACING 70.0f
-#define STAFF_OFFSET 20.0f
+#define NOTE_SPACING STAFF_LINE_SPACING
+
 
 @interface OPSongView ()
 
@@ -31,6 +31,8 @@
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 - (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch;
+- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex;
+- (CGFloat)heightForStaffLine:(NSInteger)staffLine;
 
 @end
 
@@ -136,7 +138,6 @@
     }
     
     // Draw notes
-    
     for (NSInteger i=0; i<self.song.notes.count; i++)
     {
         OPNote *n = [self.song.notes objectAtIndex:i];
@@ -144,7 +145,8 @@
         CGFloat x = ((CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR) - self.drawingOffset;
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
-            y = n.noteIndex * NOTE_SPACING;
+            NSInteger staffLine = [self staffLineForNoteIndex:n.noteIndex];
+            y = [self heightForStaffLine:staffLine];
         }
         
         // NSLog(@"width: %f, x: %f, y: %f", width, x, y);
@@ -164,6 +166,18 @@
     UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
     //UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
     return color1.CGColor;
+}
+
+- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex
+{
+    NSInteger staffLine = noteIndex % NUMBER_OF_NOTES - 2;
+    return staffLine;
+}
+
+- (CGFloat)heightForStaffLine:(NSInteger)staffLine
+{
+    CGFloat height = self.bounds.size.height/2.0f + staffLine * NOTE_SPACING - NOTE_HEIGHT/2.0f;
+    return height;
 }
 
 

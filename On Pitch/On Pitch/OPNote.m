@@ -93,4 +93,13 @@ NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES] = {
     return name;
 }
 
+- (NSString*)staffNameForNoteWithoutOctave {
+    if (self.nameIndex == kNoteNameNone ||
+        self.octaveIndex == kNoteOctaveNone) {
+        return @"N/A";
+    }
+    NSString* name = kNoteNames[self.nameIndex];
+    return name;
+}
+
 @end
