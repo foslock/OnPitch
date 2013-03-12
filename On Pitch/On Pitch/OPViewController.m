@@ -66,8 +66,8 @@
     
     FeedbackSample* sample = [[FeedbackSample alloc] init];
     sample.sampleValue = pitch;
-    sample.sampleStrength = magnitude / 80.0f;
-    sample.sampleColor = [UIColor colorWithWhite:(1.0f - sample.sampleStrength) alpha:1.0f];
+    sample.sampleStrength = magnitude / 50.0f;
+    sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:CLAMP(sample.sampleStrength - 0.5f, 0.0f, 1.0f)];
     
     [self.feedbackView pushSampleValue:sample];
     
@@ -77,10 +77,16 @@
 {
     [super viewDidLoad];
     
-    self.titleLabel.layer.shadowOpacity = 0.6f;
+    self.titleLabel.layer.shadowOpacity = 0.4f;
+    self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+    self.titleLabel.layer.shadowRadius = 4.0f;
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.noteLabel.textColor = [UIColor whiteColor];
+    self.freqLabel.textColor = [UIColor whiteColor];
+    self.tempoLabel.textColor = [UIColor whiteColor];
     
-    self.feedbackView.lowerValueLimit = 100;
-    self.feedbackView.upperValueLimit = 2000;
+    self.feedbackView.lowerValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39];
+    self.feedbackView.upperValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39 + 18];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
     // set custom UISlider images
@@ -95,9 +101,6 @@
     [self.tempSlider setMinimumTrackImage:sliderMin forState:UIControlStateNormal];
     [self.tempSlider setMaximumTrackImage:sliderMax forState:UIControlStateNormal];
     [self.tempSlider setThumbImage: sliderHead forState:UIControlStateNormal];
-    
-    
-    
     
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
