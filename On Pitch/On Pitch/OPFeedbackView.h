@@ -22,7 +22,6 @@
 
 @property (assign) CGFloat upperValueLimit; // The upper limit of the values being sampled and drawn
 @property (assign) CGFloat lowerValueLimit; // The lower limit...
-@property (assign) CGFloat sampleRate; // samples per second, also the target draw rate
 
 @property (weak) IBOutlet OPSongView* parentSongView;
 
