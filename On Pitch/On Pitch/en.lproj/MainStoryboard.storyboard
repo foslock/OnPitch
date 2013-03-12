@@ -89,6 +89,7 @@
                         <outlet property="feedbackView" destination="r3A-oD-bFo" id="rGo-uB-UlV"/>
                         <outlet property="freqLabel" destination="m7g-jM-3cc" id="npC-5a-QUD"/>
                         <outlet property="noteLabel" destination="hIs-xs-Pjn" id="xnp-oK-DhZ"/>
+                        <outlet property="tempSlider" destination="kgL-ca-KFA" id="12H-QB-HAE"/>
                         <outlet property="tempoLabel" destination="bj0-2M-CVr" id="0Ug-xV-Y6z"/>
                         <outlet property="titleLabel" destination="D8q-mD-BmX" id="k4h-90-LlR"/>
                     </connections>

@@ -30,7 +30,9 @@
     NSDictionary *info = (__bridge NSDictionary *)(MusicSequenceGetInfoDictionary(sequence));
     NSString *tempo = (NSString *)[info objectForKey:@"tempo"];
     NSString *timeSig = (NSString *)[info objectForKey:@"time signature"];
-        
+    
+    NSUInteger highestOctave, lowestOctave;
+    
     NSMutableArray *notes = [[NSMutableArray alloc] init];
     for (NSInteger i=0; i<tracks; i++)
     {

@@ -83,6 +83,22 @@
     self.feedbackView.upperValueLimit = 2000;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
+    // set custom UISlider images
+    UIImage *sliderMin = [UIImage imageNamed:@"sliderPreWithCap.png"];
+    UIImage *sliderMax = [UIImage imageNamed:@"sliderPostWithCap.png"];
+    UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD.png"];
+    
+    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 40.0, 0, 0)];
+    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 40.0)];
+    
+    // set temp slider images
+    [self.tempSlider setMinimumTrackImage:sliderMin forState:UIControlStateNormal];
+    [self.tempSlider setMaximumTrackImage:sliderMax forState:UIControlStateNormal];
+    [self.tempSlider setThumbImage: sliderHead forState:UIControlStateNormal];
+    
+    
+    
+    
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
     
@@ -109,4 +125,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setTempSlider:nil];
+    [super viewDidUnload];
+}
 @end
