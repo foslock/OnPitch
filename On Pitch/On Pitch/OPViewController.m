@@ -14,6 +14,7 @@
 #import "OPMIDIParser.h"
 #import "OPMetronome.h"
 #import "OPFeedbackView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface OPViewController ()
 
@@ -75,6 +76,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.titleLabel.layer.shadowOpacity = 0.6f;
     
     self.feedbackView.lowerValueLimit = 100;
     self.feedbackView.upperValueLimit = 2000;
