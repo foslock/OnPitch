@@ -16,6 +16,8 @@
 #import "OPFeedbackView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define FEEDBACK_VIEW_REFRESH_RATE (1.0f/60.0f)
+
 @interface OPViewController ()
 
 - (void)testTimer;
@@ -85,8 +87,8 @@
     self.freqLabel.textColor = [UIColor whiteColor];
     self.tempoLabel.textColor = [UIColor whiteColor];
     
-    self.feedbackView.lowerValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39];
-    self.feedbackView.upperValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39 + 18];
+    self.feedbackView.lowerValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39]; // C4
+    self.feedbackView.upperValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // to A5
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
     // set custom UISlider images
@@ -103,7 +105,11 @@
     [self.tempSlider setThumbImage: sliderHead forState:UIControlStateNormal];
     
     [[OPMicInput sharedInput] startAnalyzingMicInput];
-	[NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
+	[NSTimer scheduledTimerWithTimeInterval:FEEDBACK_VIEW_REFRESH_RATE
+                                     target:self
+                                   selector:@selector(testTimer)
+                                   userInfo:nil
+                                    repeats:YES];
     
     // [[OPMetronome sharedMetronome] setBeatsPerMinute:120];
     // [[OPMetronome sharedMetronome] startMetronome];

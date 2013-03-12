@@ -10,7 +10,7 @@
 #import "OPSongView.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define DISTANCE_PER_SAMPLE 8.0f
+#define DISTANCE_PER_SAMPLE 4.0f
 #define MAX_LINE_WIDTH 6.0f
 
 @implementation FeedbackSample
