@@ -12,6 +12,7 @@
 
 #define DISTANCE_PER_SAMPLE 4.0f
 #define MAX_LINE_WIDTH 6.0f
+#define CLIPPING_DRAWING_MARGIN 20.0f
 
 @implementation FeedbackSample
 
@@ -88,6 +89,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
     float drawableRange = self.upperValueLimit - self.lowerValueLimit;
     float drawableHeight = self.bounds.size.height;
     float y_value = ((sample.sampleValue - self.lowerValueLimit) / drawableRange) * drawableHeight;
+    y_value = CLAMP(y_value, CLIPPING_DRAWING_MARGIN, drawableHeight - CLIPPING_DRAWING_MARGIN);
     float x_value = (float)index * [self distancePerSample] - self.parentSongView.drawingOffset;
     return CGPointMake(x_value, drawableHeight - y_value);
 }

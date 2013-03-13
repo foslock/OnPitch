@@ -20,7 +20,7 @@
 
 @interface OPViewController ()
 
-- (void)testTimer;
+- (void)updateFeedbackView:(NSTimer*)timer;
 
 @end
 
@@ -51,7 +51,7 @@
     }
 }
 
-- (void)testTimer {
+- (void)updateFeedbackView:(NSTimer*)timer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
     float magnitude = [[OPMicInput sharedInput] currentVolumeMicHears];
     NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
@@ -69,7 +69,7 @@
     FeedbackSample* sample = [[FeedbackSample alloc] init];
     sample.sampleValue = pitch;
     sample.sampleStrength = magnitude / 50.0f;
-    sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:CLAMP(sample.sampleStrength - 0.25f, 0.0f, 1.0f)];
+    sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:CLAMP(sample.sampleStrength - 0.1f, 0.0f, 1.0f)];
     
     [self.feedbackView pushSampleValue:sample];
     
@@ -88,7 +88,7 @@
     self.tempoLabel.textColor = [UIColor whiteColor];
     
     self.feedbackView.lowerValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39]; // C4
-    self.feedbackView.upperValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // to A5
+    self.feedbackView.upperValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:60]; // to A6
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
     // set custom UISlider images
@@ -107,12 +107,9 @@
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:FEEDBACK_VIEW_REFRESH_RATE
                                      target:self
-                                   selector:@selector(testTimer)
+                                   selector:@selector(updateFeedbackView:)
                                    userInfo:nil
                                     repeats:YES];
-    
-    // [[OPMetronome sharedMetronome] setBeatsPerMinute:120];
-    // [[OPMetronome sharedMetronome] startMetronome];
     
     
     /*

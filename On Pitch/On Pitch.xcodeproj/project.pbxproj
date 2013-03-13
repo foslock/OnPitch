@@ -15,7 +15,7 @@
 		6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */; };
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
-		6F41B1B016ED15EE004067CD /* OPTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F41B1AF16ED15EE004067CD /* OPTimer.m */; };
+		6F46D0EA16F02FC7003BB603 /* OPTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46D0E916F02FC7003BB603 /* OPTimer.m */; };
 		6F63EFCB16CC7BB20017F72E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCA16CC7BB20017F72E /* UIKit.framework */; };
 		6F63EFCD16CC7BB20017F72E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCC16CC7BB20017F72E /* Foundation.framework */; };
 		6F63EFCF16CC7BB20017F72E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCE16CC7BB20017F72E /* CoreGraphics.framework */; };
@@ -61,8 +61,8 @@
 		6F19BBED16DEBACA000BD656 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
 		6F19BBEE16DEBACA000BD656 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
 		6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
-		6F41B1AE16ED15EE004067CD /* OPTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPTimer.h; sourceTree = "<group>"; };
-		6F41B1AF16ED15EE004067CD /* OPTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPTimer.m; sourceTree = "<group>"; };
+		6F46D0E816F02FC7003BB603 /* OPTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPTimer.h; sourceTree = "<group>"; };
+		6F46D0E916F02FC7003BB603 /* OPTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPTimer.m; sourceTree = "<group>"; };
 		6F63EFC716CC7BB20017F72E /* On Pitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On Pitch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F63EFCA16CC7BB20017F72E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6F63EFCC16CC7BB20017F72E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -240,8 +240,8 @@
 			children = (
 				6FFD084416ED33BB0011439E /* OPMetronome.h */,
 				6FFD084516ED33BB0011439E /* OPMetronome.m */,
-				6F41B1AE16ED15EE004067CD /* OPTimer.h */,
-				6F41B1AF16ED15EE004067CD /* OPTimer.m */,
+				6F46D0E816F02FC7003BB603 /* OPTimer.h */,
+				6F46D0E916F02FC7003BB603 /* OPTimer.m */,
 			);
 			name = Metronome;
 			sourceTree = "<group>";
@@ -369,10 +369,10 @@
 				6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */,
 				6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */,
 				6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */,
-				6F41B1B016ED15EE004067CD /* OPTimer.m in Sources */,
 				6FFD084616ED33BB0011439E /* OPMetronome.m in Sources */,
 				6FFD084E16ED73B20011439E /* OPFeedbackView.m in Sources */,
 				3722503616EE64B70033D294 /* OPSongView.m in Sources */,
+				6F46D0EA16F02FC7003BB603 /* OPTimer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
