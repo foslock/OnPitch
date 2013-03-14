@@ -77,7 +77,7 @@
 
 - (void)timerHasFired:(OPTimer *)timer {
     if (self.clickPlayer) {
-        NSLog(@"Click");
+        // NSLog(@"Click");
         [self.clickPlayer play];
     }
 }

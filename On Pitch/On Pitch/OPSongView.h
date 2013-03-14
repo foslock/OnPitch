@@ -22,9 +22,13 @@
 @property (readonly) BOOL isPanning;
 @property (readonly) BOOL isPinching;
 
+@property (readonly) CGFloat tapeHeadLocation;
+
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
 
 - (id)initWithSong:(OPSong *)s;
+
+- (void)clearCurrentFeedback;
 
 
 @end

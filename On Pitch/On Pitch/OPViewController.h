@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class OPFeedbackView;
+@class OPFeedbackView, OPSongView;
 
 @interface OPViewController : UIViewController
 
@@ -16,11 +16,15 @@
 @property (weak) IBOutlet UILabel* noteLabel;
 @property (weak) IBOutlet UILabel* freqLabel;
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
+@property (weak) IBOutlet OPSongView* songView;
 @property (weak) IBOutlet UILabel* tempoLabel;
 @property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
 - (IBAction)muteButtonPressed:(id)sender;
 - (IBAction)metronomeTempoChanged:(UISlider*)sender;
 - (IBAction)metronomeButtonTapped:(UIButton*)sender;
+
+- (IBAction)startSamplingButtonPressed:(UIButton*)sender;
+- (IBAction)clearButtonPressed:(id)sender;
 
 @end

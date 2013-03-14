@@ -17,7 +17,7 @@
 #define STAFF_LINEWIDTH 3.0f
 #define NUMBER_OF_STAFF_LINES 5
 #define STAFF_LINE_SPACING 70.0f
-#define NOTE_SPACING STAFF_LINE_SPACING
+#define NOTE_SPACING (STAFF_LINE_SPACING)
 
 
 @interface OPSongView ()
@@ -27,6 +27,8 @@
 @property (strong) UIPinchGestureRecognizer* pinchGesture;
 @property (assign) CGFloat panStartOffset;
 @property (assign) CGFloat pinchStartScale;
+
+@property (assign) CGFloat tapeHeadLocation;
 
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
@@ -41,6 +43,7 @@
 - (void)initMe {
     [self setOpaque:NO];
     self.backgroundColor = [UIColor clearColor];
+    self.tapeHeadLocation = 0.0f;
     self.contentWidth = self.bounds.size.width;
     _contentScale = 1.0f;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
@@ -69,6 +72,13 @@
         [self initMe];
     }
     return self;
+}
+
+- (void)clearCurrentFeedback {
+    [self.feedbackView clearFeedbackView];
+    self.drawingOffset = 0.0f;
+    self.contentWidth = self.bounds.size.width;
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Pan Gesture Callback
@@ -113,11 +123,19 @@
     [self setNeedsDisplay];
 }
 
+- (void)setContentWidth:(CGFloat)contentWidth {
+    _contentWidth = contentWidth;
+    float viewWidth = self.bounds.size.width;
+    self.tapeHeadLocation = CLAMP(contentWidth - viewWidth, 0.0f, viewWidth / 2);
+    [self setNeedsDisplay];
+}
+
 #pragma mark - Drawing
 
 - (void)drawRect:(CGRect)rect {
     // Gets the context of this view
     CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
     
     // Set some state vars for lines
     CGContextSetLineCap(context, kCGLineCapRound);
@@ -156,9 +174,17 @@
         CGContextSetFillColorWithColor(context, color.CGColor);
         CGRect noteRect = CGRectMake(x, y, width, NOTE_HEIGHT);
         CGContextFillRect(context, noteRect);
-        CGContextStrokePath(context);
+        // CGContextStrokePath(context);
     }
     
+    // Draw tapehead
+    CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+    CGContextMoveToPoint(context, self.tapeHeadLocation, 0.0);
+    CGContextAddLineToPoint(context, self.tapeHeadLocation, self.bounds.size.height);
+    CGContextStrokePath(context);
+    
+    // Undo any state changes that we did in this function
+    CGContextRestoreGState(context);
 }
 
 - (UIColor*)colorForNote:(OPNote *)note

@@ -14,11 +14,14 @@
 #import "OPMIDIParser.h"
 #import "OPMetronome.h"
 #import "OPFeedbackView.h"
+#import "OPSongView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define FEEDBACK_VIEW_REFRESH_RATE (1.0f/60.0f)
 
 @interface OPViewController ()
+
+@property (assign) BOOL isSampling;
 
 - (void)updateFeedbackView:(NSTimer*)timer;
 
@@ -51,6 +54,21 @@
     }
 }
 
+- (IBAction)startSamplingButtonPressed:(UIButton*)sender {
+    if (self.isSampling) {
+        self.isSampling = NO;
+        [sender setTitle:@"Start" forState:UIControlStateNormal];
+    } else {
+        [sender setTitle:@"Stop" forState:UIControlStateNormal];
+        [self.songView clearCurrentFeedback];
+        self.isSampling = YES;
+    }
+}
+
+- (IBAction)clearButtonPressed:(id)sender {
+    [self.songView clearCurrentFeedback];
+}
+
 - (void)updateFeedbackView:(NSTimer*)timer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
     float magnitude = [[OPMicInput sharedInput] currentVolumeMicHears];
@@ -66,13 +84,16 @@
         self.freqLabel.hidden = YES;
     }
     
-    FeedbackSample* sample = [[FeedbackSample alloc] init];
-    sample.sampleValue = pitch;
-    sample.sampleStrength = magnitude / 50.0f;
-    sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:CLAMP(sample.sampleStrength - 0.1f, 0.0f, 1.0f)];
-    
-    [self.feedbackView pushSampleValue:sample];
-    
+    if (self.isSampling && !self.songView.isPanning) {
+        // Adds sample to view
+        FeedbackSample* sample = [[FeedbackSample alloc] init];
+        sample.sampleValue = pitch;
+        sample.sampleStrength = magnitude / 50.0f;
+        sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:CLAMP(sample.sampleStrength - 0.1f, 0.0f, 1.0f)];
+        [self.feedbackView pushSampleValue:sample];
+    } else {
+        self.isSampling = NO;
+    }
 }
 
 - (void)viewDidLoad
@@ -110,18 +131,6 @@
                                    selector:@selector(updateFeedbackView:)
                                    userInfo:nil
                                     repeats:YES];
-    
-    
-    /*
-     // BAD: Hard-coding a test file for now
-     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
-     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
-     for (NSInteger i=0; i < [s.song count]; i++)
-     {
-     OPNote *n = [s.song objectAtIndex:i];
-     NSLog(@"Note: %i, Duration: %f", n.noteIndex, n.length);
-     }
-     */
     
 }
 

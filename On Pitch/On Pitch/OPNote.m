@@ -50,29 +50,31 @@ NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES] = {
     @"8",
 };
 
-@implementation OPNote
+@interface OPNote ()
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        self.noteIndex = 0;
-        self.nameIndex = kNoteNameNone;
-        self.octaveIndex = kNoteOctaveNone;
-    }
-    return self;
-}
+@property (assign) NSInteger noteIndex;
+@property (assign) enum kNoteNameIndex nameIndex;
+@property (assign) enum kNoteOctaveIndex octaveIndex;
+
+@end
+
+@implementation OPNote
 
 + (OPNote*)noteFromStaffIndex:(NSInteger)index {
     OPNote* note = [[OPNote alloc] init];
     note.noteIndex = CLAMP(index, 0, MAX_NOTE_INDEX);
-    note.nameIndex = CLAMP(note.noteIndex % NUMBER_OF_NOTES, 0, NUMBER_OF_NOTES);
-    note.octaveIndex = CLAMP(note.noteIndex / NUMBER_OF_NOTES, 0, NUMBER_OF_OCTAVES);
+    note.nameIndex = CLAMP(note.noteIndex % NUMBER_OF_NOTES, 0, NUMBER_OF_NOTES - 1);
+    note.octaveIndex = CLAMP(note.noteIndex / NUMBER_OF_NOTES, 0, NUMBER_OF_OCTAVES - 1);
     return note;
 }
 
++ (OPNote*)noteFromNameIndex:(enum kNoteNameIndex)name withOctaveIndex:(enum kNoteOctaveIndex)octave {
+    NSInteger noteIndex = (octave * NUMBER_OF_NOTES) + name;
+    return [OPNote noteFromStaffIndex:noteIndex];
+}
+
 - (float)exactFrequencyFromNote {
-    float freq = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:self.noteIndex];
-    return freq;
+    return [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:self.noteIndex];
 }
 
 - (NSString*)staffNameForNote {
