@@ -75,7 +75,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 }
 
 - (CGFloat)distancePerSample {
-    return DISTANCE_PER_SAMPLE * self.parentSongView.contentScale;
+    return DISTANCE_PER_SAMPLE * self.parentSongView.horizontalScale;
 }
 
 #pragma mark - Drawing!

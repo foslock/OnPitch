@@ -19,7 +19,6 @@
 #define STAFF_LINE_SPACING 70.0f
 #define NOTE_SPACING (STAFF_LINE_SPACING)
 
-
 @interface OPSongView ()
 
 @property (strong) OPSong *song;
@@ -45,7 +44,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.tapeHeadLocation = 0.0f;
     self.contentWidth = self.bounds.size.width;
-    _contentScale = 1.0f;
+    self.horizontalScale = 1.0f;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPan:)];
     [self addGestureRecognizer:self.panGesture];
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
@@ -105,13 +104,13 @@
 
 - (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch {
     if (pinch.state == UIGestureRecognizerStateBegan) {
-        self.pinchStartScale = self.contentScale;
+        self.pinchStartScale = self.horizontalScale;
         _isPinching = YES;
     }
     if (pinch.state == UIGestureRecognizerStateChanged) {
         CGFloat scale = pinch.scale;
         CGFloat newScale = self.pinchStartScale * (scale / 1.2f); // Scale down the scale factor (ITS SO META!)
-        _contentScale = CLAMP(newScale, MIN_HORIZONTAL_SCALE, MAX_HORIZONTAL_SCALE);
+        self.horizontalScale = newScale;
         _isPinching = YES;
     }
     if (pinch.state == UIGestureRecognizerStateEnded || pinch.state == UIGestureRecognizerStateCancelled) {
@@ -127,6 +126,11 @@
     _contentWidth = contentWidth;
     float viewWidth = self.bounds.size.width;
     self.tapeHeadLocation = CLAMP(contentWidth - viewWidth, 0.0f, viewWidth / 2);
+    [self setNeedsDisplay];
+}
+
+- (void)setHorizontalScale:(CGFloat)contentScale {
+    _horizontalScale = CLAMP(contentScale, MIN_HORIZONTAL_SCALE, MAX_HORIZONTAL_SCALE);
     [self setNeedsDisplay];
 }
 
@@ -158,8 +162,9 @@
     for (NSInteger i=0; i<self.song.notes.count; i++)
     {
         OPNote *n = [self.song.notes objectAtIndex:i];
-        CGFloat width = (CGFloat)n.length * NOTE_LENGTH_SCALE_FACTOR;
-        CGFloat x = ((CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR) - self.drawingOffset;
+        CGFloat width = (CGFloat)n.length * NOTE_LENGTH_SCALE_FACTOR * self.horizontalScale;
+        CGFloat x = ((CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR) * self.horizontalScale;
+        CGFloat moved_x = x - self.drawingOffset;
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
             NSInteger staffLine = [self staffLineForNoteIndex:n.noteIndex];
@@ -172,7 +177,7 @@
         
         UIColor* color = [self colorForNote:n];
         CGContextSetFillColorWithColor(context, color.CGColor);
-        CGRect noteRect = CGRectMake(x, y, width, NOTE_HEIGHT);
+        CGRect noteRect = CGRectMake(moved_x, y, width, NOTE_HEIGHT);
         CGContextFillRect(context, noteRect);
         // CGContextStrokePath(context);
     }

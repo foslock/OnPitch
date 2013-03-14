@@ -66,6 +66,7 @@
 }
 
 - (IBAction)clearButtonPressed:(id)sender {
+    [self.songView setHorizontalScale:1.0f];
     [self.songView clearCurrentFeedback];
 }
 
@@ -84,7 +85,7 @@
         self.freqLabel.hidden = YES;
     }
     
-    if (self.isSampling && !self.songView.isPanning) {
+    if (self.isSampling && !self.songView.isPanning && !self.songView.isPinching) {
         // Adds sample to view
         FeedbackSample* sample = [[FeedbackSample alloc] init];
         sample.sampleValue = pitch;
@@ -100,7 +101,7 @@
 {
     [super viewDidLoad];
     
-    self.titleLabel.layer.shadowOpacity = 0.4f;
+    self.titleLabel.layer.shadowOpacity = 0.6f;
     self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
     self.titleLabel.layer.shadowRadius = 4.0f;
     self.titleLabel.textColor = [UIColor whiteColor];
@@ -108,8 +109,11 @@
     self.freqLabel.textColor = [UIColor whiteColor];
     self.tempoLabel.textColor = [UIColor whiteColor];
     
-    self.feedbackView.lowerValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39]; // C4
-    self.feedbackView.upperValueLimit = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:60]; // to A6
+    
+    float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:15]; // 39
+    float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:36]; // 60
+    self.feedbackView.lowerValueLimit = freqLow; // C4
+    self.feedbackView.upperValueLimit = freqHigh; // to A6
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
     // set custom UISlider images
@@ -131,7 +135,6 @@
                                    selector:@selector(updateFeedbackView:)
                                    userInfo:nil
                                     repeats:YES];
-    
 }
 
 - (void)didReceiveMemoryWarning
