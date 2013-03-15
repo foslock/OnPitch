@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define DISTANCE_PER_SAMPLE 4.0f
-#define MAX_LINE_WIDTH 6.0f
+#define MAX_LINE_WIDTH 12.0f
 #define CLIPPING_DRAWING_MARGIN 20.0f
 
 @implementation FeedbackSample
@@ -85,7 +85,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 }
 
 - (CGPoint)pointForSample:(FeedbackSample*)sample withIndex:(NSInteger)index {
-    // int index = [self.queueArray indexOfObject:sample];
     float drawableRange = self.upperValueLimit - self.lowerValueLimit;
     float drawableHeight = self.bounds.size.height;
     float y_value = ((sample.sampleValue - self.lowerValueLimit) / drawableRange) * drawableHeight;

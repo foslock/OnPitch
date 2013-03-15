@@ -76,7 +76,7 @@
     NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
     OPNote* note = [OPNote noteFromStaffIndex:index];
     float targetPitch = [note exactFrequencyFromNote];
-    if (magnitude > 30.0f) {
+    if (magnitude > 0.1f) {
         self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
         self.freqLabel.hidden = NO;
         self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];
@@ -89,8 +89,8 @@
         // Adds sample to view
         FeedbackSample* sample = [[FeedbackSample alloc] init];
         sample.sampleValue = pitch;
-        sample.sampleStrength = magnitude / 50.0f;
-        sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:CLAMP(sample.sampleStrength - 0.1f, 0.0f, 1.0f)];
+        sample.sampleStrength = magnitude;
+        sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:magnitude];
         [self.feedbackView pushSampleValue:sample];
     } else {
         self.isSampling = NO;

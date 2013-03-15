@@ -1,27 +1,205 @@
 //
-//  OPAudioHandler.cpp
+//  OPAudioHandler.m
 //  On Pitch
 //
-//  Created by Foster Lockwood on 2/26/13.
+//  Created by Foster Lockwood on 3/14/13.
 //  Copyright (c) 2013 Tufts Dev Team. All rights reserved.
 //
 
+#import "OPAudioHandler.h"
+#import "CAXException.h"
+#import "CAStreamBasicDescription.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <AudioUnit/AudioUnit.h>
+#import "FFTBufferManager.h"
+#import <stdio.h>
 
-#include <AudioUnit/AudioUnit.h>
-#include <stdio.h>
+// These values should be in a more conventional location for a bunch of preprocessor defines in your real code
+#define DBOFFSET -74.0
+// DBOFFSET is An offset that will be used to normalize the decibels to a maximum of zero.
+// This is an estimate, you can do your own or construct an experiment to find the right value
+#define LOWPASSFILTERTIMESLICE .001
+// LOWPASSFILTERTIMESLICE is part of the low pass filter and should be a small positive value
 
-#include "CAXException.h"
-#include "CAStreamBasicDescription.h"
-#include "OPAudioHandler.h"
-#include "OPFFT.h"
+static const Float32 kDefaultPoleDist = 0.975f;
 
-#define FFT_LIST_LENGTH_SHRINK_FACTOR (1)
+@interface OPRejectionFilter : NSObject
 
-inline float linearInterp(float valA, float valB, float fract) {
-	return valA + ((valB - valA) * fract);
+@property (assign) Float32 mY1;
+@property (assign) Float32 mX1;
+
+- (void)inplaceFilter:(Float32*)ioData withFrames:(UInt32)numFrames;
+- (void)reset;
+
+@end
+
+@interface OPAudioHandler () {
+    int32_t* fftDataBuffer;
+    
+    AudioUnit rioUnit;
+    
+    BOOL unitHasBeenCreated;
+    
+    CAStreamBasicDescription thruFormat;
+    Float64 hwSampleRate;
+    
+    AURenderCallbackStruct inputProc;
 }
 
-#pragma mark - Setup RIO Audio Unit
+@property (assign) BOOL hasNewFFTData;
+@property (assign) BOOL hasLoadedFirstFFT;
+
+@property (assign) NSUInteger fftLength;
+@property (assign) float currentFFTMaxValue; // This is the largest magnitude (abs val)
+@property (assign) NSUInteger currentFFTMaxIndex; // Index into this value ^^^
+@property (assign) float currentMaxVolume;
+
+@property (assign) FFTBufferManager* fftBufferManager;
+@property (strong) OPRejectionFilter* dcFilter;
+
+@end
+
+@implementation OPAudioHandler
+@synthesize fftDataBuffer = fftDataBuffer;
+
+#pragma mark - Initialization
+
+- (void)initMe {
+    void* pointerToSelf = (__bridge void*)self;
+    inputProc.inputProc = PerformThru;
+	inputProc.inputProcRefCon = pointerToSelf;
+    
+    self.dcFilter = [[OPRejectionFilter alloc] init];
+    
+	try {
+		// Initialize and configure the audio session
+		XThrowIfError(AudioSessionInitialize(NULL, NULL, rioInterruptionListener, pointerToSelf), "couldn't initialize audio session");
+        
+		UInt32 audioCategory = kAudioSessionCategory_PlayAndRecord;
+		XThrowIfError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(audioCategory), &audioCategory), "couldn't set audio category");
+		XThrowIfError(AudioSessionAddPropertyListener(kAudioSessionProperty_AudioRouteChange, propListener, pointerToSelf), "couldn't set property listener");
+        
+		Float32 preferredBufferSize = .005;
+		XThrowIfError(AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(preferredBufferSize), &preferredBufferSize), "couldn't set i/o buffer duration");
+		
+		UInt32 size = sizeof(hwSampleRate);
+		XThrowIfError(AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareSampleRate, &size, &hwSampleRate), "couldn't get hw sample rate");
+		
+		XThrowIfError(AudioSessionSetActive(true), "couldn't set audio session active\n");
+        
+		XThrowIfError(SetupRemoteIO(rioUnit, inputProc, thruFormat), "couldn't setup remote i/o unit");
+		unitHasBeenCreated = true;
+        
+		UInt32 maxFPS;
+		size = sizeof(maxFPS);
+		XThrowIfError(AudioUnitGetProperty(rioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maxFPS, &size), "couldn't get the remote I/O unit's max frames per slice");
+		
+		self.fftBufferManager = new FFTBufferManager(maxFPS);
+        fftDataBuffer = (int32_t*)(malloc(maxFPS/2 * sizeof(int32_t)));
+        self.fftLength = maxFPS/2;
+        
+		XThrowIfError(AudioOutputUnitStart(rioUnit), "couldn't start remote i/o unit");
+        
+		size = sizeof(thruFormat);
+		XThrowIfError(AudioUnitGetProperty(rioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &thruFormat, &size), "couldn't get the remote I/O unit's output client format");
+		
+		_running = 1;
+	}
+	catch (CAXException &e) {
+		char buf[256];
+		fprintf(stderr, "Error: %s (%s)\n", e.mOperation, e.FormatError(buf));
+		_running = 0;
+	}
+	catch (...) {
+		fprintf(stderr, "An unknown error occurred\n");
+		_running = 0;
+	}
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self initMe];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    if (self.fftBufferManager) {
+        delete self.fftBufferManager;
+    }
+    if (fftDataBuffer) {
+        free(fftDataBuffer);
+    }
+}
+
+
+#pragma mark - Public Methods
+
+- (void)refreshFFTData {
+    if (self.fftBufferManager) {
+        if (self.fftBufferManager->ComputeFFT(fftDataBuffer)) {
+            self.fftLength = self.fftBufferManager->GetNumberFrames() / 2;
+            self.hasNewFFTData = YES;
+            self.hasLoadedFirstFFT = YES;
+            
+            // Get max value in FFT
+            float maxValue = 0.0f;
+            for (int i = 0; i < self.fftLength; i++) {
+                float val = fabsf(fftDataBuffer[i]);
+                if (val > maxValue) {
+                    maxValue = val;
+                    self.currentFFTMaxIndex = i;
+                }
+            }
+            // printf("%d\n", self.currentFFTMaxIndex);
+            self.currentFFTMaxValue = maxValue;
+        } else {
+            self.hasNewFFTData = NO;
+            self.currentFFTMaxValue = 0.0f;
+        }
+    }
+}
+
+- (float)amplitudeOfFrequency:(float)freq {
+    if (!fftDataBuffer || self.fftLength <= 0 || !self.hasLoadedFirstFFT) {
+        return 0.0f;
+    }
+    
+    float index_m = [self indexFromFrequency:freq];
+    
+    NSUInteger indexInMiddle = (NSUInteger)index_m;
+    NSUInteger indexToLeft = indexInMiddle - 1;
+    NSUInteger indexToRight = indexInMiddle + 1;
+    
+    float distToLeft = 1.0f - (index_m - indexToLeft) / 2.0f;
+    float distToMiddle = 1.0f - (index_m - indexInMiddle) / 2.0f;
+    float distToRight = 1.0f - (index_m - indexToRight) / 2.0f;
+    
+    int32_t middleVal = fftDataBuffer[indexInMiddle];
+    int32_t leftVal = fftDataBuffer[indexToLeft];
+    int32_t rightVal = fftDataBuffer[indexToRight];
+    
+    float avgVal = (fabsf(middleVal) * distToLeft +
+                    fabsf(leftVal) * distToMiddle +
+                    fabsf(rightVal) * distToRight) / 3.0f;
+    
+    if (self.currentFFTMaxValue > 0) {
+        return avgVal / self.currentFFTMaxValue;
+    } else {
+        return 0.0f;
+    }
+}
+
+- (float)frequencyFromIndex:(float)index {
+    return index * (SAMPLES_PER_SECOND / (float)(self.fftLength) / 2.0f);
+}
+
+- (float)indexFromFrequency:(float)frequency {
+    return frequency / (SAMPLES_PER_SECOND / (float)(self.fftLength) / 2.0f);
+}
+
+#pragma mark - Audio Unit Setup
 
 int SetupRemoteIO(AudioUnit& inRemoteIOUnit, AURenderCallbackStruct inRenderProc, CAStreamBasicDescription& outFormat) {
     try {
@@ -60,38 +238,42 @@ int SetupRemoteIO(AudioUnit& inRemoteIOUnit, AURenderCallbackStruct inRenderProc
 	return 0;
 }
 
-void SilenceData(AudioBufferList *inData)
-{
-	for (UInt32 i=0; i < inData->mNumberBuffers; i++)
-		memset(inData->mBuffers[i].mData, 0, inData->mBuffers[i].mDataByteSize);
-}
+#pragma mark - Audio Unit Callback
 
-#pragma mark - Render IO Render Callback
-
-// Callback function for input audio
+// Callback function for audio unit I/O
 static OSStatus	PerformThru(
                             void						*inRefCon,
                             AudioUnitRenderActionFlags 	*ioActionFlags,
                             const AudioTimeStamp 		*inTimeStamp,
                             UInt32 						inBusNumber,
                             UInt32 						inNumberFrames,
-                            AudioBufferList 			*ioData)
-{
-    AudioHandler* THIS = (AudioHandler*)inRefCon;
+                            AudioBufferList 			*ioData) {
+    OPAudioHandler* THIS = (__bridge OPAudioHandler*)inRefCon;
     OSStatus err = AudioUnitRender(THIS->rioUnit, ioActionFlags, inTimeStamp, 1, inNumberFrames, ioData);
 	if (err) { printf("PerformThru: error %d\n", (int)err); return err; }
-	
+	Float32* samples = (Float32*)(ioData->mBuffers[0].mData);
+    
 	// Remove DC component
-	for(UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
-		THIS->dcFilters[i].InplaceFilter((Float32*)(ioData->mBuffers[i].mData), inNumberFrames);
+	for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i) { // WHY THE PRE-INCREMENT? NO IDEA!
+        [THIS.dcFilter reset];
+        [THIS.dcFilter inplaceFilter:samples withFrames:inNumberFrames];
+    }
 	
-	
-    if (THIS->fftBufferManager == NULL) return noErr;
-    
-    if (THIS->fftBufferManager->NeedsNewAudioData())
-        THIS->fftBufferManager->GrabAudioData(ioData);
-    
-	if (THIS->mute == YES) { SilenceData(ioData); }
+    if (THIS.fftBufferManager != NULL) {
+        if (THIS.fftBufferManager->NeedsNewAudioData())
+            THIS.fftBufferManager->GrabAudioData(ioData);
+    }
+
+    THIS.currentMaxVolume = 0.0f;
+    for (int i = 0; i < inNumberFrames; i++) {
+        //Step 2: for each sample, get its amplitude's absolute value.
+        Float32 absoluteValueOfSampleAmplitude = fabsf(samples[i]);
+        if (absoluteValueOfSampleAmplitude > THIS.currentMaxVolume) {
+            THIS.currentMaxVolume = absoluteValueOfSampleAmplitude;
+        }
+    }
+
+	if (THIS.isMuted == YES) { SilenceData(ioData); }
 	
 	return err;
     
@@ -99,12 +281,11 @@ static OSStatus	PerformThru(
 
 #pragma mark - Audio Session Interruption Listener
 
-void rioInterruptionListener(void *inClientData, UInt32 inInterruption)
-{
+void rioInterruptionListener(void *inClientData, UInt32 inInterruption) {
 	try {
         printf("Session interrupted! --- %s ---", inInterruption == kAudioSessionBeginInterruption ? "Begin Interruption" : "End Interruption");
         
-        AudioHandler *THIS = (AudioHandler*)inClientData;
+        OPAudioHandler* THIS = (__bridge OPAudioHandler*)inClientData;
         
         if (inInterruption == kAudioSessionEndInterruption) {
             // make sure we are again the active session
@@ -126,9 +307,8 @@ void rioInterruptionListener(void *inClientData, UInt32 inInterruption)
 void propListener(	void *                  inClientData,
                   AudioSessionPropertyID	inID,
                   UInt32                  inDataSize,
-                  const void *            inData)
-{
-	AudioHandler *THIS = (AudioHandler*)inClientData;
+                  const void *            inData) {
+	OPAudioHandler* THIS = (__bridge OPAudioHandler*)inClientData;
 	if (inID == kAudioSessionProperty_AudioRouteChange)
 	{
 		try {
@@ -136,13 +316,13 @@ void propListener(	void *                  inClientData,
             UInt32 size = sizeof(isAudioInputAvailable);
             XThrowIfError(AudioSessionGetProperty(kAudioSessionProperty_AudioInputAvailable, &size, &isAudioInputAvailable), "couldn't get AudioSession AudioInputAvailable property value");
             
-            if(THIS->unitIsRunning && !isAudioInputAvailable)
+            if(THIS.isRunning && !isAudioInputAvailable)
             {
                 XThrowIfError(AudioOutputUnitStop(THIS->rioUnit), "couldn't stop unit");
-                THIS->unitIsRunning = false;
+                THIS.running = false;
             }
             
-            else if(!THIS->unitIsRunning && isAudioInputAvailable)
+            else if(!THIS.isRunning && isAudioInputAvailable)
             {
                 XThrowIfError(AudioSessionSetActive(true), "couldn't set audio session active\n");
                 
@@ -151,50 +331,18 @@ void propListener(	void *                  inClientData,
                     XThrowIfError(SetupRemoteIO(THIS->rioUnit, THIS->inputProc, THIS->thruFormat), "couldn't setup remote i/o unit");
                     THIS->unitHasBeenCreated = true;
                     
-                    THIS->dcFilters = new DCRejectionFilter[THIS->thruFormat.NumberChannels()];
-                    
                     UInt32 maxFPS;
                     size = sizeof(maxFPS);
                     XThrowIfError(AudioUnitGetProperty(THIS->rioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maxFPS, &size), "couldn't get the remote I/O unit's max frames per slice");
                     
-                    THIS->fftBufferManager = new FFTBufferManager(maxFPS/FFT_LIST_LENGTH_SHRINK_FACTOR);
-                    THIS->l_fftData = new int32_t[maxFPS/(2*FFT_LIST_LENGTH_SHRINK_FACTOR)];
+                    THIS.fftBufferManager = new FFTBufferManager(maxFPS);
+                    THIS->fftDataBuffer = (int32_t*)(malloc(maxFPS/2 * sizeof(int32_t)));
+                    THIS->_fftLength = maxFPS/2;
                 }
                 
                 XThrowIfError(AudioOutputUnitStart(THIS->rioUnit), "couldn't start unit");
-                THIS->unitIsRunning = true;
+                THIS.running = true;
             }
-            /*
-             // we need to rescale the sonogram view's color thresholds for different input
-             CFStringRef newRoute;
-             size = sizeof(CFStringRef);
-             XThrowIfError(AudioSessionGetProperty(kAudioSessionProperty_AudioRoute, &size, &newRoute), "couldn't get new audio route");
-             if (newRoute)
-             {
-             CFShow(newRoute);
-             if (CFStringCompare(newRoute, CFSTR("Headset"), NULL) == kCFCompareEqualTo) // headset plugged in
-             {
-             colorLevels[0] = .3;
-             colorLevels[5] = .5;
-             }
-             else if (CFStringCompare(newRoute, CFSTR("Receiver"), NULL) == kCFCompareEqualTo) // headset plugged in
-             {
-             colorLevels[0] = 0;
-             colorLevels[5] = .333;
-             colorLevels[10] = .667;
-             colorLevels[15] = 1.0;
-             
-             }
-             else
-             {
-             colorLevels[0] = 0;
-             colorLevels[5] = .333;
-             colorLevels[10] = .667;
-             colorLevels[15] = 1.0;
-             
-             }
-             }
-             */
 		} catch (CAXException e) {
 			char buf[256];
 			fprintf(stderr, "Error: %s (%s)\n", e.mOperation, e.FormatError(buf));
@@ -202,138 +350,13 @@ void propListener(	void *                  inClientData,
 	}
 }
 
-AudioHandler::AudioHandler() {
-    this->inputProc.inputProc = PerformThru;
-	this->inputProc.inputProcRefCon = this;
-    
-	try {
-		// Initialize and configure the audio session
-		XThrowIfError(AudioSessionInitialize(NULL, NULL, rioInterruptionListener, this), "couldn't initialize audio session");
-        
-		UInt32 audioCategory = kAudioSessionCategory_PlayAndRecord;
-		XThrowIfError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(audioCategory), &audioCategory), "couldn't set audio category");
-		XThrowIfError(AudioSessionAddPropertyListener(kAudioSessionProperty_AudioRouteChange, propListener, this), "couldn't set property listener");
-        
-		Float32 preferredBufferSize = .005;
-		XThrowIfError(AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(preferredBufferSize), &preferredBufferSize), "couldn't set i/o buffer duration");
-		
-		UInt32 size = sizeof(hwSampleRate);
-		XThrowIfError(AudioSessionGetProperty(kAudioSessionProperty_CurrentHardwareSampleRate, &size, &hwSampleRate), "couldn't get hw sample rate");
-		
-		XThrowIfError(AudioSessionSetActive(true), "couldn't set audio session active\n");
-        
-		XThrowIfError(SetupRemoteIO(rioUnit, inputProc, thruFormat), "couldn't setup remote i/o unit");
-		unitHasBeenCreated = true;
-		
-		dcFilters = new DCRejectionFilter[thruFormat.NumberChannels()];
-        
-		UInt32 maxFPS;
-		size = sizeof(maxFPS);
-		XThrowIfError(AudioUnitGetProperty(rioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maxFPS, &size), "couldn't get the remote I/O unit's max frames per slice");
-		
-		fftBufferManager = new FFTBufferManager(maxFPS);
-		l_fftData = new int32_t[maxFPS/2];
-        fftData = (SInt32 *)(malloc(maxFPS * sizeof(SInt32)));
-        fftLength = maxFPS;
-        
-		XThrowIfError(AudioOutputUnitStart(rioUnit), "couldn't start remote i/o unit");
-        
-		size = sizeof(thruFormat);
-		XThrowIfError(AudioUnitGetProperty(rioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &thruFormat, &size), "couldn't get the remote I/O unit's output client format");
-		
-		unitIsRunning = 1;
-	}
-	catch (CAXException &e) {
-		char buf[256];
-		fprintf(stderr, "Error: %s (%s)\n", e.mOperation, e.FormatError(buf));
-		unitIsRunning = 0;
-		if (dcFilters) delete[] dcFilters;
-	}
-	catch (...) {
-		fprintf(stderr, "An unknown error occurred\n");
-		unitIsRunning = 0;
-		if (dcFilters) delete[] dcFilters;
-	}
-    
-}
+#pragma mark - FFT Operations
 
-AudioHandler::~AudioHandler() {
-    if (dcFilters) {
-        delete[] dcFilters;
-    }
-    if (fftBufferManager) {
-        delete fftBufferManager;
-    }
-    if (fftData) {
-        free(fftData);
-    }
-    if (l_fftData) {
-        free(l_fftData);
-    }
-}
 
-void AudioHandler::RefreshFFTData() {
-    if (fftBufferManager) {
-        if (fftBufferManager->ComputeFFT(l_fftData)) {
-            int length = fftBufferManager->GetNumberFrames() / 2;
-            this->SetFFTDataWithLength(l_fftData, length);
-        } else {
-            hasNewFFTData = NO;
-        }
-    }
-}
 
-float AudioHandler::AmplitudeOfFrequency(float freq) {
-    if (!fftData || fftLength <= 0 || !hasLoadedFirstFFT) {
-        return 0.0f;
-    }
-    
-    float index_m = this->IndexFromFrequency(freq);
-    // float index_l = (int)index_m;
-    // float fract = (index_m - index_l);
-    
-    // Find where the REAL index lies between the two on either side
-    
-    CGFloat yFract = (CGFloat)index_m / (CGFloat)(fftLength - 1);
-    CGFloat fftIdx = CLAMP(yFract * ((CGFloat)fftLength), 0, fftLength);
-    
-    double fftIdx_i, fftIdx_f;
-    fftIdx_f = modf(fftIdx, &fftIdx_i);
-    
-    SInt8 fft_l, fft_r;
-    CGFloat fft_l_fl, fft_r_fl;
-    CGFloat interpVal;
-    
-    fft_l = (fftData[(int)fftIdx] & 0xFF000000) >> 24;
-    fft_r = (fftData[(int)fftIdx + 1] & 0xFF000000) >> 24;
-    fft_l_fl = (CGFloat)(fft_l + 100);
-    fft_r_fl = (CGFloat)(fft_r + 100);
-    interpVal = fft_l_fl * (1. - fftIdx_f) + fft_r_fl * fftIdx_f;
-    // interpVal = linearInterp(fft_l_fl, fft_r_fl, fract);
-    return interpVal;
-}
+#pragma mark - Audio Unit Helpers
 
-float AudioHandler::FrequencyFromIndex(int index) {
-    return (float) index * (SAMPLES_PER_SECOND / (float)(this->fftLength) / 2.0f);
-}
-
-float AudioHandler::IndexFromFrequency(float freq) {
-    return (freq / (SAMPLES_PER_SECOND / (float)(this->fftLength) / 2.0f));
-}
-
-void AudioHandler::SetFFTDataWithLength(int32_t* FFTDATA, NSUInteger LENGTH) {
-    if (LENGTH != fftLength)
-	{
-		fftLength = LENGTH;
-		fftData = (SInt32 *)(realloc(fftData, LENGTH * sizeof(SInt32)));
-	}
-	memmove(fftData, FFTDATA, fftLength * sizeof(Float32));
-	hasNewFFTData = YES;
-    hasLoadedFirstFFT = YES;
-}
-
-inline SInt32 smul32by16(SInt32 i32, SInt16 i16)
-{
+inline SInt32 smul32by16(SInt32 i32, SInt16 i16) {
 #if defined __arm__
 	register SInt32 r;
 	asm volatile("smulwb %0, %1, %2" : "=r"(r) : "r"(i32), "r"(i16));
@@ -343,8 +366,7 @@ inline SInt32 smul32by16(SInt32 i32, SInt16 i16)
 #endif
 }
 
-inline SInt32 smulAdd32by16(SInt32 i32, SInt16 i16, SInt32 acc)
-{
+inline SInt32 smulAdd32by16(SInt32 i32, SInt16 i16, SInt32 acc) {
 #if defined __arm__
 	register SInt32 r;
 	asm volatile("smlawb %0, %1, %2, %3" : "=r"(r) : "r"(i32), "r"(i16), "r"(acc));
@@ -354,21 +376,32 @@ inline SInt32 smulAdd32by16(SInt32 i32, SInt16 i16, SInt32 acc)
 #endif
 }
 
-const Float32 DCRejectionFilter::kDefaultPoleDist = 0.975f;
-
-DCRejectionFilter::DCRejectionFilter(Float32 poleDist) {
-	Reset();
+inline float linearInterp(float valA, float valB, float fract) {
+	return valA + ((valB - valA) * fract);
 }
 
-void DCRejectionFilter::Reset() {
-	mY1 = mX1 = 0;
+void SilenceData(AudioBufferList *inData) {
+	for (UInt32 i=0; i < inData->mNumberBuffers; i++)
+		memset(inData->mBuffers[i].mData, 0, inData->mBuffers[i].mDataByteSize);
 }
 
-void DCRejectionFilter::InplaceFilter(Float32* ioData, UInt32 numFrames) {
-	for (UInt32 i=0; i < numFrames; i++) {
+@end
+
+#pragma mark - Rejection Filter Implementation
+
+@implementation OPRejectionFilter
+
+- (void)inplaceFilter:(Float32*)ioData withFrames:(UInt32)numFrames {
+    for (UInt32 i=0; i < numFrames; i++) {
         Float32 xCurr = ioData[i];
-		ioData[i] = ioData[i] - mX1 + (kDefaultPoleDist * mY1);
-        mX1 = xCurr;
-        mY1 = ioData[i];
+		ioData[i] = ioData[i] - self.mX1 + (kDefaultPoleDist * self.mY1);
+        self.mX1 = xCurr;
+        self.mY1 = ioData[i];
 	}
 }
+
+- (void)reset {
+    self.mY1 = self.mX1 = 0;
+}
+
+@end
