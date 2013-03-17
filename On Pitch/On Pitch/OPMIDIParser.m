@@ -31,7 +31,7 @@
     NSString *tempo = (NSString *)[info objectForKey:@"tempo"];
     NSString *timeSig = (NSString *)[info objectForKey:@"time signature"];
     
-    NSUInteger highestOctave, lowestOctave;
+    NSInteger lowestOctave = NUMBER_OF_OCTAVES;
     
     NSMutableArray *notes = [[NSMutableArray alloc] init];
     for (NSInteger i=0; i<tracks; i++)
@@ -63,10 +63,11 @@
             MusicEventIteratorGetEventInfo(iterator, &timestamp, &eventType, &eventData, &eventDataSize);
             
             // Process Midi Note messages
-            if(eventType == kMusicEventType_MIDINoteMessage) {
+            if (eventType == kMusicEventType_MIDINoteMessage) {
                 // Cast the midi event data as a midi note message
                 midiNoteMessage = (MIDINoteMessage*) eventData;
                 OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)(midiNoteMessage->note)];
+                lowestOctave = MIN(lowestOctave, n.noteIndex/NUMBER_OF_NOTES);
                 n.length = midiNoteMessage->duration;
                 n.timestamp = timestamp;
                 [notes addObject:n];
@@ -75,11 +76,8 @@
             MusicEventIteratorNextEvent(iterator);
         }
     }
-    
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:notes, @"notes",
-                                                                 tempo, @"tempo",
-                                                                 timeSig, @"timeSig",
-                                                                 nil];
+        
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:notes, @"notes", tempo, @"tempo", timeSig, @"timeSig", [NSNumber numberWithInteger:lowestOctave], @"lowestOctave",nil];
     
     return d;
 }

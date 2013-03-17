@@ -12,7 +12,7 @@
 
 // Change these 'til it looks purty
 #define NOTE_HEIGHT 20.0f
-#define NOTE_LENGTH_SCALE_FACTOR 60.0f
+#define NOTE_LENGTH_SCALE_FACTOR 100.0f
 #define REST_HEIGHT 20.0f
 #define STAFF_LINEWIDTH 3.0f
 #define NUMBER_OF_STAFF_LINES 5
@@ -31,7 +31,7 @@
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 - (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch;
-- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex;
+- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex withLowestOctave:(NSInteger)lowestOctave;
 - (CGFloat)heightForStaffLine:(NSInteger)staffLine;
 
 @end
@@ -133,25 +133,38 @@
     for (NSInteger i=0; i<NUMBER_OF_STAFF_LINES; i++) {
         CGContextMoveToPoint(context, 0.0f, self.bounds.size.height/2.0f+(i-2)*STAFF_LINE_SPACING);
         CGContextAddLineToPoint(context, self.bounds.size.width,
-                                self.bounds.size.height/2.0f+(i-2)*STAFF_LINE_SPACING);
+                                self.bounds.size.height/2.0f+(i-NUMBER_OF_STAFF_LINES/2)*STAFF_LINE_SPACING);
         CGContextStrokePath(context);
     }
+    
+    // Compute x values
+    /*
+    NSMutableArray *xvals = [[NSMutableArray alloc] init];
+    CGFloat totalLength = 0;
+    CGFloat currentX;
+    for (NSInteger i=0; i<self.song.notes.count; i++)
+    {
+        OPNote *n = [self.song.notes objectAtIndex:i];
+        currentX = totalLength * NOTE_LENGTH_SCALE_FACTOR + n.timestamp;
+        totalLength += n.length;
+        [xvals addObject:[NSNumber numberWithInteger:currentX]];
+    }
+     */
     
     // Draw notes
     for (NSInteger i=0; i<self.song.notes.count; i++)
     {
         OPNote *n = [self.song.notes objectAtIndex:i];
         CGFloat width = (CGFloat)n.length * NOTE_LENGTH_SCALE_FACTOR;
-        CGFloat x = ((CGFloat)n.timestamp * NOTE_LENGTH_SCALE_FACTOR) - self.drawingOffset;
+        CGFloat x = ((CGFloat)n.timestamp + i*NOTE_LENGTH_SCALE_FACTOR) - self.drawingOffset;
+        //CGFloat x = (CGFloat)[(NSNumber *)[xvals objectAtIndex:i] floatValue];
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
-            NSInteger staffLine = [self staffLineForNoteIndex:n.noteIndex];
+            NSInteger staffLine = [self staffLineForNoteIndex:n.noteIndex withLowestOctave:self.song.lowestOctave];
+            NSLog(@"staffLine = %i", staffLine);
             y = [self heightForStaffLine:staffLine];
         }
         
-        // NSLog(@"width: %f, x: %f, y: %f", width, x, y);
-
-        // Maybe change the color depending on the note?
         CGContextSetFillColorWithColor(context, [self colorForNote:n]);
         CGRect noteRect = CGRectMake(x, y, width, NOTE_HEIGHT);
         CGContextFillRect(context, noteRect);
@@ -162,15 +175,19 @@
 
 - (CGColorRef)colorForNote:(OPNote *)note
 {
-    CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
-    UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
+    // Maybe change the color depending on the note?
+    
+    //CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
+    //UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
     //UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
-    return color1.CGColor;
+    
+    return [UIColor whiteColor].CGColor;
 }
 
-- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex
+- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex withLowestOctave:(NSInteger)lowestOctave
 {
-    NSInteger staffLine = noteIndex % NUMBER_OF_NOTES - 2;
+    NSInteger staffLine = noteIndex % NUMBER_OF_NOTES - 2;// + (noteIndex/NUMBER_OF_NOTES-lowestOctave)*NUMBER_OF_NOTES;
+    //NSLog(@"offset = %d", (noteIndex/NUMBER_OF_NOTES-lowestOctave)*NUMBER_OF_NOTES);
     return staffLine;
 }
 
@@ -179,6 +196,5 @@
     CGFloat height = self.bounds.size.height/2.0f + staffLine * NOTE_SPACING - NOTE_HEIGHT/2.0f;
     return height;
 }
-
 
 @end

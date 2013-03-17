@@ -13,7 +13,7 @@
 @property (strong) NSArray *notes;
 @property NSUInteger tempo;
 @property (strong) NSString *timeSig;
-@property NSUInteger octaveRange;
+@property NSInteger lowestOctave;
 
 - (id)initWithMIDIFile:(NSString *)pathToFile;
 
