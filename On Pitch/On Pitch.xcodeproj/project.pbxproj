@@ -16,6 +16,8 @@
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
 		6F46D0EA16F02FC7003BB603 /* OPTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46D0E916F02FC7003BB603 /* OPTimer.m */; };
+		6F5C3CA11700982F00EC334D /* OPSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C3CA01700982F00EC334D /* OPSongPlayer.m */; };
+		6F5C3CA41700A98600EC334D /* OPSamplePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C3CA31700A98600EC334D /* OPSamplePlayer.m */; };
 		6F63EFCB16CC7BB20017F72E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCA16CC7BB20017F72E /* UIKit.framework */; };
 		6F63EFCD16CC7BB20017F72E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCC16CC7BB20017F72E /* Foundation.framework */; };
 		6F63EFCF16CC7BB20017F72E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFCE16CC7BB20017F72E /* CoreGraphics.framework */; };
@@ -64,6 +66,10 @@
 		6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
 		6F46D0E816F02FC7003BB603 /* OPTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPTimer.h; sourceTree = "<group>"; };
 		6F46D0E916F02FC7003BB603 /* OPTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPTimer.m; sourceTree = "<group>"; };
+		6F5C3C9F1700982F00EC334D /* OPSongPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPSongPlayer.h; sourceTree = "<group>"; };
+		6F5C3CA01700982F00EC334D /* OPSongPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPSongPlayer.m; sourceTree = "<group>"; };
+		6F5C3CA21700A98600EC334D /* OPSamplePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPSamplePlayer.h; sourceTree = "<group>"; };
+		6F5C3CA31700A98600EC334D /* OPSamplePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPSamplePlayer.m; sourceTree = "<group>"; };
 		6F63EFC716CC7BB20017F72E /* On Pitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On Pitch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F63EFCA16CC7BB20017F72E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6F63EFCC16CC7BB20017F72E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -184,6 +190,8 @@
 				6F63EFE216CC7BB20017F72E /* MainStoryboard.storyboard */,
 				6F63EFE516CC7BB20017F72E /* OPViewController.h */,
 				6F63EFE616CC7BB20017F72E /* OPViewController.m */,
+				6F5C3CA21700A98600EC334D /* OPSamplePlayer.h */,
+				6F5C3CA31700A98600EC334D /* OPSamplePlayer.m */,
 				3722503416EE64B70033D294 /* OPSongView.h */,
 				3722503516EE64B70033D294 /* OPSongView.m */,
 				6FFD084C16ED73B20011439E /* OPFeedbackView.h */,
@@ -217,12 +225,14 @@
 		6FFD084916ED72C70011439E /* Song Structure */ = {
 			isa = PBXGroup;
 			children = (
+				6F5C3C9F1700982F00EC334D /* OPSongPlayer.h */,
+				6F5C3CA01700982F00EC334D /* OPSongPlayer.m */,
+				37B26E8D16E4FCFA003A5CA3 /* OPSong.h */,
+				37B26E8E16E4FCFA003A5CA3 /* OPSong.m */,
 				6F85174616DDE2B2001915CC /* OPNote.h */,
 				6F85174716DDE2B2001915CC /* OPNote.m */,
 				6F85174916DDE6C5001915CC /* OPNoteTranslator.h */,
 				6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */,
-				37B26E8D16E4FCFA003A5CA3 /* OPSong.h */,
-				37B26E8E16E4FCFA003A5CA3 /* OPSong.m */,
 				37B26E8F16E4FD13003A5CA3 /* OPMIDIParser.h */,
 				37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */,
 			);
@@ -379,6 +389,8 @@
 				6F46D0EA16F02FC7003BB603 /* OPTimer.m in Sources */,
 				6FF5342416F2B7E30025B606 /* OPFFTView.m in Sources */,
 				6FF5342716F2BA140025B606 /* OPAudioHandler.mm in Sources */,
+				6F5C3CA11700982F00EC334D /* OPSongPlayer.m in Sources */,
+				6F5C3CA41700A98600EC334D /* OPSamplePlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

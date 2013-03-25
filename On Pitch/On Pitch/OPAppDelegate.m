@@ -10,7 +10,7 @@
 #import "OPMicInput.h"
 #import "OPNoteTranslator.h"
 #import "OPNote.h"
-
+#import "OPSamplePlayer.h"
 
 @interface OPAppDelegate ()
 
@@ -28,6 +28,9 @@
     
     // This initializes the audio handler/input before anything else in the App can touch it.
     [OPMicInput sharedInput];
+    
+    // Loads all of the samples so no lag time when playing reference track back
+    [OPSamplePlayer sharedPlayer];
     
     /*
      // Prints out all notes and their note indecies

@@ -9,9 +9,10 @@
 #import "OPSongView.h"
 #import "OPNote.h"
 #import "OPFeedbackView.h"
+#import "OPSongPlayer.h"
 
 // Change these 'til it looks purty
-#define NOTE_HEIGHT 20.0f
+#define NOTE_HEIGHT 30.0f
 #define NOTE_LENGTH_SCALE_FACTOR 60.0f
 #define REST_HEIGHT 20.0f
 #define STAFF_LINEWIDTH 3.0f
@@ -28,6 +29,9 @@
 @property (assign) CGFloat pinchStartScale;
 
 @property (assign) CGFloat tapeHeadLocation;
+
+// Testing
+@property (strong) OPSongPlayer* player;
 
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
@@ -50,9 +54,15 @@
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
     [self addGestureRecognizer:self.pinchGesture];
     
+    // TESTING
     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
     self.song = s;
+    
+    // Testing player with song
+    OPSongPlayer* player = [[OPSongPlayer alloc] initWithSong:s];
+    self.player = player;
+    [player play];
 }
 
 - (id)initWithSong:(OPSong *)s

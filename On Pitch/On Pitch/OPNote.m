@@ -104,4 +104,8 @@ NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES] = {
     return name;
 }
 
+- (NSString*)description {
+    return [self staffNameForNote];
+}
+
 @end
