@@ -12,6 +12,8 @@
 		37B26E9216E4FE69003A5CA3 /* santa.mid in Resources */ = {isa = PBXBuildFile; fileRef = 37B26E9116E4FE69003A5CA3 /* santa.mid */; };
 		37B26E9516E4FECA003A5CA3 /* OPSong.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B26E8E16E4FCFA003A5CA3 /* OPSong.m */; };
 		37B26E9616E4FED0003A5CA3 /* OPMIDIParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */; };
+		37E3C36616F7959400314255 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E3C36516F7959400314255 /* DropboxSDK.framework */; };
+		37E3C36816F795B000314255 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E3C36716F795B000314255 /* Security.framework */; };
 		6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */; };
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
@@ -54,6 +56,8 @@
 		37B26E8F16E4FD13003A5CA3 /* OPMIDIParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OPMIDIParser.h; sourceTree = "<group>"; };
 		37B26E9016E4FD13003A5CA3 /* OPMIDIParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPMIDIParser.m; sourceTree = "<group>"; };
 		37B26E9116E4FE69003A5CA3 /* santa.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = santa.mid; sourceTree = "<group>"; };
+		37E3C36516F7959400314255 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		37E3C36716F795B000314255 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6F19BBE816DEBACA000BD656 /* CABitOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CABitOperations.h; sourceTree = "<group>"; };
 		6F19BBE916DEBACA000BD656 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
 		6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugMacros.cpp; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E3C36816F795B000314255 /* Security.framework in Frameworks */,
 				6FFE9DA516DDB5B40025D71E /* QuartzCore.framework in Frameworks */,
 				6FFE9DA316DDB5A30025D71E /* AudioToolbox.framework in Frameworks */,
 				6F63EFF216CC7C120017F72E /* Accelerate.framework in Frameworks */,
@@ -120,6 +125,7 @@
 				6F63EFCB16CC7BB20017F72E /* UIKit.framework in Frameworks */,
 				6F63EFCD16CC7BB20017F72E /* Foundation.framework in Frameworks */,
 				6F63EFCF16CC7BB20017F72E /* CoreGraphics.framework in Frameworks */,
+				37E3C36616F7959400314255 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +171,8 @@
 		6F63EFC916CC7BB20017F72E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37E3C36716F795B000314255 /* Security.framework */,
+				37E3C36516F7959400314255 /* DropboxSDK.framework */,
 				6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */,
 				6FFE9DA216DDB5A30025D71E /* AudioToolbox.framework */,
 				6F63EFF116CC7C120017F72E /* Accelerate.framework */,
@@ -467,6 +475,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "On Pitch/On Pitch-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;
@@ -485,6 +497,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "On Pitch/On Pitch-Prefix.pch";
 				GCC_THUMB_SUPPORT = NO;

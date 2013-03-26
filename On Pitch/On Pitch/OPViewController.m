@@ -16,6 +16,7 @@
 #import "OPFeedbackView.h"
 #import "OPSongView.h"
 #import <QuartzCore/QuartzCore.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 #define FEEDBACK_VIEW_REFRESH_RATE (1.0f/60.0f)
 
@@ -137,6 +138,22 @@
                                     repeats:YES];
 }
 
+- (IBAction)didPressLink
+{
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    } else {
+        [[DBSession sharedSession] unlinkAll];
+        [[[UIAlertView alloc] initWithTitle:@"Account Unlinked!"
+                                     message:@"Your dropbox account has been unlinked"
+                                    delegate:nil
+                           cancelButtonTitle:@"OK"
+                           otherButtonTitles:nil]
+         show];
+        // [self updateButtons];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -147,4 +164,5 @@
     [self setTempSlider:nil];
     [super viewDidUnload];
 }
+
 @end

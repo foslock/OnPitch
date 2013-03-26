@@ -27,4 +27,6 @@
 - (IBAction)startSamplingButtonPressed:(UIButton*)sender;
 - (IBAction)clearButtonPressed:(id)sender;
 
+- (IBAction)didPressLink; // Dropbox linking
+
 @end
