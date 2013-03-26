@@ -11,11 +11,9 @@
 
 @implementation OPSong
 
--(id) initWithMIDIFile:(NSString *)pathToFile
-{
+- (id)initWithMIDIFile:(NSString *)pathToFile {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         // Parse the MIDI file into an array of OPNotes
         NSDictionary *d = [OPMIDIParser parseFileWithPath:pathToFile];
         self.notes = [d objectForKey:@"notes"];

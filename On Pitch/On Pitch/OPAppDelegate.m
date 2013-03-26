@@ -11,6 +11,7 @@
 #import "OPNoteTranslator.h"
 #import "OPNote.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "OPSamplePlayer.h"
 
 @interface OPAppDelegate () <DBSessionDelegate>
 
@@ -39,6 +40,17 @@
                                                         root:root];
     dbSession.delegate = self;
     [DBSession setSharedSession:dbSession];
+
+    // Loads all of the samples so no lag time when playing reference track back
+    [OPSamplePlayer sharedPlayer];
+    
+    /*
+     // Prints out all notes and their note indecies
+    for (int i = 0; i <= MAX_NOTE_INDEX; i++) {
+        OPNote* note = [OPNote noteFromStaffIndex:i];
+        NSLog(@"%@ %i", [note staffNameForNote], i);
+    }
+    */
     
     /* Do anything else we need here */
     

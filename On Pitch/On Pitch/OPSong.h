@@ -11,9 +11,9 @@
 @interface OPSong : NSObject
 
 @property (strong) NSArray *notes;
-@property NSUInteger tempo;
 @property (strong) NSString *timeSig;
-@property NSUInteger octaveRange;
+@property (assign) NSUInteger tempo;
+@property (assign) NSUInteger octaveRange;
 
 - (id)initWithMIDIFile:(NSString *)pathToFile;
 
