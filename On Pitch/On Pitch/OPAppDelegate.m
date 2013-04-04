@@ -12,6 +12,7 @@
 #import "OPNote.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "OPSamplePlayer.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface OPAppDelegate () <DBSessionDelegate>
 
@@ -25,6 +26,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Connect to Crashlytics API
+    [Crashlytics startWithAPIKey:@"2696b6180c803c2901bd36859ff21f19420506cb"];
+    
     // Override point for customization after application launch.
     [application setIdleTimerDisabled:YES];
     
@@ -96,8 +100,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark -
-#pragma mark DBSessionDelegate methods
+#pragma mark - DBSessionDelegate methods
 
 - (void)sessionDidReceiveAuthorizationFailure:(DBSession*)session userId:(NSString *)userId {
 	self.relinkUserId = userId;

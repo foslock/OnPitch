@@ -35,6 +35,7 @@
 		6F63EFF216CC7C120017F72E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F63EFF116CC7C120017F72E /* Accelerate.framework */; };
 		6F85174816DDE2B2001915CC /* OPNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174716DDE2B2001915CC /* OPNote.m */; };
 		6F85174B16DDE6C5001915CC /* OPNoteTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */; };
+		6FB56F38170DD8240041712F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB56F37170DD8240041712F /* Crashlytics.framework */; };
 		6FF5342416F2B7E30025B606 /* OPFFTView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5342316F2B7E30025B606 /* OPFFTView.m */; };
 		6FF5342716F2BA140025B606 /* OPAudioHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5342616F2BA140025B606 /* OPAudioHandler.mm */; };
 		6FFD084616ED33BB0011439E /* OPMetronome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD084516ED33BB0011439E /* OPMetronome.m */; };
@@ -96,6 +97,7 @@
 		6F85174716DDE2B2001915CC /* OPNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNote.m; sourceTree = "<group>"; };
 		6F85174916DDE6C5001915CC /* OPNoteTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNoteTranslator.h; sourceTree = "<group>"; };
 		6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNoteTranslator.m; sourceTree = "<group>"; };
+		6FB56F37170DD8240041712F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		6FF5342216F2B7E30025B606 /* OPFFTView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPFFTView.h; sourceTree = "<group>"; };
 		6FF5342316F2B7E30025B606 /* OPFFTView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPFFTView.m; sourceTree = "<group>"; };
 		6FF5342516F2BA140025B606 /* OPAudioHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPAudioHandler.h; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				6F63EFCD16CC7BB20017F72E /* Foundation.framework in Frameworks */,
 				6F63EFCF16CC7BB20017F72E /* CoreGraphics.framework in Frameworks */,
 				37E3C36616F7959400314255 /* DropboxSDK.framework in Frameworks */,
+				6FB56F38170DD8240041712F /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +180,7 @@
 		6F63EFC916CC7BB20017F72E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6FB56F37170DD8240041712F /* Crashlytics.framework */,
 				37E3C36716F795B000314255 /* Security.framework */,
 				37E3C36516F7959400314255 /* DropboxSDK.framework */,
 				6FFE9DA416DDB5B40025D71E /* QuartzCore.framework */,
@@ -316,6 +320,7 @@
 				6F63EFC316CC7BB20017F72E /* Sources */,
 				6F63EFC416CC7BB20017F72E /* Frameworks */,
 				6F63EFC516CC7BB20017F72E /* Resources */,
+				6FB56F36170DD6720041712F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -371,6 +376,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6FB56F36170DD6720041712F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 2696b6180c803c2901bd36859ff21f19420506cb";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6F63EFC316CC7BB20017F72E /* Sources */ = {
