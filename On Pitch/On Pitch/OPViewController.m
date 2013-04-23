@@ -120,9 +120,9 @@
     [self.view insertSubview: background atIndex:0];
     
     // set custom UISlider images
-    UIImage *sliderMin = [UIImage imageNamed:@"SLIDER_CAP_LEFT.png"];
-    UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT.png"];
-    UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD_FINAL_2.png"];
+    UIImage *sliderMin = [UIImage imageNamed:@"SLIDER_CAP_LEFT"];
+    UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
+    UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD_FINAL"];
     
     sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 40.0, 0, 0)];
     sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 40.0)];
