@@ -19,7 +19,7 @@
         self.notes = [d objectForKey:@"notes"];
         self.tempo = (NSUInteger)[(NSString *)[d objectForKey:@"tempo"] intValue];
         self.timeSig = [d objectForKey:@"timeSig"];
-        self.octaveRange = [[d objectForKey:@"octaveRange"] integerValue];
+        self.lowestOctave = [(NSNumber *)[d objectForKey:@"lowestOctave"] integerValue];
     }
     return self;
 }

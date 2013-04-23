@@ -115,12 +115,14 @@
     float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // 60
     self.feedbackView.lowerValueLimit = freqLow; // C4
     self.feedbackView.upperValueLimit = freqHigh; // to A6
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
+    
+    UIImageView *background = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"TEXTUREDBG"]];
+    [self.view insertSubview: background atIndex:0];
     
     // set custom UISlider images
-    UIImage *sliderMin = [UIImage imageNamed:@"sliderPreWithCap.png"];
-    UIImage *sliderMax = [UIImage imageNamed:@"sliderPostWithCap.png"];
-    UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD.png"];
+    UIImage *sliderMin = [UIImage imageNamed:@"SLIDER_CAP_LEFT"];
+    UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
+    UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD_FINAL"];
     
     sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 40.0, 0, 0)];
     sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 40.0)];

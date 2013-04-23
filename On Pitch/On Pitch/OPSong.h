@@ -12,6 +12,7 @@
 
 @property (strong) NSArray *notes;
 @property (strong) NSString *timeSig;
+@property NSInteger lowestOctave;
 @property (assign) NSUInteger tempo;
 @property (assign) NSUInteger octaveRange;
 
