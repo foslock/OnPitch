@@ -9,6 +9,7 @@
 #import "OPMetronome.h"
 #import "OPTimer.h"
 #import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioServices.h>
 
 @interface OPMetronome ()
 
@@ -32,7 +33,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        NSString* path = [[NSBundle mainBundle] pathForResource:@"click" ofType:@"wav"];
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"click2" ofType:@"wav"];
         self.clickPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:nil];
         [self.clickPlayer prepareToPlay];
         self.metronomeVolume = 1.0f;
