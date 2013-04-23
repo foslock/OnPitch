@@ -10,8 +10,9 @@
 #import "OPSongView.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define DISTANCE_PER_SAMPLE 8.0f
-#define MAX_LINE_WIDTH 6.0f
+#define DISTANCE_PER_SAMPLE 4.0f
+#define MAX_LINE_WIDTH 12.0f
+#define CLIPPING_DRAWING_MARGIN 20.0f
 
 @implementation FeedbackSample
 
@@ -74,7 +75,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 }
 
 - (CGFloat)distancePerSample {
-    return DISTANCE_PER_SAMPLE * self.parentSongView.contentScale;
+    return DISTANCE_PER_SAMPLE * self.parentSongView.horizontalScale;
 }
 
 #pragma mark - Drawing!
@@ -84,10 +85,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 }
 
 - (CGPoint)pointForSample:(FeedbackSample*)sample withIndex:(NSInteger)index {
-    // int index = [self.queueArray indexOfObject:sample];
     float drawableRange = self.upperValueLimit - self.lowerValueLimit;
     float drawableHeight = self.bounds.size.height;
     float y_value = ((sample.sampleValue - self.lowerValueLimit) / drawableRange) * drawableHeight;
+    y_value = CLAMP(y_value, CLIPPING_DRAWING_MARGIN, drawableHeight - CLIPPING_DRAWING_MARGIN);
     float x_value = (float)index * [self distancePerSample] - self.parentSongView.drawingOffset;
     return CGPointMake(x_value, drawableHeight - y_value);
 }
@@ -95,6 +96,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
 - (void)drawRect:(CGRect)rect {
     // Gets the context of this view
     CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
     
     // Set some state vars for lines
     CGContextSetLineCap(context, kCGLineCapRound);
@@ -129,6 +131,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2) {
             CGContextStrokePath(context);
         }
     }
+    
+    CGContextRestoreGState(context);
 }
 
 

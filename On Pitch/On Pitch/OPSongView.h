@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "OPSong.h"
 
-#define MIN_HORIZONTAL_SCALE 0.5f
-#define MAX_HORIZONTAL_SCALE 2.0f
+#warning SCALING IS TURNED OFF
+#define MIN_HORIZONTAL_SCALE 1.0f
+#define MAX_HORIZONTAL_SCALE 1.0f
 
 @class OPFeedbackView;
 
@@ -18,13 +19,17 @@
 
 @property (assign, nonatomic) CGFloat drawingOffset;
 @property (assign, nonatomic) CGFloat contentWidth;
-@property (readonly) CGFloat contentScale;
+@property (assign, nonatomic) CGFloat horizontalScale;
 @property (readonly) BOOL isPanning;
 @property (readonly) BOOL isPinching;
+
+@property (readonly) CGFloat tapeHeadLocation;
 
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
 
 - (id)initWithSong:(OPSong *)s;
+
+- (void)clearCurrentFeedback;
 
 
 @end

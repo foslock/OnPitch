@@ -8,22 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-// Forward declaration of protocol
-@protocol OPTimerDelegate;
-
 @interface OPTimer : NSObject
 
-@property (weak) id<OPTimerDelegate> delegate;
-@property (assign) NSInteger intervalInNanoSeconds;
+@property (readonly) BOOL isRunning;
+@property (readonly) NSTimeInterval interval;
+
+@property (weak) id target;
+@property (assign) SEL selector;
+@property (weak, nonatomic) id userInfo;
+
+// Creates a timer that is not scheduled
++ (OPTimer*)timerWithTimeInterval:(NSTimeInterval)interval target:(id)target selector:(SEL)selector userInfo:(id)userInfo;
+
+// Creates an auto scheduled timer (no need to call 'startFiring')
++ (OPTimer*)scheduledTimerWithTimeInterval:(NSTimeInterval)interval target:(id)target selector:(SEL)selector userInfo:(id)userInfo;
 
 - (void)startFiring;
 - (void)stopFiring;
-
-@end
-
-@protocol OPTimerDelegate <NSObject>
-
-// Will be called on a background thread, DO NOT DO 'UI' OPERATIONS HERE (sounds are OK though)
-- (void)timerHasFired:(OPTimer*)timer;
 
 @end

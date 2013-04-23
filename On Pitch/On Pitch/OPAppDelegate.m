@@ -29,6 +29,14 @@
     // This initializes the audio handler/input before anything else in the App can touch it.
     [OPMicInput sharedInput];
     
+    /*
+     // Prints out all notes and their note indecies
+    for (int i = 0; i <= MAX_NOTE_INDEX; i++) {
+        OPNote* note = [OPNote noteFromStaffIndex:i];
+        NSLog(@"%@ %i", [note staffNameForNote], i);
+    }
+    */
+    
     /* Do anything else we need here */
     
     return YES;

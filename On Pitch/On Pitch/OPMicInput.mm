@@ -8,17 +8,15 @@
 
 #import "OPMicInput.h"
 #import "OPAudioHandler.h"
-#import "OPFFT.h"
 
-#define FREQUENCY_LOWER_RANGE 40.0f
-#define FREQUENCY_UPPER_RANGE 8000.0f
-#define FREQUENCY_GRANULARITY 0.5f
+#define FREQUENCY_CHECK_RANGE 10.0f
+#define FREQUENCY_GRANULARITY 1.0f
 
 #define TIMER_INTERVAL_PING 0.05f // Seconds
 
 @interface OPMicInput ()
 
-@property (assign) AudioHandler* audioHandler;
+@property (strong) OPAudioHandler* audioHandler;
 @property (assign) BOOL isCurrentlyListeningToMicInput;
 @property (assign) float currentHeardPitch;
 @property (assign) float currentMaxAmplitude;
@@ -44,7 +42,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.audioHandler = new AudioHandler();
+        self.audioHandler = [[OPAudioHandler alloc] init];
         self.currentHeardPitch = 0.0f;
         self.currentMaxAmplitude = 0.0f;
         self.operationQueue = [[NSOperationQueue alloc] init];
@@ -53,31 +51,27 @@
     return self;
 }
 
-- (void)dealloc {
-    if (self.audioHandler) {
-        delete self.audioHandler;
-        self.audioHandler = NULL;
-    }
-}
-
 - (void)setMuted:(BOOL)muted {
-    self.audioHandler->mute = muted;
+    self.audioHandler.muted = muted;
 }
 
 - (BOOL)isMuted {
-    return self.audioHandler->mute;
+    return self.audioHandler.isMuted;
 }
 
 - (void)queryTimerPinged {
-    self.audioHandler->RefreshFFTData();
+    [self.audioHandler refreshFFTData];
     float currentAmp = FLT_MIN;
-    for (float f = FREQUENCY_LOWER_RANGE; f < FREQUENCY_UPPER_RANGE; f += FREQUENCY_GRANULARITY) {
-        float thisAmp = self.audioHandler->AmplitudeOfFrequency(f);
+    int maxIndex = [self.audioHandler currentFFTMaxIndex];
+    int startIndex = maxIndex - (FREQUENCY_CHECK_RANGE/2);
+    float startFreq = [self.audioHandler frequencyFromIndex:startIndex];
+    for (float f = startFreq; f < startFreq + FREQUENCY_CHECK_RANGE; f += FREQUENCY_GRANULARITY) {
+        float thisAmp = [self.audioHandler amplitudeOfFrequency:f];
         if (thisAmp > currentAmp) {
             currentAmp = thisAmp;
             self.currentHeardPitch = f;
             self.currentMaxAmplitude = thisAmp;
-            // NSLog(@"f: %.2f a: %.2f", f, thisAmp);
+            // printf("start: %.2f f: %.2f a: %.2f\n", startFreq, f, thisAmp);
         }
     }
     // Add this operation back on the queue to reanalyze the pitch
@@ -111,7 +105,7 @@
 }
 
 - (float)currentVolumeMicHears {
-    return self.currentMaxAmplitude;
+    return self.audioHandler.currentMaxVolume;
 }
 
 @end

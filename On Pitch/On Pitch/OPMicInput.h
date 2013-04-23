@@ -13,7 +13,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class OPAudioHandler;
+
 @interface OPMicInput : NSObject
+
+@property (readonly) OPAudioHandler* audioHandler;
 
 + (OPMicInput*)sharedInput;
 

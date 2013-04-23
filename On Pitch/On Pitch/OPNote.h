@@ -31,7 +31,7 @@ enum kNoteNameIndex {
 };
 
 enum kNoteOctaveIndex {
-    kNoteOctaveNone = -1,
+    kNoteOctaveNone = -1, // Octaveless note
     kNoteOctaveOne = 0,
     kNoteOctaveTwo,
     kNoteOctaveThree,
@@ -48,14 +48,17 @@ extern NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES];
 
 @interface OPNote : NSObject
 
-@property (assign) NSInteger noteIndex;
-@property (assign) enum kNoteNameIndex nameIndex;
-@property (assign) enum kNoteOctaveIndex octaveIndex;
+//
+@property (readonly) NSInteger noteIndex;
+@property (readonly) enum kNoteNameIndex nameIndex;
+@property (readonly) enum kNoteOctaveIndex octaveIndex;
 
 @property (assign) NSTimeInterval length;
 @property (assign) MusicTimeStamp timestamp;
 
+// Use one of the following convienence methods to create notes (do not use [[OPNote alloc] init])
 + (OPNote*)noteFromStaffIndex:(NSInteger)index;
++ (OPNote*)noteFromNameIndex:(enum kNoteNameIndex)name withOctaveIndex:(enum kNoteOctaveIndex)octave;
 
 - (float)exactFrequencyFromNote;
 

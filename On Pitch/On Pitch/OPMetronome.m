@@ -10,7 +10,7 @@
 #import "OPTimer.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface OPMetronome () <OPTimerDelegate>
+@interface OPMetronome ()
 
 @property (strong) OPTimer* timer;
 @property (strong) AVAudioPlayer* clickPlayer;
@@ -35,18 +35,21 @@
         NSString* path = [[NSBundle mainBundle] pathForResource:@"click" ofType:@"wav"];
         self.clickPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:nil];
         [self.clickPlayer prepareToPlay];
-        self.timer = [[OPTimer alloc] init];
-        self.timer.delegate = self;
         self.metronomeVolume = 1.0f;
-        self.beatsPerMinute = 120.0f;
+        self.beatsPerMinute = 120.0f; // Gets timer set up!
     }
     return self;
 }
 
 - (void)setBeatsPerMinute:(float)beatsPerMinute {
-    if (self.timer) {
-        float nanoseconds = (1000.0f * 1000.0f * 1000.0f * 60.0f) / beatsPerMinute;
-        self.timer.intervalInNanoSeconds = nanoseconds;
+    BOOL timerRunning = self.timer.isRunning;
+    if (self.timer) { [self.timer stopFiring]; }
+    self.timer = [OPTimer timerWithTimeInterval:(60.0f) / beatsPerMinute
+                                         target:self
+                                       selector:@selector(timerHasFired:)
+                                       userInfo:nil];
+    if (timerRunning) {
+        [self.timer startFiring];
     }
 }
 
@@ -74,6 +77,7 @@
 
 - (void)timerHasFired:(OPTimer *)timer {
     if (self.clickPlayer) {
+        // NSLog(@"Click");
         [self.clickPlayer play];
     }
 }

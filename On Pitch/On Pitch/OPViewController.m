@@ -14,10 +14,16 @@
 #import "OPMIDIParser.h"
 #import "OPMetronome.h"
 #import "OPFeedbackView.h"
+#import "OPSongView.h"
+#import <QuartzCore/QuartzCore.h>
+
+#define FEEDBACK_VIEW_REFRESH_RATE (1.0f/60.0f)
 
 @interface OPViewController ()
 
-- (void)testTimer;
+@property (assign) BOOL isSampling;
+
+- (void)updateFeedbackView:(NSTimer*)timer;
 
 @end
 
@@ -48,13 +54,29 @@
     }
 }
 
-- (void)testTimer {
+- (IBAction)startSamplingButtonPressed:(UIButton*)sender {
+    if (self.isSampling) {
+        self.isSampling = NO;
+        [sender setTitle:@"Start" forState:UIControlStateNormal];
+    } else {
+        [sender setTitle:@"Stop" forState:UIControlStateNormal];
+        [self.songView clearCurrentFeedback];
+        self.isSampling = YES;
+    }
+}
+
+- (IBAction)clearButtonPressed:(id)sender {
+    [self.songView setHorizontalScale:1.0f];
+    [self.songView clearCurrentFeedback];
+}
+
+- (void)updateFeedbackView:(NSTimer*)timer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
     float magnitude = [[OPMicInput sharedInput] currentVolumeMicHears];
     NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
     OPNote* note = [OPNote noteFromStaffIndex:index];
     float targetPitch = [note exactFrequencyFromNote];
-    if (magnitude > 30.0f) {
+    if (magnitude > 0.1f) {
         self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
         self.freqLabel.hidden = NO;
         self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];
@@ -63,21 +85,35 @@
         self.freqLabel.hidden = YES;
     }
     
-    FeedbackSample* sample = [[FeedbackSample alloc] init];
-    sample.sampleValue = pitch;
-    sample.sampleStrength = magnitude / 80.0f;
-    sample.sampleColor = [UIColor colorWithWhite:(1.0f - sample.sampleStrength) alpha:1.0f];
-    
-    [self.feedbackView pushSampleValue:sample];
-    
+    if (self.isSampling && !self.songView.isPanning && !self.songView.isPinching) {
+        // Adds sample to view
+        FeedbackSample* sample = [[FeedbackSample alloc] init];
+        sample.sampleValue = pitch;
+        sample.sampleStrength = magnitude;
+        sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:magnitude];
+        [self.feedbackView pushSampleValue:sample];
+    } else {
+        self.isSampling = NO;
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.feedbackView.lowerValueLimit = 100;
-    self.feedbackView.upperValueLimit = 2000;
+    self.titleLabel.layer.shadowOpacity = 0.6f;
+    self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+    self.titleLabel.layer.shadowRadius = 4.0f;
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.noteLabel.textColor = [UIColor whiteColor];
+    self.freqLabel.textColor = [UIColor whiteColor];
+    self.tempoLabel.textColor = [UIColor whiteColor];
+    
+    
+    float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:15]; // 39
+    float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:36]; // 60
+    self.feedbackView.lowerValueLimit = freqLow; // C4
+    self.feedbackView.upperValueLimit = freqHigh; // to A6
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
     
     // set custom UISlider images
@@ -93,27 +129,12 @@
     [self.tempSlider setMaximumTrackImage:sliderMax forState:UIControlStateNormal];
     [self.tempSlider setThumbImage: sliderHead forState:UIControlStateNormal];
     
-    
-    
-    
     [[OPMicInput sharedInput] startAnalyzingMicInput];
-	[NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(testTimer) userInfo:nil repeats:YES];
-    
-    // [[OPMetronome sharedMetronome] setBeatsPerMinute:120];
-    // [[OPMetronome sharedMetronome] startMetronome];
-    
-    
-    /*
-     // BAD: Hard-coding a test file for now
-     NSString *testPath = [[NSBundle mainBundle] pathForResource:@"santa" ofType:@"mid"];
-     OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
-     for (NSInteger i=0; i < [s.song count]; i++)
-     {
-     OPNote *n = [s.song objectAtIndex:i];
-     NSLog(@"Note: %i, Duration: %f", n.noteIndex, n.length);
-     }
-     */
-    
+	[NSTimer scheduledTimerWithTimeInterval:FEEDBACK_VIEW_REFRESH_RATE
+                                     target:self
+                                   selector:@selector(updateFeedbackView:)
+                                   userInfo:nil
+                                    repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning

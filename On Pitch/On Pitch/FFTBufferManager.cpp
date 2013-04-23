@@ -123,7 +123,9 @@ Boolean	FFTBufferManager::ComputeFFT(int32_t *outFFTData)
         //Convert floating point data to integer (Q7.24)
         vDSP_vsmul(tmpData, 1, &m24BitFracScale, tmpData, 1, mFFTLength);
         for(UInt32 i=0; i<mFFTLength; ++i) {
-            outFFTData[i] = (SInt32) tmpData[i];
+            int32_t value = ((SInt32)tmpData[i] / 2) + (1 << 31);
+            outFFTData[i] = value;
+            // outFFTData[i] = (SInt32) tmpData[i] + INT32_MAX;
         }
         
         OSAtomicDecrement32Barrier(&mHasAudioData);
