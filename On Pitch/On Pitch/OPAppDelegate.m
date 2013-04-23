@@ -10,24 +10,43 @@
 #import "OPMicInput.h"
 #import "OPNoteTranslator.h"
 #import "OPNote.h"
+#import <DropboxSDK/DropboxSDK.h>
+#import "OPSamplePlayer.h"
+#import <Crashlytics/Crashlytics.h>
 
+@interface OPAppDelegate () <DBSessionDelegate>
 
-@interface OPAppDelegate ()
+@property (strong, nonatomic) NSString *relinkUserId;
 
 @end
 
 @implementation OPAppDelegate
 
-
 #pragma mark - Application Delegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Connect to Crashlytics API
+    [Crashlytics startWithAPIKey:@"2696b6180c803c2901bd36859ff21f19420506cb"];
+    
     // Override point for customization after application launch.
     [application setIdleTimerDisabled:YES];
     
     // This initializes the audio handler/input before anything else in the App can touch it.
     [OPMicInput sharedInput];
+    
+    // Authenticate for Dropbox
+    NSString *appKey = @"h3sako7p759hbj9";
+    NSString *appSecret = @"i71gyxyr16eeq21";
+    NSString *root = kDBRootDropbox; // either kDBRootAppFolder or kDBRootDropbox
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:appKey
+                                                   appSecret:appSecret
+                                                        root:root];
+    dbSession.delegate = self;
+    [DBSession setSharedSession:dbSession];
+
+    // Loads all of the samples so no lag time when playing reference track back
+    [OPSamplePlayer sharedPlayer];
     
     /*
      // Prints out all notes and their note indecies
@@ -40,6 +59,18 @@
     /* Do anything else we need here */
     
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -67,6 +98,18 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - DBSessionDelegate methods
+
+- (void)sessionDidReceiveAuthorizationFailure:(DBSession*)session userId:(NSString *)userId {
+	self.relinkUserId = userId;
+	[[[UIAlertView alloc] initWithTitle:@"Dropbox Session Ended"
+                                 message:@"Do you want to relink?"
+                                delegate:self
+                       cancelButtonTitle:@"Cancel"
+                       otherButtonTitles:@"Relink", nil]
+	 show];
 }
 
 @end

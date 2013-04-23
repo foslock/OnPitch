@@ -15,7 +15,9 @@
 #import "OPMetronome.h"
 #import "OPFeedbackView.h"
 #import "OPSongView.h"
+#import "OPSongPlayer.h"
 #import <QuartzCore/QuartzCore.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 #define FEEDBACK_VIEW_REFRESH_RATE (1.0f/60.0f)
 
@@ -89,8 +91,8 @@
         // Adds sample to view
         FeedbackSample* sample = [[FeedbackSample alloc] init];
         sample.sampleValue = pitch;
-        sample.sampleStrength = magnitude;
-        sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:magnitude];
+        sample.sampleStrength = CLAMP(magnitude, 0.2f, 1.0f);
+        sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:sample.sampleStrength];
         [self.feedbackView pushSampleValue:sample];
     } else {
         self.isSampling = NO;
@@ -109,9 +111,8 @@
     self.freqLabel.textColor = [UIColor whiteColor];
     self.tempoLabel.textColor = [UIColor whiteColor];
     
-    
-    float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:15]; // 39
-    float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:36]; // 60
+    float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:27]; // 39
+    float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // 60
     self.feedbackView.lowerValueLimit = freqLow; // C4
     self.feedbackView.upperValueLimit = freqHigh; // to A6
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"MASTER_BACKGROUND.png"]];
@@ -137,6 +138,22 @@
                                     repeats:YES];
 }
 
+- (IBAction)didPressLink
+{
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    } else {
+        [[DBSession sharedSession] unlinkAll];
+        [[[UIAlertView alloc] initWithTitle:@"Account Unlinked!"
+                                     message:@"Your dropbox account has been unlinked"
+                                    delegate:nil
+                           cancelButtonTitle:@"OK"
+                           otherButtonTitles:nil]
+         show];
+        // [self updateButtons];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -147,4 +164,5 @@
     [self setTempSlider:nil];
     [super viewDidUnload];
 }
+
 @end

@@ -89,23 +89,25 @@
     uint64_t interval = self.intervalInNanoSeconds;
     uint64_t counter = 0;
     
-    while (interval > 0) {
-        if (!self.backgroundThread || [self.backgroundThread isCancelled]) {
-            [NSThread exit];
-            return;
-        }
-        
-        // Do stuff on background thread
-        currentTime = mach_absolute_time();
-        currentTime *= _timeInfo.numer;
-        currentTime /= _timeInfo.denom;
-        
-        if (currentTime >= currentStartTime + (interval * counter)) {
-            counter++;
+    @autoreleasepool {
+        while (interval > 0) {
+            if (!_isRunning) {
+                [NSThread exit];
+                return;
+            }
+            
+            // Do stuff on background thread
+            currentTime = mach_absolute_time();
+            currentTime *= _timeInfo.numer;
+            currentTime /= _timeInfo.denom;
+            
+            if (currentTime >= currentStartTime + (interval * counter)) {
+                counter++;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            [self.target performSelector:self.selector withObject:self.userInfo];
+                [self.target performSelector:self.selector withObject:self.userInfo];
 #pragma clang diagnostic pop
+            }
         }
     }
 }
