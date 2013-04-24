@@ -8,13 +8,6 @@ body {
   margin-right: auto;
 }
 
-#mainimage {
-  width: 80%;
-  height: 80%;
-  margin-right: auto;
-  margin-left: auto;
-}
-
 .inside {
   max-width: 500px;
 }
@@ -54,4 +47,9 @@ body {
 
 .centericon {
   margin-top: 8px;
+}
+
+#mainimage {
+  margin-right: auto;
+  margin-left: auto;
 }
