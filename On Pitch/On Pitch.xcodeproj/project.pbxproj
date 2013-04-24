@@ -60,6 +60,9 @@
 		B5E041F0172734F600FB81C7 /* SLIDER_CAP_RIGHT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E041E6172734F500FB81C7 /* SLIDER_CAP_RIGHT@2x.png */; };
 		B5E041F1172734F600FB81C7 /* SLIDER_HEAD_FINAL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E041E7172734F500FB81C7 /* SLIDER_HEAD_FINAL@2x.png */; };
 		B5E041F2172734F600FB81C7 /* TAPE_PLAYER@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E041E8172734F600FB81C7 /* TAPE_PLAYER@2x.png */; };
+		B5E041F5172738A800FB81C7 /* SCREEN.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E041F3172738A800FB81C7 /* SCREEN.png */; };
+		B5E041F6172738A800FB81C7 /* SCREEN@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E041F4172738A800FB81C7 /* SCREEN@2x.png */; };
+		B5E041F81728301200FB81C7 /* BUTTON_PLAY.png in Resources */ = {isa = PBXBuildFile; fileRef = B5E041F71728301200FB81C7 /* BUTTON_PLAY.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +145,9 @@
 		B5E041E6172734F500FB81C7 /* SLIDER_CAP_RIGHT@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SLIDER_CAP_RIGHT@2x.png"; sourceTree = "<group>"; };
 		B5E041E7172734F500FB81C7 /* SLIDER_HEAD_FINAL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SLIDER_HEAD_FINAL@2x.png"; sourceTree = "<group>"; };
 		B5E041E8172734F600FB81C7 /* TAPE_PLAYER@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TAPE_PLAYER@2x.png"; sourceTree = "<group>"; };
+		B5E041F3172738A800FB81C7 /* SCREEN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SCREEN.png; sourceTree = "<group>"; };
+		B5E041F4172738A800FB81C7 /* SCREEN@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SCREEN@2x.png"; sourceTree = "<group>"; };
+		B5E041F71728301200FB81C7 /* BUTTON_PLAY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BUTTON_PLAY.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -338,6 +344,9 @@
 		B586C2C1172462C300562A5F /* Slices */ = {
 			isa = PBXGroup;
 			children = (
+				B5E041F71728301200FB81C7 /* BUTTON_PLAY.png */,
+				B5E041F3172738A800FB81C7 /* SCREEN.png */,
+				B5E041F4172738A800FB81C7 /* SCREEN@2x.png */,
 				B5E041DF172734F500FB81C7 /* BUTTON_FF@2x.png */,
 				B5E041E0172734F500FB81C7 /* BUTTON_LOAD@2x.png */,
 				B5E041E1172734F500FB81C7 /* BUTTON_ONOFF@2x.png */,
@@ -428,6 +437,9 @@
 				B5E041F0172734F600FB81C7 /* SLIDER_CAP_RIGHT@2x.png in Resources */,
 				B5E041F1172734F600FB81C7 /* SLIDER_HEAD_FINAL@2x.png in Resources */,
 				B5E041F2172734F600FB81C7 /* TAPE_PLAYER@2x.png in Resources */,
+				B5E041F5172738A800FB81C7 /* SCREEN.png in Resources */,
+				B5E041F6172738A800FB81C7 /* SCREEN@2x.png in Resources */,
+				B5E041F81728301200FB81C7 /* BUTTON_PLAY.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
