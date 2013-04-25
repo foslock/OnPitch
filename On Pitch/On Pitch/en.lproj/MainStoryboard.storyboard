@@ -18,20 +18,6 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="62"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tone Too Quiet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hIs-xs-Pjn">
-                                <rect key="frame" x="349" y="566" width="326" height="78"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="38"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0.0hz" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m7g-jM-3cc">
-                                <rect key="frame" x="367" y="652" width="291" height="96"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" id="iHq-FS-49b" customClass="OPSongView">
                                 <rect key="frame" x="20" y="112" width="984" height="446"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -39,6 +25,22 @@
                                     <view contentMode="scaleToFill" id="r3A-oD-bFo" customClass="OPFeedbackView">
                                         <rect key="frame" x="0.0" y="0.0" width="984" height="446"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tone Too Quiet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hIs-xs-Pjn">
+                                                <rect key="frame" x="329" y="329" width="326" height="78"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="38"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0.0hz" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m7g-jM-3cc">
+                                                <rect key="frame" x="347" y="360" width="291" height="96"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="parentSongView" destination="iHq-FS-49b" id="kbl-5c-NYC"/>
@@ -51,14 +53,14 @@
                                 </connections>
                             </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="120" minValue="40" maxValue="480" id="kgL-ca-KFA">
-                                <rect key="frame" x="22" y="620" width="296" height="23"/>
+                                <rect key="frame" x="22" y="620" width="298" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="metronomeTempoChanged:" destination="2" eventType="valueChanged" id="WGt-q7-7Zj"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1DI-GF-cZS">
-                                <rect key="frame" x="120" y="580" width="61" height="21"/>
+                                <rect key="frame" x="120" y="577" width="61" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="BUTTON_ONOFF.png">
@@ -73,7 +75,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="120 bpm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bj0-2M-CVr">
-                                <rect key="frame" x="154" y="577" width="196" height="28"/>
+                                <rect key="frame" x="154" y="573" width="196" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -94,11 +96,11 @@
                                     <action selector="startSamplingButtonPressed:" destination="2" eventType="touchUpInside" id="UAS-P8-p7z"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ect-ge-bGc">
-                                <rect key="frame" x="97" y="40" width="62" height="44"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ect-ge-bGc">
+                                <rect key="frame" x="824" y="708" width="82" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Clear">
+                                <state key="normal" backgroundImage="BUTTON_CLEAR.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -169,17 +171,73 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="TEXT_METRONOME.png" id="ybq-zC-zL7">
-                                <rect key="frame" x="24" y="580" width="92" height="19"/>
+                                <rect key="frame" x="24" y="577" width="92" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SHAPE_LINE.png" id="lsT-yZ-vxc">
-                                <rect key="frame" x="23" y="604" width="296" height="4"/>
+                                <rect key="frame" x="23" y="603" width="296" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="CONTAINER_METRONOME.png" id="BQx-Kg-y69">
-                                <rect key="frame" x="186" y="580" width="132" height="21"/>
+                                <rect key="frame" x="186" y="577" width="132" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="TAPE_PLAYER.png" id="egm-Gq-8bQ">
+                                <rect key="frame" x="341" y="579" width="330" height="177"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="TEXT_VOLUME.png" id="imV-mG-HsS">
+                                <rect key="frame" x="939" y="578" width="60" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="CONTAINER_VOLUME.png" id="NGq-zs-oVv">
+                                <rect key="frame" x="703" y="578" width="228" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SHAPE_LINE.png" id="8Bm-xw-CGy">
+                                <rect key="frame" x="703" y="603" width="296" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="0W4-sC-8Fx">
+                                <rect key="frame" x="701" y="620" width="300" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="TEXT_FILE.png" id="ger-cb-vFZ">
+                                <rect key="frame" x="968" y="676" width="31" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SHAPE_LINE.png" id="YHN-C3-FNZ">
+                                <rect key="frame" x="703" y="699" width="296" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="VOLUME_MEASURE.png" id="xRv-aQ-sho">
+                                <rect key="frame" x="703" y="656" width="296" height="5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Iep-a3-S8e">
+                                <rect key="frame" x="917" y="708" width="82" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" backgroundImage="BUTTON_LOAD.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jSl-2k-pnB">
+                                <rect key="frame" x="773" y="708" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" backgroundImage="BUTTON_ONPITCH.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -191,7 +249,7 @@
                         <outlet property="freqLabel" destination="m7g-jM-3cc" id="npC-5a-QUD"/>
                         <outlet property="noteLabel" destination="hIs-xs-Pjn" id="xnp-oK-DhZ"/>
                         <outlet property="songView" destination="iHq-FS-49b" id="00g-M3-L9B"/>
-                        <outlet property="tempSlider" destination="kgL-ca-KFA" id="12H-QB-HAE"/>
+                        <outlet property="tempSlider" destination="kgL-ca-KFA" id="dDt-kl-ePa"/>
                         <outlet property="tempoLabel" destination="bj0-2M-CVr" id="0Ug-xV-Y6z"/>
                         <outlet property="titleLabel" destination="D8q-mD-BmX" id="k4h-90-LlR"/>
                     </connections>
@@ -202,15 +260,23 @@
         </scene>
     </scenes>
     <resources>
+        <image name="BUTTON_CLEAR.png" width="82" height="37"/>
         <image name="BUTTON_FF.png" width="58" height="42"/>
+        <image name="BUTTON_LOAD.png" width="82" height="37"/>
         <image name="BUTTON_ONOFF.png" width="61" height="21"/>
+        <image name="BUTTON_ONPITCH.png" width="37" height="38"/>
         <image name="BUTTON_PLAY.png" width="87" height="42"/>
         <image name="BUTTON_REC.png" width="87" height="42"/>
         <image name="BUTTON_REW.png" width="58" height="42"/>
         <image name="CONTAINER_METRONOME.png" width="132" height="21"/>
+        <image name="CONTAINER_VOLUME.png" width="228" height="21"/>
         <image name="SHAPE_LINE.png" width="339" height="4"/>
+        <image name="TAPE_PLAYER.png" width="330" height="177"/>
+        <image name="TEXT_FILE.png" width="31" height="19"/>
         <image name="TEXT_METRONOME.png" width="92" height="19"/>
         <image name="TEXT_TRANSPORT.png" width="88" height="20"/>
+        <image name="TEXT_VOLUME.png" width="60" height="20"/>
+        <image name="VOLUME_MEASURE.png" width="296" height="5"/>
     </resources>
     <classes>
         <class className="OPFeedbackView" superclassName="UIView">
