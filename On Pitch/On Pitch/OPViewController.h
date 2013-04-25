@@ -19,10 +19,15 @@
 @property (weak) IBOutlet OPSongView* songView;
 @property (weak) IBOutlet UILabel* tempoLabel;
 @property (weak, nonatomic) IBOutlet UISlider *tempSlider;
+@property (weak, nonatomic) IBOutlet UISlider *volSlider;
+
+@property (weak) IBOutlet UIImageView* tapeView;
 
 - (IBAction)muteButtonPressed:(id)sender;
 - (IBAction)metronomeTempoChanged:(UISlider*)sender;
 - (IBAction)metronomeButtonTapped:(UIButton*)sender;
+
+- (IBAction)loadFilePressed:(UIButton*)sender;
 
 - (IBAction)startSamplingButtonPressed:(UIButton*)sender;
 - (IBAction)clearButtonPressed:(id)sender;

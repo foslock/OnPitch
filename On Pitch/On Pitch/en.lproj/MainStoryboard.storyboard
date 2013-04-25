@@ -74,13 +74,6 @@
                                     <action selector="metronomeButtonTapped:" destination="2" eventType="touchUpInside" id="9Fu-ou-qaX"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="120 bpm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bj0-2M-CVr">
-                                <rect key="frame" x="154" y="573" width="196" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ws1-ul-2MT">
                                 <rect key="frame" x="22" y="708" width="87" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -199,6 +192,13 @@
                                 <rect key="frame" x="703" y="656" width="296" height="5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="120 bpm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bj0-2M-CVr">
+                                <rect key="frame" x="154" y="573" width="196" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Iep-a3-S8e">
                                 <rect key="frame" x="917" y="708" width="82" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -210,6 +210,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="loadFilePressed:" destination="2" eventType="touchUpInside" id="Wa4-jo-Fsb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jSl-2k-pnB">
                                 <rect key="frame" x="761" y="708" width="37" height="37"/>
@@ -249,9 +252,11 @@
                         <outlet property="freqLabel" destination="m7g-jM-3cc" id="npC-5a-QUD"/>
                         <outlet property="noteLabel" destination="hIs-xs-Pjn" id="xnp-oK-DhZ"/>
                         <outlet property="songView" destination="iHq-FS-49b" id="00g-M3-L9B"/>
+                        <outlet property="tapeView" destination="egm-Gq-8bQ" id="VQe-zD-od6"/>
                         <outlet property="tempSlider" destination="kgL-ca-KFA" id="dDt-kl-ePa"/>
                         <outlet property="tempoLabel" destination="bj0-2M-CVr" id="0Ug-xV-Y6z"/>
                         <outlet property="titleLabel" destination="D8q-mD-BmX" id="k4h-90-LlR"/>
+                        <outlet property="volSlider" destination="0W4-sC-8Fx" id="7wW-Dl-0Gv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
@@ -297,6 +302,7 @@
             <relationships>
                 <relationship kind="action" name="clearButtonPressed:"/>
                 <relationship kind="action" name="didPressLink"/>
+                <relationship kind="action" name="loadFilePressed:" candidateClass="UIButton"/>
                 <relationship kind="action" name="metronomeButtonTapped:" candidateClass="UIButton"/>
                 <relationship kind="action" name="metronomeTempoChanged:" candidateClass="UISlider"/>
                 <relationship kind="action" name="muteButtonPressed:"/>
@@ -305,9 +311,11 @@
                 <relationship kind="outlet" name="freqLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="noteLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="songView" candidateClass="OPSongView"/>
+                <relationship kind="outlet" name="tapeView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="tempSlider" candidateClass="UISlider"/>
                 <relationship kind="outlet" name="tempoLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="volSlider" candidateClass="UISlider"/>
             </relationships>
         </class>
     </classes>

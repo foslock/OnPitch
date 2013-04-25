@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define DISTANCE_PER_SAMPLE 4.0f
-#define MAX_LINE_WIDTH 12.0f
+#define MAX_LINE_WIDTH 24.0f
 #define CLIPPING_DRAWING_MARGIN 20.0f
 
 #define UPPER_STAFF_LINE_Y_VALUE 10.0f

@@ -45,6 +45,8 @@
 
 - (void)initMe {
     [self setOpaque:NO];
+    
+    self.autoresizingMask = (UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth);
     self.backgroundColor = [UIColor clearColor];
     self.tapeHeadLocation = 0.0f;
     self.contentWidth = self.bounds.size.width;

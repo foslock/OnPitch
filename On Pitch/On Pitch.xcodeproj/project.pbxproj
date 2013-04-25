@@ -18,6 +18,7 @@
 		6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */; };
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
+		6F35672B1729DE6C004F660F /* UIView+AnchorPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */; };
 		6F46D0EA16F02FC7003BB603 /* OPTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46D0E916F02FC7003BB603 /* OPTimer.m */; };
 		6F5C3CA11700982F00EC334D /* OPSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C3CA01700982F00EC334D /* OPSongPlayer.m */; };
 		6F5C3CA41700A98600EC334D /* OPSamplePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C3CA31700A98600EC334D /* OPSamplePlayer.m */; };
@@ -117,6 +118,8 @@
 		6F19BBED16DEBACA000BD656 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
 		6F19BBEE16DEBACA000BD656 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
 		6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		6F3567291729DE6C004F660F /* UIView+AnchorPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnchorPoint.h"; sourceTree = "<group>"; };
+		6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnchorPoint.m"; sourceTree = "<group>"; };
 		6F46D0E816F02FC7003BB603 /* OPTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPTimer.h; sourceTree = "<group>"; };
 		6F46D0E916F02FC7003BB603 /* OPTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPTimer.m; sourceTree = "<group>"; };
 		6F5C3C9F1700982F00EC334D /* OPSongPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPSongPlayer.h; sourceTree = "<group>"; };
@@ -319,6 +322,8 @@
 			children = (
 				6FFE9D8516DDADD30025D71E /* Audio Helpers */,
 				6F63EFD216CC7BB20017F72E /* On Pitch-Info.plist */,
+				6F3567291729DE6C004F660F /* UIView+AnchorPoint.h */,
+				6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */,
 				6F63EFD316CC7BB20017F72E /* InfoPlist.strings */,
 				6F63EFD616CC7BB20017F72E /* main.m */,
 				6F63EFD816CC7BB20017F72E /* On Pitch-Prefix.pch */,
@@ -616,6 +621,7 @@
 				6FF5342716F2BA140025B606 /* OPAudioHandler.mm in Sources */,
 				6F5C3CA11700982F00EC334D /* OPSongPlayer.m in Sources */,
 				6F5C3CA41700A98600EC334D /* OPSamplePlayer.m in Sources */,
+				6F35672B1729DE6C004F660F /* UIView+AnchorPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
