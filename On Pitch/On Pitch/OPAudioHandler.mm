@@ -172,8 +172,8 @@ static const Float32 kDefaultPoleDist = 0.975f;
     NSUInteger indexToLeft = indexInMiddle - 1;
     NSUInteger indexToRight = indexInMiddle + 1;
     
-    float distToLeft = 1.0f - (index_m - indexToLeft) / 2.0f;
     float distToMiddle = 1.0f - (index_m - indexInMiddle) / 2.0f;
+    float distToLeft = 1.0f - (index_m - indexToLeft) / 2.0f;
     float distToRight = 1.0f - (index_m - indexToRight) / 2.0f;
     
     int32_t middleVal = fftDataBuffer[indexInMiddle];
@@ -350,31 +350,7 @@ void propListener(	void *                  inClientData,
 	}
 }
 
-#pragma mark - FFT Operations
-
-
-
 #pragma mark - Audio Unit Helpers
-
-inline SInt32 smul32by16(SInt32 i32, SInt16 i16) {
-#if defined __arm__
-	register SInt32 r;
-	asm volatile("smulwb %0, %1, %2" : "=r"(r) : "r"(i32), "r"(i16));
-	return r;
-#else
-	return (SInt32)(((SInt64)i32 * (SInt64)i16) >> 16);
-#endif
-}
-
-inline SInt32 smulAdd32by16(SInt32 i32, SInt16 i16, SInt32 acc) {
-#if defined __arm__
-	register SInt32 r;
-	asm volatile("smlawb %0, %1, %2, %3" : "=r"(r) : "r"(i32), "r"(i16), "r"(acc));
-	return r;
-#else
-	return ((SInt32)(((SInt64)i32 * (SInt64)i16) >> 16) + acc);
-#endif
-}
 
 inline float linearInterp(float valA, float valB, float fract) {
 	return valA + ((valB - valA) * fract);

@@ -35,9 +35,9 @@
     BOOL muted = [[OPMicInput sharedInput] isMuted];
     [[OPMicInput sharedInput] setMuted:!muted];
     if ([[OPMicInput sharedInput] isMuted]) {
-        [(UIButton*)sender setTitle:@"Muted!" forState:UIControlStateNormal];
+        // [(UIButton*)sender setTitle:@"Muted!" forState:UIControlStateNormal];
     } else {
-        [(UIButton*)sender setTitle:@"Listening..." forState:UIControlStateNormal];
+        // [(UIButton*)sender setTitle:@"Listening..." forState:UIControlStateNormal];
     }
 }
 
@@ -48,10 +48,10 @@
 
 - (IBAction)metronomeButtonTapped:(UIButton*)sender {
     if (![[OPMetronome sharedMetronome] isRunning]) {
-        [sender setTitle:@"Stop" forState:UIControlStateNormal];
+        // [sender setTitle:@"Stop" forState:UIControlStateNormal];
         [[OPMetronome sharedMetronome] startMetronome];
     } else {
-        [sender setTitle:@"Start" forState:UIControlStateNormal];
+        // [sender setTitle:@"Start" forState:UIControlStateNormal];
         [[OPMetronome sharedMetronome] stopMetronome];
     }
 }
@@ -59,9 +59,9 @@
 - (IBAction)startSamplingButtonPressed:(UIButton*)sender {
     if (self.isSampling) {
         self.isSampling = NO;
-        [sender setTitle:@"Start" forState:UIControlStateNormal];
+        // [sender setTitle:@"Start" forState:UIControlStateNormal];
     } else {
-        [sender setTitle:@"Stop" forState:UIControlStateNormal];
+        // [sender setTitle:@"Stop" forState:UIControlStateNormal];
         [self.songView clearCurrentFeedback];
         self.isSampling = YES;
     }
@@ -80,11 +80,11 @@
     float targetPitch = [note exactFrequencyFromNote];
     if (magnitude > 0.1f) {
         self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
-        self.freqLabel.hidden = NO;
+        // self.freqLabel.hidden = NO;
         self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];
     } else {
         self.noteLabel.text = [NSString stringWithFormat:@"Tone Too Quiet"];
-        self.freqLabel.hidden = YES;
+        // self.freqLabel.hidden = YES;
     }
     
     if (self.isSampling && !self.songView.isPanning && !self.songView.isPinching) {
@@ -103,13 +103,16 @@
 {
     [super viewDidLoad];
     
-    self.titleLabel.layer.shadowOpacity = 0.6f;
+    self.titleLabel.layer.shadowOpacity = 0.8f;
     self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-    self.titleLabel.layer.shadowRadius = 4.0f;
+    self.titleLabel.layer.shadowRadius = 3.0f;
     self.titleLabel.textColor = [UIColor whiteColor];
     self.noteLabel.textColor = [UIColor whiteColor];
     self.freqLabel.textColor = [UIColor whiteColor];
     self.tempoLabel.textColor = [UIColor whiteColor];
+    
+    [self.noteLabel setHidden:YES];
+    [self.freqLabel setHidden:YES];
     
     float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:27]; // 39
     float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // 60
@@ -129,8 +132,8 @@
     UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
     UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD_FINAL"];
     
-    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 40.0, 0, 0)];
-    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 40.0)];
+    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 20.0, 0, 0)];
+    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 20.0)];
     
     // set temp slider images
     [self.tempSlider setMinimumTrackImage:sliderMin forState:UIControlStateNormal];

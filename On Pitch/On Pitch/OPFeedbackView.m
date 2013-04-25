@@ -14,6 +14,9 @@
 #define MAX_LINE_WIDTH 12.0f
 #define CLIPPING_DRAWING_MARGIN 20.0f
 
+#define UPPER_STAFF_LINE_Y_VALUE 10.0f
+#define LOWER_STAFF_LINE_Y_VALUE 100.0f
+
 @implementation FeedbackSample
 
 @end
