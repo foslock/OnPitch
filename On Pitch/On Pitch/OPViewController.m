@@ -119,6 +119,11 @@
     UIImageView *background = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"TEXTUREDBG"]];
     [self.view insertSubview: background atIndex:0];
     
+    UIImageView *screen = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"SCREEN"]];
+    [self.view insertSubview: screen atIndex:1];
+    
+    screen.frame = CGRectMake(17, 18, 988, 551);
+    
     // set custom UISlider images
     UIImage *sliderMin = [UIImage imageNamed:@"SLIDER_CAP_LEFT"];
     UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
