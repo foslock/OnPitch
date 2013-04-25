@@ -58,10 +58,10 @@
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1DI-GF-cZS">
-                                <rect key="frame" x="815" y="581" width="96" height="44"/>
+                                <rect key="frame" x="120" y="580" width="61" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Start">
+                                <state key="normal" image="BUTTON_ONOFF.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -73,7 +73,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="120 bpm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bj0-2M-CVr">
-                                <rect key="frame" x="765" y="688" width="196" height="28"/>
+                                <rect key="frame" x="154" y="577" width="196" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -173,7 +173,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SHAPE_LINE.png" id="lsT-yZ-vxc">
-                                <rect key="frame" x="23" y="603" width="296" height="4"/>
+                                <rect key="frame" x="23" y="604" width="296" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="CONTAINER_METRONOME.png" id="BQx-Kg-y69">
+                                <rect key="frame" x="186" y="580" width="132" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -199,9 +203,11 @@
     </scenes>
     <resources>
         <image name="BUTTON_FF.png" width="58" height="42"/>
+        <image name="BUTTON_ONOFF.png" width="61" height="21"/>
         <image name="BUTTON_PLAY.png" width="87" height="42"/>
         <image name="BUTTON_REC.png" width="87" height="42"/>
         <image name="BUTTON_REW.png" width="58" height="42"/>
+        <image name="CONTAINER_METRONOME.png" width="132" height="21"/>
         <image name="SHAPE_LINE.png" width="339" height="4"/>
         <image name="TEXT_METRONOME.png" width="92" height="19"/>
         <image name="TEXT_TRANSPORT.png" width="88" height="20"/>
