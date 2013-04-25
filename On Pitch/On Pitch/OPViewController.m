@@ -124,8 +124,8 @@
     UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
     UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD_FINAL"];
     
-    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 40.0, 0, 0)];
-    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 40.0)];
+    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 20.0, 0, 0)];
+    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 20.0)];
     
     // set temp slider images
     [self.tempSlider setMinimumTrackImage:sliderMin forState:UIControlStateNormal];

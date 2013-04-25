@@ -193,7 +193,7 @@
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
             NSInteger staffLine = [self staffLineForNoteIndex:n.noteIndex withLowestOctave:self.song.lowestOctave];
-            NSLog(@"staffLine = %i", staffLine);
+            // NSLog(@"staffLine = %i", staffLine);
             y = [self heightForStaffLine:staffLine];
         }
         
@@ -224,7 +224,7 @@
     
     CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
     UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
-    UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
+    // UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
 
     return color1;
 }

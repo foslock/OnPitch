@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OPSong.h"
 
-#warning SCALING IS TURNED OFF
+// #warning SCALING IS TURNED OFF
 #define MIN_HORIZONTAL_SCALE 0.5f
 #define MAX_HORIZONTAL_SCALE 1.0f
 
