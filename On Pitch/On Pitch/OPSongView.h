@@ -28,6 +28,7 @@
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
 
 - (id)initWithSong:(OPSong *)s;
+- (void)setSongObject:(OPSong*)s;
 
 - (void)clearCurrentFeedback;
 

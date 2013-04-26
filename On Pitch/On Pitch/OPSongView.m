@@ -18,6 +18,7 @@
 #define STAFF_LINEWIDTH 3.0f
 #define NUMBER_OF_STAFF_LINES 5
 #define STAFF_LINE_SPACING 70.0f
+#define NOTE_CORNER_RADIUS 8.0f
 #define NOTE_SPACING (STAFF_LINE_SPACING)
 
 @interface OPSongView ()
@@ -55,16 +56,6 @@
     [self addGestureRecognizer:self.panGesture];
     self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(viewDidPinch:)];
     [self addGestureRecognizer:self.pinchGesture];
-    
-    // TESTING
-    NSString *testPath = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
-    OPSong *s = [[OPSong alloc] initWithMIDIFile:testPath];
-    self.song = s;
-    
-    // Testing player with song
-    OPSongPlayer* player = [[OPSongPlayer alloc] initWithSong:s];
-    self.player = player;
-    [player play];
 }
 
 - (id)initWithSong:(OPSong *)s
@@ -83,6 +74,13 @@
         [self initMe];
     }
     return self;
+}
+
+- (void)setSongObject:(OPSong*)s {
+    self.song = s;
+    OPSongPlayer* player = [[OPSongPlayer alloc] initWithSong:s];
+    self.player = player;
+    [self clearCurrentFeedback];
 }
 
 - (void)clearCurrentFeedback {
@@ -206,8 +204,8 @@
         UIColor* color = [self colorForNote:n];
         CGContextSetFillColorWithColor(context, color.CGColor);
         CGRect noteRect = CGRectMake(moved_x, y, width, NOTE_HEIGHT);
-        CGContextFillRect(context, noteRect);
-        // CGContextStrokePath(context);
+        UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:noteRect cornerRadius:NOTE_CORNER_RADIUS];
+        [path fillWithBlendMode:kCGBlendModeNormal alpha:0.8f];
     }
     
     // Draw tapehead
@@ -225,10 +223,10 @@
     // Maybe change the color depending on the note?
     
     CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
-    UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
-    // UIColor *color2 = [UIColor colorWithRed:i green:i blue:i alpha:1.0f];
+    // UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
+    UIColor *color2 = [UIColor colorWithRed:0.1 green:0.1 blue:CLAMP(i, 0.4f, 1.0f) alpha:1.0f];
 
-    return color1;
+    return color2;
 }
 
 - (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex withLowestOctave:(NSInteger)lowestOctave

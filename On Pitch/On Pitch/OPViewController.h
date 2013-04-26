@@ -12,9 +12,6 @@
 
 @interface OPViewController : UIViewController
 
-@property (weak) IBOutlet UILabel* titleLabel;
-@property (weak) IBOutlet UILabel* noteLabel;
-@property (weak) IBOutlet UILabel* freqLabel;
 @property (weak) IBOutlet OPFeedbackView* feedbackView;
 @property (weak) IBOutlet OPSongView* songView;
 @property (weak) IBOutlet UILabel* tempoLabel;
@@ -23,11 +20,13 @@
 
 @property (weak) IBOutlet UIImageView* tapeView;
 
-- (IBAction)muteButtonPressed:(id)sender;
 - (IBAction)metronomeTempoChanged:(UISlider*)sender;
 - (IBAction)metronomeButtonTapped:(UIButton*)sender;
 
 - (IBAction)loadFilePressed:(UIButton*)sender;
+
+- (void)closeTapeDeckWithBlock:(void (^)(void))block;
+- (void)openTapeDeckWithBlock:(void (^)(void))block;
 
 - (IBAction)startSamplingButtonPressed:(UIButton*)sender;
 - (IBAction)clearButtonPressed:(id)sender;

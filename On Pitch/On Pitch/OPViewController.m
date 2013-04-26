@@ -16,28 +16,35 @@
 #import "OPFeedbackView.h"
 #import "OPSongView.h"
 #import "OPSongPlayer.h"
+#import "OPFileListViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <DropboxSDK/DropboxSDK.h>
+
+#define TAPE_OPEN_INTERVAL 0.35f
 
 #define FEEDBACK_VIEW_REFRESH_RATE (1.0f/60.0f)
 
 @interface OPViewController ()
 
 @property (assign) BOOL isSampling;
+@property (assign) BOOL isTapeOpen;
+@property (assign) BOOL isTapeAnimating;
 
 - (void)updateFeedbackView:(NSTimer*)timer;
+- (void)tapeTapped:(UITapGestureRecognizer*)tap;
 
 @end
 
 @implementation OPViewController
 
-- (IBAction)muteButtonPressed:(id)sender {
-    BOOL muted = [[OPMicInput sharedInput] isMuted];
-    [[OPMicInput sharedInput] setMuted:!muted];
-    if ([[OPMicInput sharedInput] isMuted]) {
-        // [(UIButton*)sender setTitle:@"Muted!" forState:UIControlStateNormal];
-    } else {
-        // [(UIButton*)sender setTitle:@"Listening..." forState:UIControlStateNormal];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue destinationViewController] isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* nav = (UINavigationController*)[segue destinationViewController];
+        UIViewController* controller = [nav.viewControllers objectAtIndex:0];
+        if ([controller isKindOfClass:[OPFileListViewController class]]) {
+            OPFileListViewController* fileList = (OPFileListViewController*)controller;
+            fileList.mainController = self;
+        }
     }
 }
 
@@ -55,14 +62,56 @@
 }
 
 - (IBAction)loadFilePressed:(UIButton*)sender {
-    self.tapeView.layer.transform = CATransform3DIdentity;
-    [self.tapeView setAnchorPoint:CGPointMake(0.5f, 1.0f) forView:self.tapeView];
-    [UIView animateWithDuration:2.0f delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    if (!self.isTapeOpen) {
+        [self openTapeDeckWithBlock:^{
+            [self performSegueWithIdentifier:@"showFileListController" sender:self];
+        }];
+    } else {
+        [self closeTapeDeckWithBlock:nil];
+    }
+}
+
+- (void)tapeTapped:(UITapGestureRecognizer*)tap {
+    [self loadFilePressed:nil];
+}
+
+- (void)closeTapeDeckWithBlock:(void (^)(void))block {
+    self.isTapeOpen = NO;
+    
+    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+    anim.fromValue = [NSNumber numberWithFloat:0.6f];
+    anim.toValue = [NSNumber numberWithFloat:0.0f];
+    anim.duration = TAPE_OPEN_INTERVAL/2;
+    [self.tapeView.layer addAnimation:anim forKey:@"shadowOpacity"];
+    self.tapeView.layer.shadowOpacity = 0.0f;
+    
+    [UIView animateWithDuration:TAPE_OPEN_INTERVAL delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.tapeView.layer.transform = CATransform3DIdentity;
+    } completion:^(BOOL finished) {
+        if (finished)
+            if (block) {block();}
+    }];
+}
+
+- (void)openTapeDeckWithBlock:(void (^)(void))block {
+    self.isTapeOpen = YES;
+    
+    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+    anim.fromValue = [NSNumber numberWithFloat:0.0f];
+    anim.toValue = [NSNumber numberWithFloat:0.6f];
+    anim.duration = TAPE_OPEN_INTERVAL;
+    [self.tapeView.layer addAnimation:anim forKey:@"shadowOpacity"];
+    self.tapeView.layer.shadowOpacity = 0.6f;
+    
+    [UIView animateWithDuration:TAPE_OPEN_INTERVAL delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         CATransform3D perspective = CATransform3DIdentity;
         perspective.m34 = 1.0 / -700.0f;
         CATransform3D transform = CATransform3DRotate(perspective, -M_PI / 4, 1.0f, 0.0f, 0.0f);
         self.tapeView.layer.transform = transform;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (finished)
+            if (block) {block();}
+    }];
 }
 
 - (IBAction)startSamplingButtonPressed:(UIButton*)sender {
@@ -84,17 +133,6 @@
 - (void)updateFeedbackView:(NSTimer*)timer {
     float pitch = [[OPMicInput sharedInput] currentLoudestPitchMicHears];
     float magnitude = [[OPMicInput sharedInput] currentVolumeMicHears];
-    NSInteger index = [[OPNoteTranslator translator] noteStaffIndexForFrequency:pitch];
-    OPNote* note = [OPNote noteFromStaffIndex:index];
-    float targetPitch = [note exactFrequencyFromNote];
-    if (magnitude > 0.1f) {
-        self.noteLabel.text = [NSString stringWithFormat:@"%@", note.staffNameForNote];
-        // self.freqLabel.hidden = NO;
-        self.freqLabel.text = [NSString stringWithFormat:@"Heard: %.1f Hz\nTarget: %.1f Hz", pitch, targetPitch];
-    } else {
-        self.noteLabel.text = [NSString stringWithFormat:@"Tone Too Quiet"];
-        // self.freqLabel.hidden = YES;
-    }
     
     if (self.isSampling && !self.songView.isPanning && !self.songView.isPinching) {
         // Adds sample to view
@@ -111,18 +149,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.titleLabel.layer.shadowOpacity = 0.8f;
-    self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-    self.titleLabel.layer.shadowRadius = 3.0f;
-    self.titleLabel.textColor = [UIColor whiteColor];
-    self.noteLabel.textColor = [UIColor whiteColor];
-    self.freqLabel.textColor = [UIColor whiteColor];
+
     self.tempoLabel.textColor = [UIColor darkGrayColor];
     
-    [self.noteLabel setHidden:YES];
-    [self.freqLabel setHidden:YES];
-    
+    [self.tapeView setAnchorPoint:CGPointMake(0.5f, 1.0f) forView:self.tapeView];
+    self.tapeView.layer.shadowOffset = CGSizeMake(0.0f, -3.0f);
+    self.tapeView.layer.shadowRadius = 4.0f;
+    self.tapeView.userInteractionEnabled = YES;
+
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapeTapped:)];
+    [tap setNumberOfTapsRequired:1];
+    [self.tapeView addGestureRecognizer:tap];
+
     float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:27]; // 39
     float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // 60
     self.feedbackView.lowerValueLimit = freqLow; // C4
@@ -130,12 +168,7 @@
     
     UIImageView *background = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"TEXTUREDBG"]];
     [self.view insertSubview: background atIndex:0];
-    
-    UIImageView *screen = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"SCREEN"]];
-    [self.view insertSubview: screen atIndex:1];
-    
-    screen.frame = CGRectMake(17, 18, 988, 551);
-    
+        
     // set custom UISlider images
     UIImage *sliderMin = [UIImage imageNamed:@"SLIDER_CAP_LEFT"];
     UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
@@ -167,12 +200,11 @@
     } else {
         [[DBSession sharedSession] unlinkAll];
         [[[UIAlertView alloc] initWithTitle:@"Account Unlinked!"
-                                     message:@"Your dropbox account has been unlinked"
-                                    delegate:nil
-                           cancelButtonTitle:@"OK"
-                           otherButtonTitles:nil]
+                                    message:@"Your dropbox account has been unlinked"
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil]
          show];
-        // [self updateButtons];
     }
 }
 

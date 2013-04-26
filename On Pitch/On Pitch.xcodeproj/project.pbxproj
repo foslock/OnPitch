@@ -19,6 +19,11 @@
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
 		6F35672B1729DE6C004F660F /* UIView+AnchorPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */; };
+		6F35672E1729F992004F660F /* OPFileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F35672D1729F992004F660F /* OPFileListViewController.m */; };
+		6F3567311729FFE1004F660F /* TAPE_DECKFACE.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F35672F1729FFE1004F660F /* TAPE_DECKFACE.png */; };
+		6F3567321729FFE1004F660F /* TAPE_DECKFACE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F3567301729FFE1004F660F /* TAPE_DECKFACE@2x.png */; };
+		6F356734172A09AE004F660F /* Icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F356733172A09AE004F660F /* Icon_72.png */; };
+		6F356736172A09B0004F660F /* Icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F356735172A09B0004F660F /* Icon_144.png */; };
 		6F46D0EA16F02FC7003BB603 /* OPTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46D0E916F02FC7003BB603 /* OPTimer.m */; };
 		6F5C3CA11700982F00EC334D /* OPSongPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C3CA01700982F00EC334D /* OPSongPlayer.m */; };
 		6F5C3CA41700A98600EC334D /* OPSamplePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5C3CA31700A98600EC334D /* OPSamplePlayer.m */; };
@@ -122,6 +127,12 @@
 		6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
 		6F3567291729DE6C004F660F /* UIView+AnchorPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnchorPoint.h"; sourceTree = "<group>"; };
 		6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnchorPoint.m"; sourceTree = "<group>"; };
+		6F35672C1729F992004F660F /* OPFileListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPFileListViewController.h; sourceTree = "<group>"; };
+		6F35672D1729F992004F660F /* OPFileListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPFileListViewController.m; sourceTree = "<group>"; };
+		6F35672F1729FFE1004F660F /* TAPE_DECKFACE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TAPE_DECKFACE.png; sourceTree = "<group>"; };
+		6F3567301729FFE1004F660F /* TAPE_DECKFACE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TAPE_DECKFACE@2x.png"; sourceTree = "<group>"; };
+		6F356733172A09AE004F660F /* Icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_72.png; path = ../Icon_72.png; sourceTree = "<group>"; };
+		6F356735172A09B0004F660F /* Icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_144.png; path = ../Icon_144.png; sourceTree = "<group>"; };
 		6F46D0E816F02FC7003BB603 /* OPTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPTimer.h; sourceTree = "<group>"; };
 		6F46D0E916F02FC7003BB603 /* OPTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPTimer.m; sourceTree = "<group>"; };
 		6F5C3C9F1700982F00EC334D /* OPSongPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPSongPlayer.h; sourceTree = "<group>"; };
@@ -262,6 +273,15 @@
 			name = "MIDI Files";
 			sourceTree = "<group>";
 		};
+		6F356737172A09FC004F660F /* Icon */ = {
+			isa = PBXGroup;
+			children = (
+				6F356735172A09B0004F660F /* Icon_144.png */,
+				6F356733172A09AE004F660F /* Icon_72.png */,
+			);
+			name = Icon;
+			sourceTree = "<group>";
+		};
 		6F63EFBE16CC7BB20017F72E = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +332,8 @@
 				6FFD084D16ED73B20011439E /* OPFeedbackView.m */,
 				6FF5342216F2B7E30025B606 /* OPFFTView.h */,
 				6FF5342316F2B7E30025B606 /* OPFFTView.m */,
+				6F35672C1729F992004F660F /* OPFileListViewController.h */,
+				6F35672D1729F992004F660F /* OPFileListViewController.m */,
 				6FFD084A16ED72D70011439E /* Input Handling */,
 				6FFD084916ED72C70011439E /* Song Structure */,
 				6FFD084B16ED72E80011439E /* Metronome */,
@@ -409,6 +431,7 @@
 		B54E23CB16EE748800335F2F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6F356737172A09FC004F660F /* Icon */,
 				B586C2C1172462C300562A5F /* Slices */,
 			);
 			name = Images;
@@ -436,6 +459,8 @@
 				B55235121729BB5F00447F15 /* TEXT_VOLUME.png */,
 				B55235131729BB5F00447F15 /* TEXT_VOLUME@2x.png */,
 				B55235101729B95400447F15 /* TAPE_PLAYER.png */,
+				6F35672F1729FFE1004F660F /* TAPE_DECKFACE.png */,
+				6F3567301729FFE1004F660F /* TAPE_DECKFACE@2x.png */,
 				B552350C1729B68500447F15 /* CONTAINER_METRONOME.png */,
 				B552350D1729B68500447F15 /* CONTAINER_METRONOME@2x.png */,
 				B55235081729B58600447F15 /* BUTTON_ONOFF.png */,
@@ -581,6 +606,10 @@
 				B55235311729CC7300447F15 /* BUTTON_DROPBOX@2x.png in Resources */,
 				B55235341729D21400447F15 /* BUTTON_PLAY_DOWN.png in Resources */,
 				B55235351729D21400447F15 /* BUTTON_PLAY_DOWN@2x.png in Resources */,
+				6F3567311729FFE1004F660F /* TAPE_DECKFACE.png in Resources */,
+				6F3567321729FFE1004F660F /* TAPE_DECKFACE@2x.png in Resources */,
+				6F356734172A09AE004F660F /* Icon_72.png in Resources */,
+				6F356736172A09B0004F660F /* Icon_144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,6 +659,7 @@
 				6F5C3CA11700982F00EC334D /* OPSongPlayer.m in Sources */,
 				6F5C3CA41700A98600EC334D /* OPSamplePlayer.m in Sources */,
 				6F35672B1729DE6C004F660F /* UIView+AnchorPoint.m in Sources */,
+				6F35672E1729F992004F660F /* OPFileListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

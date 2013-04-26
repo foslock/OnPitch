@@ -14,4 +14,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
++ (OPAppDelegate*)currentDelegate;
++ (NSString*)documentsPath;
+
 @end

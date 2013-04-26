@@ -22,6 +22,16 @@
 
 @implementation OPAppDelegate
 
++ (OPAppDelegate*)currentDelegate {
+    return (OPAppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
++ (NSString*)documentsPath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    return basePath;
+}
+
 #pragma mark - Application Delegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -48,15 +58,22 @@
     // Loads all of the samples so no lag time when playing reference track back
     [OPSamplePlayer sharedPlayer];
     
-    /*
-     // Prints out all notes and their note indecies
-    for (int i = 0; i <= MAX_NOTE_INDEX; i++) {
-        OPNote* note = [OPNote noteFromStaffIndex:i];
-        NSLog(@"%@ %i", [note staffNameForNote], i);
+    // Drop the "testmidi1.mid" file into the docs folder for testing
+    NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[OPAppDelegate documentsPath]
+                                                                         error:NULL];
+    BOOL found = NO;
+    for (NSString* path in files) {
+        if ([[path lastPathComponent] isEqualToString:@"testmidi1.mid"]) {
+            found = YES;
+        }
     }
-    */
     
-    /* Do anything else we need here */
+    if (!found) {
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
+        NSData* data = [NSData dataWithContentsOfFile:path];
+        NSString* newPath = [[OPAppDelegate documentsPath] stringByAppendingPathComponent:@"testmidi1.mid"];
+        [data writeToFile:newPath atomically:YES];
+    }
     
     return YES;
 }
