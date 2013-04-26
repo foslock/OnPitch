@@ -48,12 +48,21 @@
 
 - (IBAction)metronomeButtonTapped:(UIButton*)sender {
     if (![[OPMetronome sharedMetronome] isRunning]) {
-        // [sender setTitle:@"Stop" forState:UIControlStateNormal];
         [[OPMetronome sharedMetronome] startMetronome];
     } else {
-        // [sender setTitle:@"Start" forState:UIControlStateNormal];
         [[OPMetronome sharedMetronome] stopMetronome];
     }
+}
+
+- (IBAction)loadFilePressed:(UIButton*)sender {
+    self.tapeView.layer.transform = CATransform3DIdentity;
+    [self.tapeView setAnchorPoint:CGPointMake(0.5f, 1.0f) forView:self.tapeView];
+    [UIView animateWithDuration:2.0f delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        CATransform3D perspective = CATransform3DIdentity;
+        perspective.m34 = 1.0 / -700.0f;
+        CATransform3D transform = CATransform3DRotate(perspective, -M_PI / 4, 1.0f, 0.0f, 0.0f);
+        self.tapeView.layer.transform = transform;
+    } completion:nil];
 }
 
 - (IBAction)startSamplingButtonPressed:(UIButton*)sender {
@@ -109,7 +118,7 @@
     self.titleLabel.textColor = [UIColor whiteColor];
     self.noteLabel.textColor = [UIColor whiteColor];
     self.freqLabel.textColor = [UIColor whiteColor];
-    self.tempoLabel.textColor = [UIColor whiteColor];
+    self.tempoLabel.textColor = [UIColor darkGrayColor];
     
     [self.noteLabel setHidden:YES];
     [self.freqLabel setHidden:YES];
@@ -132,13 +141,17 @@
     UIImage *sliderMax = [UIImage imageNamed:@"SLIDER_CAP_RIGHT"];
     UIImage *sliderHead = [UIImage imageNamed:@"SLIDER_HEAD_FINAL"];
     
-    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 20.0, 0, 0)];
-    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 20.0)];
+    sliderMin = [sliderMin resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 10.0, 0, 0)];
+    sliderMax = [sliderMax resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 0.0, 0.0, 10.0)];
     
     // set temp slider images
     [self.tempSlider setMinimumTrackImage:sliderMin forState:UIControlStateNormal];
     [self.tempSlider setMaximumTrackImage:sliderMax forState:UIControlStateNormal];
     [self.tempSlider setThumbImage: sliderHead forState:UIControlStateNormal];
+    
+    [self.volSlider setMinimumTrackImage:sliderMin forState:UIControlStateNormal];
+    [self.volSlider setMaximumTrackImage:sliderMax forState:UIControlStateNormal];
+    [self.volSlider setThumbImage: sliderHead forState:UIControlStateNormal];
     
     [[OPMicInput sharedInput] startAnalyzingMicInput];
 	[NSTimer scheduledTimerWithTimeInterval:FEEDBACK_VIEW_REFRESH_RATE
@@ -148,8 +161,7 @@
                                     repeats:YES];
 }
 
-- (IBAction)didPressLink
-{
+- (IBAction)didPressLink {
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
     } else {
