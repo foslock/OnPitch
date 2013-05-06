@@ -161,10 +161,10 @@
     [tap setNumberOfTapsRequired:1];
     [self.tapeView addGestureRecognizer:tap];
 
-    float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:27]; // 39
-    float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:48]; // 60
-    self.feedbackView.lowerValueLimit = freqLow; // C4
-    self.feedbackView.upperValueLimit = freqHigh; // to A6
+    float freqLow = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:39]; // 39
+    float freqHigh = [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:60]; // 60
+    self.feedbackView.lowerValueLimit = freqLow; // C5
+    self.feedbackView.upperValueLimit = freqHigh; // to A7
     
     UIImageView *background = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"TEXTUREDBG"]];
     [self.view insertSubview: background atIndex:0];
