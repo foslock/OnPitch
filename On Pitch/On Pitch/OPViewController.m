@@ -138,7 +138,7 @@
         // Adds sample to view
         FeedbackSample* sample = [[FeedbackSample alloc] init];
         sample.sampleValue = pitch;
-        sample.sampleStrength = CLAMP(magnitude, 0.2f, 1.0f);
+        sample.sampleStrength = CLAMP(magnitude, 0.05f, 1.0f);
         sample.sampleColor = [UIColor colorWithWhite:0.0f alpha:sample.sampleStrength];
         [self.feedbackView pushSampleValue:sample];
     } else {

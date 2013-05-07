@@ -62,6 +62,8 @@ extern NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES];
 
 - (float)exactFrequencyFromNote;
 
+- (BOOL)isNoteAccidental;
+
 - (NSString*)staffNameForNote; // Uses sharps
 - (NSString*)alternateStaffNameForNote; // Uses flats
 - (NSString*)staffNameForNoteWithoutOctave; // No octave

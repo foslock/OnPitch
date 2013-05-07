@@ -16,8 +16,8 @@
 #define NOTE_LENGTH_SCALE_FACTOR 60.0f
 #define REST_HEIGHT 20.0f
 #define STAFF_LINEWIDTH 3.0f
-#define NUMBER_OF_STAFF_LINES 5
-#define STAFF_LINE_SPACING 70.0f
+#define NUMBER_OF_STAFF_LINES 7
+#define STAFF_LINE_SPACING 50.0f
 #define NOTE_CORNER_RADIUS 8.0f
 #define NOTE_SPACING (STAFF_LINE_SPACING)
 
@@ -37,8 +37,8 @@
 - (void)initMe;
 - (void)viewDidPan:(UIPanGestureRecognizer*)pan;
 - (void)viewDidPinch:(UIPinchGestureRecognizer*)pinch;
-- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex withLowestOctave:(NSInteger)lowestOctave;
-- (CGFloat)heightForStaffLine:(NSInteger)staffLine;
+- (CGFloat)staffLineForNote:(OPNote*)note withLowestOctave:(NSInteger)lowestOctave;
+- (CGFloat)heightForStaffLine:(CGFloat)staffLine;
 
 @end
 
@@ -46,6 +46,10 @@
 
 - (void)initMe {
     [self setOpaque:NO];
+    
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"C_Major_Scale" ofType:@"mid"];
+    OPSong* song = [[OPSong alloc] initWithMIDIFile:path];
+    self.song = song;
     
     self.autoresizingMask = (UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth);
     self.backgroundColor = [UIColor clearColor];
@@ -71,6 +75,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        
         [self initMe];
     }
     return self;
@@ -160,27 +165,21 @@
     
     // Draw staff
     CGContextSetLineWidth(context, STAFF_LINEWIDTH);
-    CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
+    CGContextSetLineCap(context, kCGLineCapRound);
     for (NSInteger i=0; i<NUMBER_OF_STAFF_LINES; i++) {
-        CGContextMoveToPoint(context, 0.0f, self.bounds.size.height/2.0f+(i-2)*STAFF_LINE_SPACING);
-        CGContextAddLineToPoint(context, self.bounds.size.width,
-                                self.bounds.size.height/2.0f+(i-NUMBER_OF_STAFF_LINES/2)*STAFF_LINE_SPACING);
+        if (i == 0 ||
+            i == NUMBER_OF_STAFF_LINES-1) {
+            CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
+            CGContextSetAlpha(context, 0.4f);
+        } else {
+            CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
+            CGContextSetAlpha(context, 1.0f);
+        }
+        float y = self.bounds.size.height/2.0f+(i-NUMBER_OF_STAFF_LINES/2)*STAFF_LINE_SPACING;
+        CGContextMoveToPoint(context, 0.0f, y);
+        CGContextAddLineToPoint(context, self.bounds.size.width, y);
         CGContextStrokePath(context);
     }
-    
-    // Compute x values
-    /*
-    NSMutableArray *xvals = [[NSMutableArray alloc] init];
-    CGFloat totalLength = 0;
-    CGFloat currentX;
-    for (NSInteger i=0; i<self.song.notes.count; i++)
-    {
-        OPNote *n = [self.song.notes objectAtIndex:i];
-        currentX = totalLength * NOTE_LENGTH_SCALE_FACTOR + n.timestamp;
-        totalLength += n.length;
-        [xvals addObject:[NSNumber numberWithInteger:currentX]];
-    }
-     */
     
     // Draw notes
     for (NSInteger i=0; i<self.song.notes.count; i++)
@@ -192,14 +191,9 @@
         CGFloat moved_x = x - self.drawingOffset;
         CGFloat y = REST_HEIGHT;
         if (n.nameIndex != kNoteNameNone) {
-            NSInteger staffLine = [self staffLineForNoteIndex:n.noteIndex withLowestOctave:self.song.lowestOctave];
-            // NSLog(@"staffLine = %i", staffLine);
+            CGFloat staffLine = [self staffLineForNote:n withLowestOctave:self.song.lowestOctave];
             y = [self heightForStaffLine:staffLine];
         }
-        
-        // NSLog(@"width: %f, x: %f, y: %f", width, x, y);
-
-        // Maybe change the color depending on the note?
         
         UIColor* color = [self colorForNote:n];
         CGContextSetFillColorWithColor(context, color.CGColor);
@@ -210,6 +204,8 @@
     
     // Draw tapehead
     CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+    CGContextSetLineWidth(context, 4.0f);
+    CGContextSetAlpha(context, 0.5f);
     CGContextMoveToPoint(context, self.tapeHeadLocation, 0.0);
     CGContextAddLineToPoint(context, self.tapeHeadLocation, self.bounds.size.height);
     CGContextStrokePath(context);
@@ -218,27 +214,46 @@
     CGContextRestoreGState(context);
 }
 
-- (UIColor*)colorForNote:(OPNote *)note
-{
-    // Maybe change the color depending on the note?
-    
-    CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
-    // UIColor *color1 = [UIColor colorWithHue:i saturation:i brightness:i alpha:1.0f];
-    UIColor *color2 = [UIColor colorWithRed:0.1 green:0.1 blue:CLAMP(i, 0.4f, 1.0f) alpha:1.0f];
-
-    return color2;
+- (UIColor*)colorForNote:(OPNote *)note {
+    // CGFloat i = (CGFloat)note.noteIndex / (CGFloat)MAX_NOTE_INDEX;
+    if (!note.isNoteAccidental) {
+        return [UIColor colorWithRed:0.1 green:0.1 blue:1.0 alpha:1.0f];
+    } else {
+        return [UIColor colorWithRed:0.1 green:1.0 blue:0.1 alpha:1.0f];
+    }
 }
 
-- (NSInteger)staffLineForNoteIndex:(NSInteger)noteIndex withLowestOctave:(NSInteger)lowestOctave
+- (CGFloat)staffLineForNote:(OPNote*)note withLowestOctave:(NSInteger)lowestOctave;
 {
-    NSInteger staffLine = noteIndex % NUMBER_OF_NOTES - 2;// + (noteIndex/NUMBER_OF_NOTES-lowestOctave)*NUMBER_OF_NOTES;
-    //NSLog(@"offset = %d", (noteIndex/NUMBER_OF_NOTES-lowestOctave)*NUMBER_OF_NOTES);
-    return staffLine;
+    NSDictionary* lineForNoteDict = @{
+                                      @"C6": @0,
+                                      @"C#6": @0,
+                                      @"D6": @1,
+                                      @"D#6": @1,
+                                      @"E6": @2,
+                                      @"F6": @3,
+                                      @"F#6": @3,
+                                      @"G6": @4,
+                                      @"G#6": @4,
+                                      @"A7": @5,
+                                      @"A#7": @5,
+                                      @"B7": @6,
+                                      @"C7": @7,
+                                      @"C#7": @7,
+                                      @"D7": @8,
+                                      @"D#7": @8,
+                                      @"E7": @9,
+                                      @"F7": @10,};
+    CGFloat position = [[lineForNoteDict objectForKey:note.staffNameForNote] floatValue] * 2;
+    // NSLog(@"Note: %@, Staff Line: %.1f", note.staffNameForNote, position);
+    return position;
 }
 
-- (CGFloat)heightForStaffLine:(NSInteger)staffLine
+- (CGFloat)heightForStaffLine:(CGFloat)staffLine
 {
-    CGFloat height = self.bounds.size.height/2.0f + staffLine * NOTE_SPACING - NOTE_HEIGHT/2.0f;
+    CGFloat height = (self.bounds.size.height - 20.0f) -
+        (staffLine / 4.0f * STAFF_LINE_SPACING) -
+        (NOTE_HEIGHT / 2.0f);
     return height;
 }
 

@@ -66,10 +66,15 @@
             if (eventType == kMusicEventType_MIDINoteMessage) {
                 // Cast the midi event data as a midi note message
                 midiNoteMessage = (MIDINoteMessage*) eventData;
-                OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)(midiNoteMessage->note)];
+                OPNote *n = [OPNote noteFromStaffIndex:(NSInteger)(midiNoteMessage->note + 3)];
                 lowestOctave = MIN(lowestOctave, n.noteIndex/NUMBER_OF_NOTES);
                 n.length = midiNoteMessage->duration;
                 n.timestamp = timestamp;
+                
+#warning ARTIFICALLY LENGTHENING NOTES
+                n.length *= 4;
+                n.timestamp *= 4;
+                 
                 [notes addObject:n];
             }
             

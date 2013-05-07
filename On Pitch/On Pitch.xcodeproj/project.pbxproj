@@ -43,6 +43,8 @@
 		6F85174816DDE2B2001915CC /* OPNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174716DDE2B2001915CC /* OPNote.m */; };
 		6F85174B16DDE6C5001915CC /* OPNoteTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */; };
 		6FB56F38170DD8240041712F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB56F37170DD8240041712F /* Crashlytics.framework */; };
+		6FD9194E1739B58B00AB4106 /* C_Major_Scale.mid in Resources */ = {isa = PBXBuildFile; fileRef = 6FD9194D1739B58B00AB4106 /* C_Major_Scale.mid */; };
+		6FD919501739C4F100AB4106 /* lesson.mid in Resources */ = {isa = PBXBuildFile; fileRef = 6FD9194F1739C4F100AB4106 /* lesson.mid */; };
 		6FF5342416F2B7E30025B606 /* OPFFTView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5342316F2B7E30025B606 /* OPFFTView.m */; };
 		6FF5342716F2BA140025B606 /* OPAudioHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5342616F2BA140025B606 /* OPAudioHandler.mm */; };
 		6FFD084616ED33BB0011439E /* OPMetronome.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFD084516ED33BB0011439E /* OPMetronome.m */; };
@@ -162,6 +164,8 @@
 		6F85174916DDE6C5001915CC /* OPNoteTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNoteTranslator.h; sourceTree = "<group>"; };
 		6F85174A16DDE6C5001915CC /* OPNoteTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNoteTranslator.m; sourceTree = "<group>"; };
 		6FB56F37170DD8240041712F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		6FD9194D1739B58B00AB4106 /* C_Major_Scale.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = C_Major_Scale.mid; sourceTree = "<group>"; };
+		6FD9194F1739C4F100AB4106 /* lesson.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = lesson.mid; sourceTree = "<group>"; };
 		6FF5342216F2B7E30025B606 /* OPFFTView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPFFTView.h; sourceTree = "<group>"; };
 		6FF5342316F2B7E30025B606 /* OPFFTView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPFFTView.m; sourceTree = "<group>"; };
 		6FF5342516F2BA140025B606 /* OPAudioHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPAudioHandler.h; sourceTree = "<group>"; };
@@ -267,8 +271,10 @@
 		37B26E9416E4FE74003A5CA3 /* MIDI Files */ = {
 			isa = PBXGroup;
 			children = (
+				6FD9194F1739C4F100AB4106 /* lesson.mid */,
 				372396FF16EE813D00047129 /* testmidi1.mid */,
 				37B26E9116E4FE69003A5CA3 /* santa.mid */,
+				6FD9194D1739B58B00AB4106 /* C_Major_Scale.mid */,
 			);
 			name = "MIDI Files";
 			sourceTree = "<group>";
@@ -610,6 +616,8 @@
 				6F3567321729FFE1004F660F /* TAPE_DECKFACE@2x.png in Resources */,
 				6F356734172A09AE004F660F /* Icon_72.png in Resources */,
 				6F356736172A09B0004F660F /* Icon_144.png in Resources */,
+				6FD9194E1739B58B00AB4106 /* C_Major_Scale.mid in Resources */,
+				6FD919501739C4F100AB4106 /* lesson.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

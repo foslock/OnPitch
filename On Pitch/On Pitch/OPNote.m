@@ -77,6 +77,11 @@ NSString* const kNoteOctaveSuffixes[NUMBER_OF_OCTAVES] = {
     return [[OPNoteTranslator translator] frequencyFromNoteStaffIndex:self.noteIndex];
 }
 
+- (BOOL)isNoteAccidental {
+    NSString* name = self.staffNameForNoteWithoutOctave;
+    return [name hasSuffix:@"#"];
+}
+
 - (NSString*)staffNameForNote {
     if (self.nameIndex == kNoteNameNone ||
         self.octaveIndex == kNoteOctaveNone) {

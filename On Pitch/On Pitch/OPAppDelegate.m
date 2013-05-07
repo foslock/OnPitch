@@ -62,16 +62,17 @@
     NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[OPAppDelegate documentsPath]
                                                                          error:NULL];
     BOOL found = NO;
+    NSString* const testFileName = @"C_Major_Scale";
     for (NSString* path in files) {
-        if ([[path lastPathComponent] isEqualToString:@"testmidi1.mid"]) {
+        if ([[[path lastPathComponent] stringByDeletingPathExtension] isEqualToString:testFileName]) {
             found = YES;
         }
     }
     
     if (!found) {
-        NSString* path = [[NSBundle mainBundle] pathForResource:@"testmidi1" ofType:@"mid"];
+        NSString* path = [[NSBundle mainBundle] pathForResource:testFileName ofType:@"mid"];
         NSData* data = [NSData dataWithContentsOfFile:path];
-        NSString* newPath = [[OPAppDelegate documentsPath] stringByAppendingPathComponent:@"testmidi1.mid"];
+        NSString* newPath = [[OPAppDelegate documentsPath] stringByAppendingPathComponent:[testFileName stringByAppendingPathExtension:@"mid"]];
         [data writeToFile:newPath atomically:YES];
     }
     
