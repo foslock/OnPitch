@@ -46,11 +46,11 @@
 
 - (void)initMe {
     [self setOpaque:NO];
-    
+    /*
     NSString* path = [[NSBundle mainBundle] pathForResource:@"C_Major_Scale" ofType:@"mid"];
     OPSong* song = [[OPSong alloc] initWithMIDIFile:path];
     self.song = song;
-    
+    */
     self.autoresizingMask = (UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth);
     self.backgroundColor = [UIColor clearColor];
     self.tapeHeadLocation = 0.0f;
@@ -170,7 +170,7 @@
         if (i == 0 ||
             i == NUMBER_OF_STAFF_LINES-1) {
             CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
-            CGContextSetAlpha(context, 0.4f);
+            CGContextSetAlpha(context, 0.2f);
         } else {
             CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
             CGContextSetAlpha(context, 1.0f);

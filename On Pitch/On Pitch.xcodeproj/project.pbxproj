@@ -18,6 +18,7 @@
 		6F19BBF016DEBACA000BD656 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEA16DEBACA000BD656 /* CADebugMacros.cpp */; };
 		6F19BBF116DEBACA000BD656 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEC16DEBACA000BD656 /* CAXException.cpp */; };
 		6F19BBF216DEBACA000BD656 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */; };
+		6F22A313173AD95500E04ACA /* clef.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F22A312173AD95500E04ACA /* clef.png */; };
 		6F35672B1729DE6C004F660F /* UIView+AnchorPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */; };
 		6F35672E1729F992004F660F /* OPFileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F35672D1729F992004F660F /* OPFileListViewController.m */; };
 		6F3567311729FFE1004F660F /* TAPE_DECKFACE.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F35672F1729FFE1004F660F /* TAPE_DECKFACE.png */; };
@@ -127,6 +128,7 @@
 		6F19BBED16DEBACA000BD656 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
 		6F19BBEE16DEBACA000BD656 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
 		6F19BBEF16DEBACA000BD656 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		6F22A312173AD95500E04ACA /* clef.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clef.png; sourceTree = "<group>"; };
 		6F3567291729DE6C004F660F /* UIView+AnchorPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnchorPoint.h"; sourceTree = "<group>"; };
 		6F35672A1729DE6C004F660F /* UIView+AnchorPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnchorPoint.m"; sourceTree = "<group>"; };
 		6F35672C1729F992004F660F /* OPFileListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPFileListViewController.h; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				B54E23CB16EE748800335F2F /* Images */,
 				6FFD084716ED34080011439E /* click.wav */,
 				3768E9A31727303200E4367F /* click2.wav */,
+				6F22A312173AD95500E04ACA /* clef.png */,
 				37B26E9416E4FE74003A5CA3 /* MIDI Files */,
 			);
 			name = Resources;
@@ -618,6 +621,7 @@
 				6F356736172A09B0004F660F /* Icon_144.png in Resources */,
 				6FD9194E1739B58B00AB4106 /* C_Major_Scale.mid in Resources */,
 				6FD919501739C4F100AB4106 /* lesson.mid in Resources */,
+				6F22A313173AD95500E04ACA /* clef.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

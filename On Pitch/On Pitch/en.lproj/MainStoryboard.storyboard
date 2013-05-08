@@ -227,6 +227,10 @@
                                     <action selector="didPressLink" destination="2" eventType="touchUpInside" id="DTu-BA-ejk"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFit" image="clef.png" id="ERO-JD-oDT">
+                                <rect key="frame" x="-16" y="149" width="226" height="265"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -342,6 +346,7 @@
         <image name="TEXT_TRANSPORT.png" width="88" height="20"/>
         <image name="TEXT_VOLUME.png" width="60" height="20"/>
         <image name="VOLUME_MEASURE.png" width="296" height="5"/>
+        <image name="clef.png" width="136" height="364"/>
     </resources>
     <classes>
         <class className="OPFeedbackView" superclassName="UIView">
